@@ -9,15 +9,26 @@ package com.mipyykko.muistipeli.malli;
  *
  * @author pyykkomi
  */
-public class Kortti implements Comparable<Kuva>{
+public class Kortti implements Comparable<Kuva> {
     private Kuva kuva;
     private Tausta tausta;
+    private boolean kaannetty;
     
     public Kortti(Kuva kuva, Tausta tausta) {
         this.kuva = kuva;
         this.tausta = tausta;
+        this.kaannetty = false;
     }
 
+    public boolean kaannetty() {
+        return kaannetty;
+    }
+    
+    public boolean kaanna() {
+        kaannetty = kaannetty ? false : true;
+        return kaannetty;
+    }
+    
     public Kuva getKuva() {
         return kuva;
     }

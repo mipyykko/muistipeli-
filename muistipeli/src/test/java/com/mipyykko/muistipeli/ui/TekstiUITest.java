@@ -5,6 +5,9 @@
  */
 package com.mipyykko.muistipeli.ui;
 
+import com.mipyykko.muistipeli.logiikka.Peli;
+import com.mipyykko.muistipeli.malli.Pelilauta;
+import java.util.Scanner;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -17,6 +20,9 @@ import static org.junit.Assert.*;
  * @author pyykkomi
  */
 public class TekstiUITest {
+    
+    private TekstiUI tekstiUI;
+    private Scanner lukija;
     
     public TekstiUITest() {
     }
@@ -31,15 +37,15 @@ public class TekstiUITest {
     
     @Before
     public void setUp() {
+        this.tekstiUI = new TekstiUI(null, null);
     }
     
     @After
     public void tearDown() {
     }
 
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
+    @Test
+    public void hyvaksyttavaSyote() {
+        // TODO testi
+    }
 }

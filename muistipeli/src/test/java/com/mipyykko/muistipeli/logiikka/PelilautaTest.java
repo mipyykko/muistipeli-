@@ -38,11 +38,15 @@ public class PelilautaTest {
     public void tearDown() {
     }
 
-    @Test
-    public void kaikillaPari() {
+    private void luoTestikuvat() {
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
             testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
         }
+    }
+    
+    @Test
+    public void kaikillaPari() {
+        luoTestikuvat();
         pelilauta.setKuvasarja(testikuvat);
         pelilauta.luoPelilauta();
         Map<Kuva, Kuva> parit = new HashMap<>();
@@ -51,7 +55,7 @@ public class PelilautaTest {
             for (int x = 0; x < LEVEYS; x++) {
                 Kuva k = pelilauta.getKortit()[x][y].getKuva();
                 if (parit.containsKey(k)) {
-                    assertTrue(parit.get(k) == null);
+                    assertTrue("Useampi kuin kaksi samaa korttia", parit.get(k) == null);
                     parit.put(k, k);
                 } else {
                     parit.put(k, null);
@@ -59,4 +63,29 @@ public class PelilautaTest {
             }
         }
     }
+    
+    @Test
+    public void onkoSekoitettu() {
+        luoTestikuvat();
+        pelilauta.setKuvasarja(testikuvat);
+        pelilauta.luoPelilauta();
+        
+        Kuva ed = pelilauta.getKortit()[0][0].getKuva();
+        int perattaiset = 0;
+        int idx = 0;
+        
+        for (int y = 0; y < KORKEUS; y++) {
+            for (int x = 0; x < LEVEYS; x++) {
+                Kuva k = pelilauta.getKortit()[x][y].getKuva();
+                if (idx > 0 && idx % 2 != 0 && k.toString().equals(ed.toString())) perattaiset++;
+                if (idx %2 == 0) ed = k;
+                idx++;
+            }
+        }
+        /* testataan, ettei laudalla kaikki parit ole vierekkäin. Toki tämäkin voi feilata, jos käy
+           satumainen tuuri...
+        */
+        
+        assertTrue("Kortteja ei ole sekoitettu", perattaiset < (KORKEUS * LEVEYS) / 2);
+    } 
 }

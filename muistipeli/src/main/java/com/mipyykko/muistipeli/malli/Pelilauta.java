@@ -49,10 +49,12 @@ public class Pelilauta {
 
         Collections.shuffle(arvottavat);
         Iterator<Kortti> i = arvottavat.iterator();
+        Iterator<Tausta> t = taustasarja.iterator();
         
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
                 pelilauta[x][y] = i.next();
+                pelilauta[x][y].setTausta(t.next());
             }
         }
     }
