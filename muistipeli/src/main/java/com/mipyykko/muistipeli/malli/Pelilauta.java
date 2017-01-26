@@ -62,7 +62,9 @@ public class Pelilauta {
     public boolean kaikkiKaannetty() {
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                if (!pelilauta[x][y].kaannetty()) return false;
+                if (!pelilauta[x][y].kaannetty()) {
+                    return false;
+                }
             }
         }
         return true;

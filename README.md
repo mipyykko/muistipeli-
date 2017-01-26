@@ -8,3 +8,6 @@ Yksinkertainen muistipeli.
 
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 
+[PIT-raportti](dokumentaatio/pit-raportti)
+
+[Checkstyle-raportti](dokumentaatio/checkstyle-raportti/site/checkstyle.html)
