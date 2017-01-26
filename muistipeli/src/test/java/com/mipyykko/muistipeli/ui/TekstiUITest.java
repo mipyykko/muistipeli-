@@ -45,7 +45,31 @@ public class TekstiUITest {
     }
 
     @Test
-    public void hyvaksyttavaSyote() {
-        // TODO testi
+    public void oikeatKoordinaatitSyote() {
+        tekstiUI.setLukija(new Scanner("4 4\n"));
+        int[] paluuarvo = tekstiUI.siirto();
+        assertArrayEquals("Oikea koordinaattisyöte, väärä paluuarvo", new int[]{4, 4}, paluuarvo);
     }
+    
+    @Test
+    public void liikaaKoordinaattejaSyote() {
+        tekstiUI.setLukija(new Scanner("4 4 4\n"));
+        int[] paluuarvo = tekstiUI.siirto();
+        assertArrayEquals("Liikaa numeroita syötteessä hyväksytty", null, paluuarvo);
+    }
+    
+    @Test
+    public void tyhjaSyote() {
+        tekstiUI.setLukija(new Scanner("\n"));
+        int[] paluuarvo = tekstiUI.siirto();
+        assertArrayEquals("Tyhjä syöte hyväksytty", null, paluuarvo);
+    }
+    
+    @Test
+    public void tekstiaSyotteessa() {
+        tekstiUI.setLukija(new Scanner("cat\n"));
+        int[] paluuarvo = tekstiUI.siirto();
+        assertArrayEquals("Virheellinen tekstisyöte hyväksytty", null, paluuarvo);
+    }
+    
 }

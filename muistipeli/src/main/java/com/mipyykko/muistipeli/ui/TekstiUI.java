@@ -24,6 +24,14 @@ public class TekstiUI extends UI {
         this.lukija = lukija;
     }
 
+    public void setPeli(Peli peli) {
+        this.peli = peli;
+    }
+    
+    public void setLukija(Scanner lukija) {
+        this.lukija = lukija;
+    }
+    
     @Override
     public void nayta() {
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {

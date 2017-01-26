@@ -5,11 +5,13 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import java.util.Objects;
+
 /**
  *
  * @author pyykkomi
  */
-public class Kortti implements Comparable<Kuva> {
+public class Kortti implements Comparable<Kortti> {
     private Kuva kuva;
     private Tausta tausta;
     private boolean kaannetty;
@@ -25,7 +27,7 @@ public class Kortti implements Comparable<Kuva> {
     }
     
     public boolean kaanna() {
-        kaannetty = kaannetty ? false : true;
+        kaannetty = !kaannetty; // en tiiä pitäiskö tähän tehdä flipiti flip
         return kaannetty;
     }
     
@@ -46,10 +48,12 @@ public class Kortti implements Comparable<Kuva> {
     }
     
     @Override
-    public int compareTo(Kuva o) {
-        //TODO
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int compareTo(Kortti k) {
+        return this.kuva.toString().compareTo(k.kuva.toString());
     }
     
-    
+    //@Override
+    public boolean equals(Kortti k) {
+        return this.kuva.toString().equals(k.kuva.toString());
+    }
 }

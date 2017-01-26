@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.GeneerinenKuva;
 import com.mipyykko.muistipeli.malli.GeneerinenTausta;
+import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
@@ -28,6 +29,10 @@ public class Main {
         Set<Kuva> testikuvat = new HashSet<>();
         Set<Tausta> testitaustat = new HashSet<>();
         
+        Kortti k = new Kortti(new GeneerinenKuva("testi"), null);
+        Kortti k2 = new Kortti(new GeneerinenKuva("testi"), null);
+        
+        System.out.println(k == k2);
         int leveys = 8, korkeus = 4;
 
         for (int i = 0; i < 16; i++) {
