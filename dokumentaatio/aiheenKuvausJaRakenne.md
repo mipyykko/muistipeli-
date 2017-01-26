@@ -13,4 +13,4 @@ Toteutetaan yksinkertainen muistipeli, jossa pelaajan tehtävänä on löytää 
 
 **Luokkakaavio:**
 
-![Luokkakaavio][luokkakaavio.png]
+![Luokkakaavio](luokkakaavio.png)
