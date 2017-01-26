@@ -8,6 +8,6 @@ Yksinkertainen muistipeli.
 
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 
-[PIT-raportti](dokumentaatio/pit-raportti)
+[PIT-raportti](https://htmlpreview.github.io/?https://github.io/mipyykko/muistipeli-/dokumentaatio/pit-raportti/index.html)
 
-[Checkstyle-raportti](dokumentaatio/checkstyle-raportti/site/checkstyle.html)
+[Checkstyle-raportti](https://htmlpreview.github.io/?https://github.io/mipyykko/muistipeli-/dokumentaatio/checkstyle-raportti/site/checkstyle.html)
