@@ -10,3 +10,7 @@ Toteutetaan yksinkertainen muistipeli, jossa pelaajan tehtävänä on löytää 
 * vaikeustason valitseminen
 * pelin käynnistäminen
 * pelin pelaaminen käännettävät kortit valitsemalla
+
+**Luokkakaavio:**
+
+![Luokkakaavio][luokkakaavio.png]
