@@ -7,21 +7,15 @@ package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
 import java.util.Scanner;
+import javafx.application.Application;
 
 /**
  *
  * @author pyykkomi
  */
-public abstract class UI {
+public interface UI {
     
-    private Scanner lukija;
-    private Peli peli;
-    
-    public UI(Peli peli, Scanner lukija) {
-        this.peli = peli;
-        this.lukija = lukija;
-    }
-    
-    public abstract void nayta();
-    public abstract int[] siirto();
+    public void setPeli(Peli peli);
+    public void nayta();
+    public int[] siirto();
 }

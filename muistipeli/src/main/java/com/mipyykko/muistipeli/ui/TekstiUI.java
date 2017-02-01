@@ -13,25 +13,25 @@ import java.util.Scanner;
  *
  * @author pyykkomi
  */
-public class TekstiUI extends UI {
+public class TekstiUI implements UI {
 
     private Peli peli;
     private Scanner lukija;
     
     public TekstiUI(Peli peli, Scanner lukija) {
-        super(peli, lukija);
         this.peli = peli;
         this.lukija = lukija;
     }
 
-    public void setPeli(Peli peli) {
-        this.peli = peli;
-    }
-    
     public void setLukija(Scanner lukija) {
         this.lukija = lukija;
     }
     
+    @Override
+    public void setPeli(Peli peli) {
+        this.peli = peli;
+    }
+
     @Override
     public void nayta() {
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
@@ -43,6 +43,7 @@ public class TekstiUI extends UI {
             }
             System.out.println("");
         }
+        System.out.println("");
     }
 
     @Override
@@ -59,5 +60,6 @@ public class TekstiUI extends UI {
         
         return new int[]{x, y};
     }
+
 
 }

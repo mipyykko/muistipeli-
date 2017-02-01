@@ -8,51 +8,52 @@ package com.mipyykko.muistipeli;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.GeneerinenKuva;
 import com.mipyykko.muistipeli.malli.GeneerinenTausta;
-import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.ui.TekstiUI;
 import com.mipyykko.muistipeli.ui.UI;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import javafx.application.Application;
+import javafx.stage.Stage;
 
 /**
  *
  * @author pyykkomi
  */
-public class Main {
+public class Main extends Application {
 
+    private static UI ui;
+    private static Peli peli;
+    
     public static void main(String[] args) {
+        //launch(args);
         // testi, nämä kyllä muuttavat täältä pois jossain vaiheessa
         Set<Kuva> testikuvat = new HashSet<>();
         Set<Tausta> testitaustat = new HashSet<>();
         
-        int leveys = 8, korkeus = 4;
+        int leveys = 4, korkeus = 4;
 
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < (leveys * korkeus) / 2; i++) {
             testikuvat.add(new GeneerinenKuva(Integer.toString(i + 1)));
             testitaustat.add(new GeneerinenTausta("*"));
             testitaustat.add(new GeneerinenTausta("*"));
         }
 
-        Pelilauta p = new Pelilauta(leveys, korkeus, testikuvat, testitaustat);
-        Peli peli = new Peli(p);
-        p.luoPelilauta();
+        Peli peli = new Peli(leveys, korkeus, testikuvat, testitaustat);
         UI ui = new TekstiUI(peli, new Scanner(System.in));
+        ui.setPeli(peli);
+        //UI ui = new JavaFXUI(peli);
+        //JavaFXUI ui = new JavaFXUI(peli);
+        peli.setUI(ui);
+        peli.pelaa();
+    }
 
-        while (true) {
-            ui.nayta();
-            int siirto[] = ui.siirto();
-            if (siirto != null) {
-                int x = siirto[0];
-                int y = siirto[1];
-                if (!p.getKortit()[x][y].kaannetty()) {
-                    p.getKortit()[x][y].kaanna();
-                }
-            }
-        }    
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        /*JavaFXUI ui = new JavaFXUI(null);
+        ui.startUI(primaryStage);*/
     }
 
 }

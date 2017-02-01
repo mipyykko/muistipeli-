@@ -79,6 +79,10 @@ public class Pelilauta {
         this.pelilauta = pelilauta;
     }
 
+    public Kortti getKortti(int[] p) {
+        return getKortit()[p[0]][p[1]];
+    }
+
     public int getLeveys() {
         return leveys;
     }

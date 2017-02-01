@@ -27,7 +27,7 @@ public class Kortti implements Comparable<Kortti> {
     }
     
     public boolean kaanna() {
-        kaannetty = !kaannetty; // en tiiä pitäiskö tähän tehdä flipiti flip
+        kaannetty = !kaannetty; 
         return kaannetty;
     }
     
@@ -52,8 +52,15 @@ public class Kortti implements Comparable<Kortti> {
         return this.kuva.toString().compareTo(k.kuva.toString());
     }
     
-    //@Override
-    public boolean equals(Kortti k) {
+    @Override
+    public boolean equals(Object o) {
+        Kortti k = (Kortti) o;
         return this.kuva.toString().equals(k.kuva.toString());
+        // tän vois kyllä miettiä 
+    }
+    
+    @Override
+    public int hashCode() {
+        return (42 * 17 + this.kuva.toString().hashCode());
     }
 }
