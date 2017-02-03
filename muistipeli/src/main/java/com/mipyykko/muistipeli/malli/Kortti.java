@@ -11,56 +11,18 @@ import java.util.Objects;
  *
  * @author pyykkomi
  */
-public class Kortti implements Comparable<Kortti> {
-    private Kuva kuva;
-    private Tausta tausta;
-    private boolean kaannetty;
-    
-    public Kortti(Kuva kuva, Tausta tausta) {
-        this.kuva = kuva;
-        this.tausta = tausta;
-        this.kaannetty = false;
-    }
+public interface Kortti {
 
-    public boolean kaannetty() {
-        return kaannetty;
-    }
+    public boolean kaannetty();
     
-    public boolean kaanna() {
-        kaannetty = !kaannetty; 
-        return kaannetty;
-    }
+    public boolean kaanna();
     
-    public Kuva getKuva() {
-        return kuva;
-    }
+    public Kuva getKuva();
 
-    public void setKuva(Kuva kuva) {
-        this.kuva = kuva;
-    }
+    public void setKuva(Kuva kuva);
 
-    public Tausta getTausta() {
-        return tausta;
-    }
+    public Tausta getTausta();
 
-    public void setTausta(Tausta tausta) {
-        this.tausta = tausta;
-    }
+    public void setTausta(Tausta tausta);
     
-    @Override
-    public int compareTo(Kortti k) {
-        return this.kuva.toString().compareTo(k.kuva.toString());
-    }
-    
-    @Override
-    public boolean equals(Object o) {
-        Kortti k = (Kortti) o;
-        return this.kuva.toString().equals(k.kuva.toString());
-        // tän vois kyllä miettiä 
-    }
-    
-    @Override
-    public int hashCode() {
-        return (42 * 17 + this.kuva.toString().hashCode());
-    }
 }

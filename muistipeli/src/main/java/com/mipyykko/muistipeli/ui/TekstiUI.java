@@ -6,7 +6,7 @@
 package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
-import java.awt.geom.Point2D;
+import java.awt.Point;
 import java.util.Scanner;
 
 /**
@@ -36,10 +36,7 @@ public class TekstiUI implements UI {
     public void nayta() {
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
-                String s = (peli.getPelilauta().getKortit()[x][y].kaannetty()
-                        ? peli.getPelilauta().getKortit()[x][y].getKuva().toString()
-                        : peli.getPelilauta().getKortit()[x][y].getTausta().toString());
-                System.out.format("%2s ", s);
+                System.out.format("%2s ", peli.getPelilauta().getKortit()[x][y]);
             }
             System.out.println("");
         }
@@ -47,18 +44,18 @@ public class TekstiUI implements UI {
     }
 
     @Override
-    public int[] siirto() {
-        System.out.print("x y? ");
+    public Point siirto() {
+        System.out.format("Siirto %d, x y? ", peli.getSiirrot());
         String syote = lukija.nextLine();
         System.out.println("");
         String s[] = syote.split(" ");
-        if (s.length != 2) {
+        if (s.length != 2 || !s[0].matches("^\\d+$") || !s[1].matches("^\\d+$")) {
             return null;
         }
         int x = Integer.parseInt(s[0]);
         int y = Integer.parseInt(s[1]);
         
-        return new int[]{x, y};
+        return new Point(x, y);
     }
 
 

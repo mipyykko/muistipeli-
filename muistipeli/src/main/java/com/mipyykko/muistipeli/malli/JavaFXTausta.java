@@ -5,29 +5,19 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
 /**
  *
  * @author pyykkomi
  */
-public class GeneerinenTausta implements Tausta {
+public class JavaFXTausta extends ImageView implements Tausta {
 
-    private String teksti;
+    private Image imgTausta;
     
-    public GeneerinenTausta(String teksti) {
-        this.teksti = teksti;
-    }
-
-    public String getTeksti() {
-        return teksti;
-    }
-
-    public void setTeksti(String teksti) {
-        this.teksti = teksti;
-    }
-    
-    @Override
-    public String toString() {
-        return teksti;
+    public JavaFXTausta(Image imgTausta) {
+        this.imgTausta = imgTausta;
     }
     
     @Override

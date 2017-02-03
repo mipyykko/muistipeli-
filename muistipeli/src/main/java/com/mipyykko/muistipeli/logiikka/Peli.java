@@ -5,38 +5,57 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
+import com.mipyykko.muistipeli.malli.GeneerinenKortti;
 import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.ui.UI;
+import java.awt.Point;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author pyykkomi
  */
 public class Peli {
-    
+
     private Pelilauta pelilauta;
     private UI ui;
+    private int siirrot;
     
-    public Peli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
-        this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
-        this.ui = null;
-        
-        pelilauta.luoPelilauta();
+    public Peli(UI ui) {
+        this.ui = ui;
     }
 
-    public void setUI(UI ui) {
-        this.ui = ui;
-        ui.setPeli(this);
+    public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
+        this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
+        try {
+            pelilauta.luoPelilauta("Geneerinen", true); // TODO: tälle jotain
+        } catch (Exception ex) {
+            System.err.println("Pelilaudan luominen epäonnistui");
+        }
+        this.siirrot = 0;
     }
     
+    public void lisaaSiirto() {
+        siirrot++;
+    }
+    
+    public int getSiirrot() {
+        return siirrot;
+    }
+    
+    public void setUI(UI ui) {
+        this.ui = ui;
+    }
+
     public UI getUI() {
         return ui;
     }
-    
+
     public Pelilauta getPelilauta() {
         return pelilauta;
     }
@@ -48,33 +67,49 @@ public class Peli {
     public boolean peliLoppu() {
         return pelilauta.kaikkiKaannetty();
     }
+
+    private boolean okSiirto(Point p) {
+        return (p != null && p.x < pelilauta.getLeveys() && p.y < pelilauta.getKorkeus()
+                && p.x >= 0 && p.y >= 0 && !pelilauta.getKortti(p).kaannetty());
+    }
+
+    private Point[] haeSiirtopari() {
+        Point[] siirrot = new Point[2];
+        for (int i = 0; i < 2; i++) {
+            boolean oksiirto = false;
+            while (!oksiirto) {
+                ui.nayta();
+                siirrot[i] = ui.siirto();
+                if (okSiirto(siirrot[i])) {
+                    kaannaKortti(siirrot[i]);
+                    oksiirto = true;
+                }
+            }
+        }
+        return siirrot;
+    }
+
+    private boolean tarkistaPari(Point[] siirrot) {
+        return pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
+    }
     
-    public boolean okSiirto(int[] siirto) {
-        return (siirto != null && siirto[0] < pelilauta.getLeveys() && siirto[1] < pelilauta.getKorkeus() &&
-                !pelilauta.getKortti(siirto).kaannetty());
+    private void kaannaKortti(Point p) {
+        pelilauta.getKortti(p).kaanna();
+    }
+    
+    private void kaannaPari(Point[] p) {
+        kaannaKortti(p[0]);
+        kaannaKortti(p[1]);
     }
     
     public void pelaa() {
         while (!peliLoppu()) {
-            Kortti[] valitut = new Kortti[2];
-            int[][] siirrot = new int[2][];
-            for (int i = 0; i < 2; i++) {
-              boolean oksiirto = false;
-              while (!oksiirto) {
-                ui.nayta();
-                siirrot[i] = ui.siirto();
-                if (okSiirto(siirrot[i])) {
-                    pelilauta.getKortti(siirrot[i]).kaanna();
-                    oksiirto = true;
-                }
-              }
-              valitut[i] = pelilauta.getKortti(siirrot[i]);
-            }
+            Point[] pari = haeSiirtopari();
             ui.nayta();
-            if (!valitut[0].equals(valitut[1])) {
-                pelilauta.getKortti(siirrot[0]).kaanna();
-                pelilauta.getKortti(siirrot[1]).kaanna();
+            if (!tarkistaPari(pari)) {
+                kaannaPari(pari);
             }
+            lisaaSiirto();
         }
     }
 

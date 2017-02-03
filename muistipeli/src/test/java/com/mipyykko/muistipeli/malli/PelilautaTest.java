@@ -10,7 +10,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,10 +34,6 @@ public class PelilautaTest {
         pelilauta = new Pelilauta(LEVEYS, KORKEUS, null, null);
     }
     
-    @After
-    public void tearDown() {
-    }
-
     private void luoTestikuvat() {
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
             testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
@@ -54,9 +52,64 @@ public class PelilautaTest {
         luoTestitaustat();
         pelilauta.setKuvasarja(testikuvat);
         pelilauta.setTaustasarja(testitaustat);
-        pelilauta.luoPelilauta();
+        try {
+            pelilauta.luoPelilauta("Geneerinen", true);
+        } catch (Exception ex) {
+            fail("Pelilaudan luominen epäonnistui");
+        }
+    }
+    ////////////////////////////////////////////////////////////////////////////
+    
+    @Test
+    public void luontiEiOnnistuIlmanKuvasarjaa() {
+        luoTestitaustat();
+        Pelilauta pl = new Pelilauta(LEVEYS, KORKEUS, null, testitaustat);
+        try {
+            pl.luoPelilauta("Geneerinen", true);
+            fail("Pelilaudan luominen onnistui ilman kuvasarjaa");
+        } catch (Exception ex) {
+            assertEquals("Kuvasarjassa on liian vähän kuvia!", ex.getMessage());
+        }
     }
     
+    @Test
+    public void luontiEiOnnistuLiianPienelläKuvasarjalla() {
+        luoTestikuvat();
+        luoTestitaustat();
+        Pelilauta pl = new Pelilauta(LEVEYS + 1, KORKEUS + 1, testikuvat, testitaustat);
+        try {
+            pl.luoPelilauta("Geneerinen", true);
+            fail("Pelilaudan luominen onnistui liian pienellä kuvasarjalla");
+        } catch (Exception ex) {
+            assertEquals("Kuvasarjassa on liian vähän kuvia!", ex.getMessage());
+        }
+    }
+    
+    @Test
+    public void luontiEiOnnistuIlmanTaustasarjaa() {
+        luoTestikuvat();
+        Pelilauta pl = new Pelilauta(LEVEYS, KORKEUS, testikuvat, null);
+        //pelilauta.setTaustasarja(new HashSet<Tausta>());
+        try {
+            pl.luoPelilauta("Geneerinen", true);
+            fail("Pelilaudan luominen onnistui ilman taustasarjaa");
+        } catch (Exception ex) {
+            assertEquals("Taustasarjassa on liian vähän taustoja!", ex.getMessage());
+        }
+    }
+    
+    public void luontiEiOnnistuLiianPienelläTaustasarjalla() {
+        luoTestikuvat();
+        luoTestitaustat();
+        Pelilauta pl = new Pelilauta(LEVEYS + 1, KORKEUS + 1, testikuvat, testitaustat);
+        try {
+            pl.luoPelilauta("Geneerinen", true);
+            fail("Pelilaudan luominen onnistui liian pienellä taustasarjalla");
+        } catch (Exception ex) {
+            assertEquals("Taustasarjassa on liian vähän kuvia!", ex.getMessage());
+        }
+    }
+
     @Test
     public void kaikillaPari() {
         luoTestipelilauta();

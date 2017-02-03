@@ -11,6 +11,6 @@ package com.mipyykko.muistipeli.malli;
  */
 public interface Tausta {
 
-    public Tausta getSisalto();
-    public void setSisalto(Tausta tausta);
+    public Object getSisalto();
+    public void setSisalto(Object o);
 }

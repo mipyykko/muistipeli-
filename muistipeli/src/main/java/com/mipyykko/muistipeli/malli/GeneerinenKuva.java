@@ -26,7 +26,7 @@ public class GeneerinenKuva implements Kuva {
     }
 
     @Override
-    public Kuva getSisalto() {
+    public Object getSisalto() {
         return this;
         //TODO hmmhmh
     }
@@ -37,7 +37,7 @@ public class GeneerinenKuva implements Kuva {
     }
 
     @Override
-    public void setSisalto(Kuva kuva) {
+    public void setSisalto(Object o) {
         //TODO and to think over
     }
     

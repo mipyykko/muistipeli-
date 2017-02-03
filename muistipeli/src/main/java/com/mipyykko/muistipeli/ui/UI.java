@@ -6,8 +6,7 @@
 package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
-import java.util.Scanner;
-import javafx.application.Application;
+import java.awt.Point;
 
 /**
  *
@@ -17,5 +16,5 @@ public interface UI {
     
     public void setPeli(Peli peli);
     public void nayta();
-    public int[] siirto();
+    public Point siirto();
 }

@@ -16,21 +16,13 @@ import static org.junit.Assert.*;
  *
  * @author pyykkomi
  */
-public class KorttiTest {
+public class GeneerinenKorttiTest {
     
     private Kortti kortti;
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-    
     @Before
     public void setUp() {
-        kortti = new Kortti(new GeneerinenKuva("testi"), null);
+        kortti = new GeneerinenKortti(new GeneerinenKuva("testi"), null);
     }
     
     @Test
@@ -48,16 +40,7 @@ public class KorttiTest {
     
     @Test
     public void kortitSamanlaiset() {
-        Kortti kortti2 = new Kortti(new GeneerinenKuva("testi"), null);
+        Kortti kortti2 = new GeneerinenKortti(new GeneerinenKuva("testi"), null);
         assertTrue("Korttien sisältö sama mutta vertailu ei toimi", kortti.equals(kortti2));
     }
-    @After
-    public void tearDown() {
-    }
-
-    // TODO add test methods here.
-    // The methods must be annotated with annotation @Test. For example:
-    //
-    // @Test
-    // public void hello() {}
 }

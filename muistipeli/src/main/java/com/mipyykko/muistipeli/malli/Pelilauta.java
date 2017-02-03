@@ -5,6 +5,7 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
@@ -33,28 +34,32 @@ public class Pelilauta {
         // TODO: taustakuva josta lohkotaan taustat korteille?
     }
 
-    public void luoPelilauta() /*throws Exception*/ {
-        /*if (kuvasarja.size() * 2 < leveys * korkeus) {
-            throw new Exception("Korttisarjassa on liian vähän kortteja!");
-        } // tää ei nyt sinänsä oo välttämätöntä mutta
-        */
+    public void luoPelilauta(String korttiTyyppi, boolean sekoita) throws Exception {
+        if (kuvasarja == null || kuvasarja.isEmpty() || kuvasarja.size() * 2 < leveys * korkeus) {
+            throw new Exception("Kuvasarjassa on liian vähän kuvia!");
+        }
+        if (taustasarja == null || taustasarja.isEmpty() || taustasarja.size() < leveys * korkeus) {
+            throw new Exception("Taustasarjassa on liian vähän taustoja!");
+        }
         List<Kortti> arvottavat = new ArrayList<>();
-        //TODO: taustan ja kuvan eriytys
         
+        Korttitehdas kt = new Korttitehdas(korttiTyyppi);
         
         for (Kuva k : kuvasarja) {
-            arvottavat.add(new Kortti(k, null));
-            arvottavat.add(new Kortti(k, null)); // kaksi jokaista
+            arvottavat.add(kt.uusiKortti(k, null));
+            arvottavat.add(kt.uusiKortti(k, null)); // kaksi jokaista
         }
-
-        Collections.shuffle(arvottavat);
-        Iterator<Kortti> i = arvottavat.iterator();
-        Iterator<Tausta> t = taustasarja.iterator();
+ 
+        if (sekoita) { // pääasiassa testejä varten
+            Collections.shuffle(arvottavat);
+        }
+        Iterator<Kortti> kortit = arvottavat.iterator();
+        Iterator<Tausta> taustat = taustasarja.iterator();
         
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                pelilauta[x][y] = i.next();
-                pelilauta[x][y].setTausta(t.next());
+                pelilauta[x][y] = kortit.next();
+                pelilauta[x][y].setTausta(taustat.next());
             }
         }
     }
@@ -79,8 +84,8 @@ public class Pelilauta {
         this.pelilauta = pelilauta;
     }
 
-    public Kortti getKortti(int[] p) {
-        return getKortit()[p[0]][p[1]];
+    public Kortti getKortti(Point p) {
+        return getKortit()[p.x][p.y];
     }
 
     public int getLeveys() {

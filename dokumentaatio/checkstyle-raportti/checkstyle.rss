@@ -25,7 +25,7 @@ under the License.
     <language>en-us</language>
     <copyright>&#169;2017</copyright>
     <item>
-      <title>File: 10,
+      <title>File: 16,
              Errors: 0,
              Warnings: 0,
              Infos: 0
@@ -46,7 +46,7 @@ under the License.
           <tbody>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.TekstiUI.java">com/mipyykko/muistipeli/ui/TekstiUI.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.JavaFXKortti.java">com/mipyykko/muistipeli/malli/JavaFXKortti.java</a>
                 </td>
                 <td>
                   0
@@ -88,6 +88,104 @@ under the License.
               </tr>
                           <tr>
                 <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.GeneerinenTausta.java">com/mipyykko/muistipeli/malli/GeneerinenTausta.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.JavaFXUI.java">com/mipyykko/muistipeli/ui/JavaFXUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.JavaFXKuva.java">com/mipyykko/muistipeli/malli/JavaFXKuva.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Tausta.java">com/mipyykko/muistipeli/malli/Tausta.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.TekstiUI.java">com/mipyykko/muistipeli/ui/TekstiUI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.GeneerinenKortti.java">com/mipyykko/muistipeli/malli/GeneerinenKortti.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Korttitehdas.java">com/mipyykko/muistipeli/malli/Korttitehdas.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
                   <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Pelilauta.java">com/mipyykko/muistipeli/malli/Pelilauta.java</a>
                 </td>
                 <td>
@@ -102,7 +200,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.GeneerinenTausta.java">com/mipyykko/muistipeli/malli/GeneerinenTausta.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.JavaFXTausta.java">com/mipyykko/muistipeli/malli/JavaFXTausta.java</a>
                 </td>
                 <td>
                   0
@@ -159,20 +257,6 @@ under the License.
                           <tr>
                 <td>
                   <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Kortti.java">com/mipyykko/muistipeli/malli/Kortti.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Tausta.java">com/mipyykko/muistipeli/malli/Tausta.java</a>
                 </td>
                 <td>
                   0

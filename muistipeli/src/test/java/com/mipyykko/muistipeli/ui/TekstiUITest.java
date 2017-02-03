@@ -6,7 +6,7 @@
 package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
-import com.mipyykko.muistipeli.malli.Pelilauta;
+import java.awt.Point;
 import java.util.Scanner;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -23,53 +23,43 @@ public class TekstiUITest {
     
     private TekstiUI tekstiUI;
     private Scanner lukija;
-    
-    public TekstiUITest() {
-    }
-    
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
+    private Peli peli;
     
     @Before
     public void setUp() {
-        this.tekstiUI = new TekstiUI(null, null);
+        this.peli = new Peli(tekstiUI); // TODO: muuta?
+        this.tekstiUI = new TekstiUI(peli, null);
     }
     
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void oikeatKoordinaatitSyote() {
         tekstiUI.setLukija(new Scanner("4 4\n"));
-        int[] paluuarvo = tekstiUI.siirto();
-        assertArrayEquals("Oikea koordinaattisyöte, väärä paluuarvo", new int[]{4, 4}, paluuarvo);
+        Point paluuarvo = tekstiUI.siirto();
+        assertEquals("Oikea koordinaattisyöte, väärä paluuarvo", new Point(4,4), paluuarvo);
     }
     
     @Test
     public void liikaaKoordinaattejaSyote() {
         tekstiUI.setLukija(new Scanner("4 4 4\n"));
-        int[] paluuarvo = tekstiUI.siirto();
-        assertArrayEquals("Liikaa numeroita syötteessä hyväksytty", null, paluuarvo);
+        Point paluuarvo = tekstiUI.siirto();
+        assertEquals("Liikaa numeroita syötteessä hyväksytty", null, paluuarvo);
     }
     
     @Test
     public void tyhjaSyote() {
         tekstiUI.setLukija(new Scanner("\n"));
-        int[] paluuarvo = tekstiUI.siirto();
-        assertArrayEquals("Tyhjä syöte hyväksytty", null, paluuarvo);
+        Point paluuarvo = tekstiUI.siirto();
+        assertEquals("Tyhjä syöte hyväksytty", null, paluuarvo);
     }
     
     @Test
     public void tekstiaSyotteessa() {
         tekstiUI.setLukija(new Scanner("cat\n"));
-        int[] paluuarvo = tekstiUI.siirto();
-        assertArrayEquals("Virheellinen tekstisyöte hyväksytty", null, paluuarvo);
+        Point paluuarvo = tekstiUI.siirto();
+        assertEquals("Virheellinen tekstisyöte hyväksytty", null, paluuarvo);
+        tekstiUI.setLukija(new Scanner("x x\n"));
+        paluuarvo = tekstiUI.siirto();
+        assertEquals("Virheellinen tekstisyöte #2 hyväksytty", null, paluuarvo);
     }
     
 }

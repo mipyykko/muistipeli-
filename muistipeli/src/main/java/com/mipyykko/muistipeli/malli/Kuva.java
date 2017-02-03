@@ -11,7 +11,7 @@ package com.mipyykko.muistipeli.malli;
  */
 public interface Kuva {
     
-    public Kuva getSisalto();
-    public void setSisalto(Kuva kuva);
+    public Object getSisalto();
+    public void setSisalto(Object o);
     
 }
