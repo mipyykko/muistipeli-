@@ -3,8 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli;
+package com.mipyykko.muistipeli.malli.impl;
 
+import com.mipyykko.muistipeli.malli.Kortti;
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

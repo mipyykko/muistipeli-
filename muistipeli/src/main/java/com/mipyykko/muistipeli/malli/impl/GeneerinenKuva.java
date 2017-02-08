@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli;
+package com.mipyykko.muistipeli.malli.impl;
+
+import com.mipyykko.muistipeli.malli.Kuva;
 
 /**
  *
  * @author pyykkomi
  */
-public class GeneerinenTausta implements Tausta {
+public class GeneerinenKuva implements Kuva {
 
     private String teksti;
     
-    public GeneerinenTausta(String teksti) {
+    public GeneerinenKuva(String teksti) {
         this.teksti = teksti;
     }
 
@@ -24,20 +26,28 @@ public class GeneerinenTausta implements Tausta {
     public void setTeksti(String teksti) {
         this.teksti = teksti;
     }
+
     
     @Override
     public String toString() {
         return teksti;
     }
-    
+
     @Override
-    public Object getSisalto() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getLeveys() {
+        return 0;
     }
 
     @Override
-    public void setSisalto(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getKorkeus() {
+        return 0;
     }
+
+    @Override
+    public Object getSisalto() {
+        return teksti;
+    }
+    
+    
     
 }

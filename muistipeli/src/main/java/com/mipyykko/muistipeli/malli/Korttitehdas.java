@@ -5,6 +5,9 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
+import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
+
 /**
  *
  * @author pyykkomi

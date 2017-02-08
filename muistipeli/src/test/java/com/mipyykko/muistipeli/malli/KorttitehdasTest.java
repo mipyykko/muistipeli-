@@ -5,6 +5,8 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
+import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

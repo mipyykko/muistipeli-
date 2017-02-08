@@ -5,8 +5,8 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
-import com.mipyykko.muistipeli.malli.GeneerinenKuva;
-import com.mipyykko.muistipeli.malli.GeneerinenTausta;
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
+import com.mipyykko.muistipeli.malli.impl.GeneerinenTausta;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
@@ -52,6 +52,10 @@ public class PeliTest {
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
             testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
         }
+        // testin testausta
+        for (Kuva k : testikuvat) {
+            System.err.println(k.toString());
+        }
     }
     
     private void luoTestitaustat() {
@@ -71,21 +75,17 @@ public class PeliTest {
         try {
             pelilauta.luoPelilauta("Geneerinen", false); // ainoa ero pelilautatestiin: ei sekoiteta
         } catch (Exception ex) {
-            System.err.println("Pelilaudan luominen epäonnistui");
+            System.err.println("Pelilaudan luominen epäonnistui, " + ex.getMessage());
         }
     }
     
     @Before
     public void setUp() {
-        peli = new Peli(null);
+        peli = new Peli(null, "Geneerinen");
         luoTestipelilauta();
         peli.setPelilauta(pelilauta);
     }
     
-    @After
-    public void tearDown() {
-    }
-
     @Test
     public void testaaPeli() {
         List<Point> siirrot = new ArrayList<>();

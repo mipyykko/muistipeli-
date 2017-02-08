@@ -5,7 +5,7 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
-import com.mipyykko.muistipeli.malli.GeneerinenKortti;
+import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
 import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
@@ -25,17 +25,19 @@ public class Peli {
     private Pelilauta pelilauta;
     private UI ui;
     private int siirrot;
+    private String korttityyppi;
     
-    public Peli(UI ui) {
+    public Peli(UI ui, String korttityyppi) {
         this.ui = ui;
+        this.korttityyppi = korttityyppi;
     }
 
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
         this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
         try {
-            pelilauta.luoPelilauta("Geneerinen", true); // TODO: tälle jotain
+            pelilauta.luoPelilauta(korttityyppi, true); // TODO: tälle jotain
         } catch (Exception ex) {
-            System.err.println("Pelilaudan luominen epäonnistui");
+            System.err.println("Pelilaudan luominen epäonnistui, " + ex.getMessage());
         }
         this.siirrot = 0;
     }
@@ -90,6 +92,7 @@ public class Peli {
     }
 
     private boolean tarkistaPari(Point[] siirrot) {
+        System.err.println(pelilauta.getKortti(siirrot[0])+" "+pelilauta.getKortti(siirrot[1]));
         return pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
     }
     
@@ -105,6 +108,7 @@ public class Peli {
     public void pelaa() {
         while (!peliLoppu()) {
             Point[] pari = haeSiirtopari();
+            System.err.println(pari[0].toString() + pari[1].toString());
             ui.nayta();
             if (!tarkistaPari(pari)) {
                 kaannaPari(pari);

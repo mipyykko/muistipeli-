@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli;
+package com.mipyykko.muistipeli.malli.impl;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -16,8 +16,7 @@ import static org.junit.Assert.*;
  *
  * @author pyykkomi
  */
-public class GeneerinenKuvaTest {
-    
+public class GeneerinenTaustaTest {
     
     @Before
     public void setUp() {

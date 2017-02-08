@@ -33,17 +33,34 @@ public class Pelilauta {
         this.taustasarja = taustasarja;
         // TODO: taustakuva josta lohkotaan taustat korteille?
     }
+    
+    private void tulostaSarja() {
+        // testiä
+        for (Kuva k : kuvasarja) {
+            System.err.println(k.toString());
+        }
+    }
 
     public void luoPelilauta(String korttiTyyppi, boolean sekoita) throws Exception {
-        if (kuvasarja == null || kuvasarja.isEmpty() || kuvasarja.size() * 2 < leveys * korkeus) {
-            throw new Exception("Kuvasarjassa on liian vähän kuvia!");
+        if (kuvasarja == null || kuvasarja.isEmpty() || kuvasarja.size() < (leveys * korkeus) / 2) {
+            int s = 0;
+            if (kuvasarja != null) {
+                s = kuvasarja.size();
+            }
+            throw new Exception("kuvia odotettu " + leveys * korkeus + ", saatu " + s);
         }
         if (taustasarja == null || taustasarja.isEmpty() || taustasarja.size() < leveys * korkeus) {
-            throw new Exception("Taustasarjassa on liian vähän taustoja!");
+            int s = 0;
+            if (taustasarja != null) {
+                s = taustasarja.size();
+            }
+            throw new Exception("taustoja odotettu " + leveys * korkeus + ", saatu " + s);
         }
         List<Kortti> arvottavat = new ArrayList<>();
         
         Korttitehdas kt = new Korttitehdas(korttiTyyppi);
+        
+        tulostaSarja();
         
         for (Kuva k : kuvasarja) {
             arvottavat.add(kt.uusiKortti(k, null));

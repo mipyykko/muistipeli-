@@ -27,7 +27,7 @@ public class TekstiUITest {
     
     @Before
     public void setUp() {
-        this.peli = new Peli(tekstiUI); // TODO: muuta?
+        this.peli = new Peli(tekstiUI, "Geneerinen"); // TODO: muuta?
         this.tekstiUI = new TekstiUI(peli, null);
     }
     

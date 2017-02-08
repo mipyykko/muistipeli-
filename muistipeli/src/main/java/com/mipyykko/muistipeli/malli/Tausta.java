@@ -11,6 +11,7 @@ package com.mipyykko.muistipeli.malli;
  */
 public interface Tausta {
 
+    public int getKorkeus();
+    public int getLeveys();
     public Object getSisalto();
-    public void setSisalto(Object o);
 }

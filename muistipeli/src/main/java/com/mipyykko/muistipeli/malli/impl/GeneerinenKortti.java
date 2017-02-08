@@ -3,48 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli;
+package com.mipyykko.muistipeli.malli.impl;
 
-import javafx.scene.image.ImageView;
+import com.mipyykko.muistipeli.malli.Kortti;
+import com.mipyykko.muistipeli.malli.Kuva;
+import com.mipyykko.muistipeli.malli.Tausta;
 
 /**
  *
  * @author pyykkomi
  */
-public class JavaFXKortti extends ImageView implements Kortti, Comparable<Kortti> {
+public class GeneerinenKortti implements Kortti, Comparable<Kortti> {
 
     private Kuva kuva;
     private Tausta tausta;
     private boolean kaannetty;
-    private int korttileveys, korttikorkeus;
     
-    public JavaFXKortti(Kuva kuva, Tausta tausta) {
+    public GeneerinenKortti(Kuva kuva, Tausta tausta) {
         this.kuva = kuva;
         this.tausta = tausta;
         this.kaannetty = false;
     }
 
-    public void setXY(int x, int y) {
-        setX(x);
-        setY(y);
-    }
-    
-    public double getKorttiX() {
-        return getX();
-    }
-    
-    public double getKorttiY() {
-        return getY();
-    }
-    
-    public int getKorttiLeveys() {
-        return korttileveys;
-    }
-    
-    public int getKorttiKorkeus() {
-        return korttikorkeus;
-    }
-    
     @Override
     public boolean kaannetty() {
         return kaannetty;
@@ -97,6 +77,5 @@ public class JavaFXKortti extends ImageView implements Kortti, Comparable<Kortti
     public int hashCode() {
         return 42 * (17 + this.kuva.toString().hashCode());
     }
-    
-    
+
 }

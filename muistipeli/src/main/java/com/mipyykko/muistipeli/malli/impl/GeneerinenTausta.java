@@ -3,17 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli;
+package com.mipyykko.muistipeli.malli.impl;
+
+import com.mipyykko.muistipeli.malli.Tausta;
 
 /**
  *
  * @author pyykkomi
  */
-public class GeneerinenKuva implements Kuva {
+public class GeneerinenTausta implements Tausta {
 
     private String teksti;
     
-    public GeneerinenKuva(String teksti) {
+    public GeneerinenTausta(String teksti) {
         this.teksti = teksti;
     }
 
@@ -24,23 +26,25 @@ public class GeneerinenKuva implements Kuva {
     public void setTeksti(String teksti) {
         this.teksti = teksti;
     }
-
-    @Override
-    public Object getSisalto() {
-        return this;
-        //TODO hmmhmh
-    }
     
     @Override
     public String toString() {
         return teksti;
     }
+    
+    @Override
+    public int getKorkeus() {
+        return 0;
+    }
 
     @Override
-    public void setSisalto(Object o) {
-        //TODO and to think over
+    public int getLeveys() {
+        return 0;
     }
-    
-    
+
+    @Override
+    public Object getSisalto() {
+        return teksti;
+    }
     
 }
