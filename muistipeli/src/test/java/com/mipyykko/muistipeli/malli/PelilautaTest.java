@@ -5,13 +5,13 @@
  */
 package com.mipyykko.muistipeli.malli;
 
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenTausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
+import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
+import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import org.junit.After;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -38,14 +38,14 @@ public class PelilautaTest {
     
     private void luoTestikuvat() {
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
-            testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
-            testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
+            testikuvat.add(new TekstiKuva(Integer.toString(i)));
+            testikuvat.add(new TekstiKuva(Integer.toString(i)));
         }
     }
     
     private void luoTestitaustat() {
         for (int i = 1; i <= LEVEYS * KORKEUS; i++) {
-            testitaustat.add(new GeneerinenTausta("*"));
+            testitaustat.add(new TekstiTausta("*"));
         }
     }
     
@@ -55,7 +55,7 @@ public class PelilautaTest {
         pelilauta.setKuvasarja(testikuvat);
         pelilauta.setTaustasarja(testitaustat);
         try {
-            pelilauta.luoPelilauta("Geneerinen", true);
+            pelilauta.luoPelilauta(Korttityyppi.TEKSTI, true);
         } catch (Exception ex) {
             fail("Pelilaudan luominen epäonnistui");
         }
@@ -64,10 +64,9 @@ public class PelilautaTest {
     
     @Test
     public void luontiEiOnnistuIlmanKuvasarjaa() {
-        luoTestitaustat();
-        Pelilauta pl = new Pelilauta(LEVEYS, KORKEUS, null, testitaustat);
+        pelilauta.setKuvasarja(null);
         try {
-            pl.luoPelilauta("Geneerinen", true);
+            pelilauta.luoPelilauta(Korttityyppi.TEKSTI, true);
             fail("Pelilaudan luominen onnistui ilman kuvasarjaa");
         } catch (Exception ex) {
             assertEquals("kuvia odotettu 16, saatu 0", ex.getMessage());
@@ -80,7 +79,7 @@ public class PelilautaTest {
         luoTestitaustat();
         Pelilauta pl = new Pelilauta(LEVEYS + 2, KORKEUS + 2, testikuvat, testitaustat);
         try {
-            pl.luoPelilauta("Geneerinen", true);
+            pl.luoPelilauta(Korttityyppi.TEKSTI, true);
             fail("Pelilaudan luominen onnistui liian pienellä kuvasarjalla");
         } catch (Exception ex) {
             assertEquals("kuvia odotettu 36, saatu 16", ex.getMessage());
@@ -93,7 +92,7 @@ public class PelilautaTest {
         Pelilauta pl = new Pelilauta(LEVEYS, KORKEUS, testikuvat, null);
         //pelilauta.setTaustasarja(new HashSet<Tausta>());
         try {
-            pl.luoPelilauta("Geneerinen", true);
+            pl.luoPelilauta(Korttityyppi.TEKSTI, true);
             fail("Pelilaudan luominen onnistui ilman taustasarjaa");
         } catch (Exception ex) {
             assertEquals("taustoja odotettu 16, saatu 0", ex.getMessage());
@@ -105,7 +104,7 @@ public class PelilautaTest {
         luoTestitaustat();
         Pelilauta pl = new Pelilauta(LEVEYS + 2, KORKEUS + 2, testikuvat, testitaustat);
         try {
-            pl.luoPelilauta("Geneerinen", true);
+            pl.luoPelilauta(Korttityyppi.TEKSTI, true);
             fail("Pelilaudan luominen onnistui liian pienellä taustasarjalla");
         } catch (Exception ex) {
             assertEquals("taustoja odotettu 36, saatu 16", ex.getMessage());

@@ -6,7 +6,8 @@
 package com.mipyykko.muistipeli.malli;
 
 /**
- *
+ * Kuvan interface.
+ * 
  * @author pyykkomi
  */
 public interface Kuva {

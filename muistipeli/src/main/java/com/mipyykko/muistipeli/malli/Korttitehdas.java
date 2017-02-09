@@ -5,26 +5,37 @@
  */
 package com.mipyykko.muistipeli.malli;
 
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
+import com.mipyykko.muistipeli.malli.impl.TekstiKortti;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 
 /**
- *
+ * Konstruktorille annetaan tehtaan haluttu korttityyppi.
+ * 
  * @author pyykkomi
  */
 public class Korttitehdas {
     
-    private String korttityyppi;
+    private final Korttityyppi korttityyppi;
     
-    public Korttitehdas(String korttityyppi) {
+    public Korttitehdas(Korttityyppi korttityyppi) {
         this.korttityyppi = korttityyppi;
     }
 
+    /**
+     * Uuden korttityypin kortin luova ja palauttava metodi.
+     * 
+     * @param params Vaihteleva määrä kortin konstruktorille annettavia parametreja
+     * @return korttityypin mukainen Kortti tai null jos korttityyppi on väärä
+     */
     public Kortti uusiKortti(Object... params) {
+        if (korttityyppi == null) {
+            return null;
+        }
         switch (korttityyppi) {
-            case "Geneerinen":
-                return new GeneerinenKortti((Kuva) params[0], (Tausta) params[1]);
-            case "JavaFX":
+            case TEKSTI:
+                return new TekstiKortti((Kuva) params[0], (Tausta) params[1]);
+            case JAVAFX:
                 return new JavaFXKortti((Kuva) params[0], (Tausta) params[1]);
             default:
                 return null;

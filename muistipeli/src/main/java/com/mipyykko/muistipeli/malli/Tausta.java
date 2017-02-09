@@ -6,7 +6,8 @@
 package com.mipyykko.muistipeli.malli;
 
 /**
- *
+ * Taustan interface.
+ * 
  * @author pyykkomi
  */
 public interface Tausta {

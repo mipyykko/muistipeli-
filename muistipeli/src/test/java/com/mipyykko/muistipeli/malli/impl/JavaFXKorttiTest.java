@@ -5,12 +5,13 @@
  */
 package com.mipyykko.muistipeli.malli.impl;
 
-import com.mipyykko.muistipeli.malli.Kortti;
-import com.mipyykko.muistipeli.util.TestingApplication;
+import com.mipyykko.muistipeli.malli.Kuva;
+import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.util.TestApplication;
 import javafx.application.Application;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import org.junit.AfterClass;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,34 +23,23 @@ import org.junit.Test;
  */
 public class JavaFXKorttiTest {
 
-    class TestImageView extends ImageView {
-
-        private Object image;
-
-        public TestImageView(Image i) {
-            image = i;
-        }
-
-        public void setImage(String url) {
-            image = url;
-        }
-    }
-
-    private Kortti kortti;
+    private JavaFXKortti kortti;
     private static Thread thread;
+    private Image testikuvaImage, testitaustaImage, isoTestikuvaImage, isoTestitaustaImage;
+    private JavaFXKuva testikuva, isoTestikuva;
+    private JavaFXTausta testitausta, isoTestitausta;
 
     /*
-        JavaFX ei anna luoda Imageja ennen applikaation käynnistämistä joten
-        testauskaan ei onnistu. Luodaan siis mock-application joka pyörii 
-        testien ajan.
-    */
-    
+     JavaFX ei anna luoda Imageja ennen applikaation käynnistämistä joten
+     testauskaan ei onnistu. Luodaan siis mock-application joka pyörii 
+     testien ajan.
+     */
     @BeforeClass
     public static void appSetup() {
         thread = new Thread() {
             @Override
             public void run() {
-                Application.launch(TestingApplication.class);
+                Application.launch(TestApplication.class);
             }
         };
         thread.setDaemon(true);
@@ -62,12 +52,17 @@ public class JavaFXKorttiTest {
 
     @Before
     public void setUp() {
-
         String tk = getClass().getClassLoader().getResource("kuvat/testi.png").toString();
-        kortti = new JavaFXKortti(new JavaFXKuva("testikuva",
-                new Image(tk)),
-                new JavaFXTausta("testitausta",
-                        new Image(tk)));
+        String tt = getClass().getClassLoader().getResource("kuvat/testi2.png").toString();
+        testikuvaImage = new Image(tk, 100, 100, false, false);
+        isoTestikuvaImage = new Image(tk, 200, 200, false, false);
+        testikuva = new JavaFXKuva("testikuva", testikuvaImage);
+        isoTestikuva = new JavaFXKuva("testikuva", isoTestikuvaImage);
+        testitaustaImage = new Image(tt, 100, 100, false, false);
+        isoTestitaustaImage = new Image(tt, 200, 200, false, false);
+        testitausta = new JavaFXTausta("testitausta", testitaustaImage);
+        isoTestitausta = new JavaFXTausta("testitausta", isoTestitaustaImage);
+        kortti = new JavaFXKortti(testikuva, testitausta);
     }
 
     @Test
@@ -81,8 +76,55 @@ public class JavaFXKorttiTest {
         assertTrue("Käännetty ei palauta oikein", kortti.kaannetty());
     }
 
+    @Test
+    public void oikeaKuvaKaantamisenJalkeen() {
+        kortti.setTausta(isoTestitausta);
+        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen / tiedosto", 200, Math.round(kortti.getImage().getHeight()));
+        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen / key", "testitausta", kortti.toString());
+        kortti.kaanna();
+        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen # 2/ tiedosto", 100, Math.round(kortti.getImage().getHeight()));
+        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen #2", "testikuva", kortti.toString());
+    }
+
+    @Test
+    public void kortinLeveysOikeaKuva() {
+        kortti.setKuva(isoTestikuva);
+        assertEquals("Kortin leveys ei ole oikein / iso kuva", kortti.getKorttiLeveys(), 200);
+        kortti.setKuva(testikuva);
+        assertEquals("Kortin leveys ei ole oikein / normaali kuva", kortti.getKorttiLeveys(), 100);
+        kortti.setTausta(isoTestitausta);
+        assertEquals("Kortin leveys ei ole oikein / iso tausta", kortti.getKorttiLeveys(), 200);
+        kortti.setTausta(testitausta);
+        assertEquals("Kortin leveys ei ole oikein / normaali tausta", kortti.getKorttiLeveys(), 100);
+    }
+    
+    @Test
+    public void kortinKorkeusOikeaKuva() {
+        kortti.setKuva(isoTestikuva);
+        assertEquals("Kortin korkeus ei ole oikein / iso kuva", kortti.getKorttiKorkeus(), 200);
+        kortti.setKuva(testikuva);
+        assertEquals("Kortin korkeus ei ole oikein / normaali kuva", kortti.getKorttiKorkeus(), 100);
+        kortti.setTausta(isoTestitausta);
+        assertEquals("Kortin korkeus ei ole oikein / iso tausta", kortti.getKorttiKorkeus(), 200);
+        kortti.setTausta(testitausta);
+        assertEquals("Kortin korkeus ei ole oikein / normaali tausta", kortti.getKorttiKorkeus(), 100);
+        
+    }
+    
+    @Test
+    public void oikeaSisalto() {
+        kortti.setTausta(isoTestitausta);
+        assertTrue("Kortti ei palauta oikeantyyppistä oliota", kortti.getSisalto() instanceof Image);
+        Image i = (Image) kortti.getSisalto();
+        assertEquals("Kortti ei palauta oikeata oliota", 200, Math.round(i.getHeight()));
+        kortti.kaanna();
+        i = (Image) kortti.getSisalto();
+        assertTrue("Kortti ei palauta käännön jälkeen oikeantyyppistä oliota", kortti.getSisalto() instanceof Image);
+        assertEquals("Kortti ei palauta käännön jälkeen oikeata oliota", 100, Math.round(i.getHeight()));
+    }
+    
     @AfterClass
-    public void tearDown() {
+    public static void tearDown() {
         thread.interrupt();
     }
 }

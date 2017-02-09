@@ -6,12 +6,10 @@
 package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import java.awt.Point;
 import java.util.Scanner;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,7 +25,7 @@ public class TekstiUITest {
     
     @Before
     public void setUp() {
-        this.peli = new Peli(tekstiUI, "Geneerinen"); // TODO: muuta?
+        this.peli = new Peli(tekstiUI, Korttityyppi.TEKSTI); // TODO: muuta?
         this.tekstiUI = new TekstiUI(peli, null);
     }
     

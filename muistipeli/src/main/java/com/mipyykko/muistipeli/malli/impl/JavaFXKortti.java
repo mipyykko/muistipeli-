@@ -12,7 +12,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- *
+ * JavaFX-toteutuklsen Image-objektin sisältävä kortti.
+ * 
  * @author pyykkomi
  */
 public class JavaFXKortti extends ImageView implements Kortti {
@@ -30,12 +31,15 @@ public class JavaFXKortti extends ImageView implements Kortti {
         //setImage((Image) kuva.getSisalto());
     }
 
+    /**
+     * Asettaa kortille oikean kuvan sen mukaan onko kortti käännetty.
+     */
     public void oikeaKuva() {
-        System.err.println("oikee " + kuva); // DEBUG
         setImage(kaannetty ? (Image) kuva.getSisalto() : (Image) tausta.getSisalto());
     }
     
-    public void setXY(int x, int y) {
+    // näitä ei nyt käytetty
+    /*public void setXY(int x, int y) {
         setX(x);
         setY(y);
     }
@@ -46,7 +50,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
     
     public double getKorttiY() {
         return getY();
-    }
+    }*/
     
     public int getKorttiLeveys() {
         return Math.max(kuva.getLeveys(), tausta.getLeveys());
@@ -56,15 +60,26 @@ public class JavaFXKortti extends ImageView implements Kortti {
         return Math.max(kuva.getKorkeus(), tausta.getKorkeus());
     }
     
+    /**
+     * Onko kortti käännetty?
+     * 
+     * @return boolean-arvo
+     */
     @Override
     public boolean kaannetty() {
         return kaannetty;
     }
     
+    /**
+     * Kääntää kortin.
+     * Kutsuu myös oikeaKuva-metodia asettaakseen kuvan oikeaksi.
+     * 
+     * @return boolean-arvo
+     */
     @Override
     public boolean kaanna() {
         kaannetty = !kaannetty;
-        setImage(kaannetty ? (Image) kuva.getSisalto() : (Image) tausta.getSisalto());
+        oikeaKuva();
         return kaannetty;
     }
     
@@ -80,6 +95,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
     @Override
     public void setKuva(Kuva kuva) {
         this.kuva = kuva;
+        oikeaKuva();
     }
 
     @Override
@@ -100,12 +116,18 @@ public class JavaFXKortti extends ImageView implements Kortti {
     
     @Override
     public int compareTo(Object o) {
+        if (!(o instanceof Kortti)) {
+            return -1;
+        }
         return this.kuva.compareTo(((Kortti) o).getKuva());
         //return this.kuva.toString().compareTo(k.getKuva().toString());
     }
     
     @Override
     public boolean equals(Object o) {
+        if (!(o instanceof JavaFXKortti)) {
+            return false;
+        }
         return super.equals(o);
         /*Kortti k = (Kortti) o;
         

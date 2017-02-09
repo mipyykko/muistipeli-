@@ -10,3 +10,5 @@ Päivä | Tunnit | Kuvaus
 2.-3.2.2017 | 4 | Rakenteen vääntelyä, testejä, JavaFX-kokeilua
 6.2.2017 | 4 | JavaFX, resurssien lataamisen kanssa painimista
 7.2.2017 | 4 | Graafista käyttöliittymää, JavaFXUI "toimii" mutta peli ei
+8.2.2017 | 2 | Testejä, JavaFX yms.
+9.2.2017 | 3 | Testejä, korttianimaatiot, JavaDoc

@@ -10,7 +10,8 @@ import java.awt.Point;
 import java.util.Scanner;
 
 /**
- *
+ * Tekstikäyttöliittymä.
+ * 
  * @author pyykkomi
  */
 public class TekstiUI implements UI {
@@ -32,6 +33,9 @@ public class TekstiUI implements UI {
         this.peli = peli;
     }
 
+    /**
+     * Näytä pelilauta.
+     */
     @Override
     public void nayta() {
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {

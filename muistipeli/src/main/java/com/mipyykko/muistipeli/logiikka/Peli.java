@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli.logiikka;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
 import java.util.Set;
@@ -22,9 +23,9 @@ public class Peli {
     private Pelilauta pelilauta;
     private UI ui;
     private int siirrot;
-    private String korttityyppi;
+    private final Korttityyppi korttityyppi;
     
-    public Peli(UI ui, String korttityyppi) {
+    public Peli(UI ui, Korttityyppi korttityyppi) {
         this.ui = ui;
         this.korttityyppi = korttityyppi;
     }
@@ -33,12 +34,13 @@ public class Peli {
      * 
      * Luo uuden pelin annetuilla parametreilla.
      * 
-     * @param leveys
-     * @param korkeus
-     * @param kuvasarja
-     * @param taustasarja 
+     * @param leveys Pelilaudan leveys.
+     * @param korkeus Pelilaudan korkeus.
+     * @param kuvasarja Set Kuva-objekteja.
+     * @param taustasarja Set Kuva-objekteja. 
      */
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
+        // TODO: pelilaudan oikean koon tarkistus
         this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
         try {
             pelilauta.luoPelilauta(korttityyppi, true); // TODO: tälle jotain
@@ -49,7 +51,7 @@ public class Peli {
     }
     
     /**
-     * Kasvattaa sirtojen määrää.
+     * Kasvattaa siirtojen määrää.
      */
     public void lisaaSiirto() {
         siirrot++;
@@ -96,20 +98,28 @@ public class Peli {
                 && p.x >= 0 && p.y >= 0 && !pelilauta.getKortti(p).kaannetty());
     }
 
+    /**
+     * Hakee käyttäjältä siirrot. Tämä on vielä vaiheessa koska JavaFX-UI:ssa
+     * ei toimi samalla tapaa.
+     * 
+     * @return Kaksi siirtoa Point-muotoisessa taulukossa.
+     */
+    
+    // TODO
     private Point[] haeSiirtopari() {
-        Point[] siirrot = new Point[2];
+        Point[] siirtopari = new Point[2];
         for (int i = 0; i < 2; i++) {
             boolean oksiirto = false;
             while (!oksiirto) {
                 ui.nayta();
-                siirrot[i] = ui.siirto();
-                if (okSiirto(siirrot[i])) {
-                    kaannaKortti(siirrot[i]);
+                siirtopari[i] = ui.siirto();
+                if (okSiirto(siirtopari[i])) {
+                    kaannaKortti(siirtopari[i]);
                     oksiirto = true;
                 }
             }
         }
-        return siirrot;
+        return siirtopari;
     }
 
     private boolean tarkistaPari(Point[] siirrot) {

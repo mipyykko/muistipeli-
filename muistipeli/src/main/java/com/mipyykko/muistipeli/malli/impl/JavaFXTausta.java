@@ -10,7 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- *
+ * JavaFX-toteutuksen Image-objektin sisältävä tausta.
+ * 
  * @author pyykkomi
  */
 public class JavaFXTausta extends ImageView implements Tausta {
@@ -55,4 +56,8 @@ public class JavaFXTausta extends ImageView implements Tausta {
         return (int) imgTausta.getWidth();
     }
     
+    @Override
+    public String toString() {
+        return key;
+    }
 }

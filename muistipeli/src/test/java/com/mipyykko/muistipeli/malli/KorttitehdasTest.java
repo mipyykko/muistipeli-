@@ -5,12 +5,10 @@
  */
 package com.mipyykko.muistipeli.malli;
 
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
+import com.mipyykko.muistipeli.malli.impl.TekstiKortti;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -26,16 +24,16 @@ public class KorttitehdasTest {
     
     @Test
     public void testaaVaaraParametri() {
-        Korttitehdas kt = new Korttitehdas("kissa");
+        Korttitehdas kt = new Korttitehdas(null);
         assertTrue("Korttitehdas toimii väärillä parametreilla", kt.uusiKortti(null, null) == null);
     }
     
     @Test
     public void testaaOikeaParametri() {
-        Korttitehdas kt = new Korttitehdas("Geneerinen");
+        Korttitehdas kt = new Korttitehdas(Korttityyppi.TEKSTI);
         assertTrue("Korttitehdas toimii väärin oikeilla parametreilla", 
-                    kt.uusiKortti(null, null).getClass() == GeneerinenKortti.class);
-        kt = new Korttitehdas("JavaFX");
+                    kt.uusiKortti(null, null).getClass() == TekstiKortti.class);
+        kt = new Korttitehdas(Korttityyppi.JAVAFX);
         assertTrue("Korttitehdas toimii väärin oikeilla parametreilla #2", 
                     kt.uusiKortti(null, null).getClass() == JavaFXKortti.class);
         

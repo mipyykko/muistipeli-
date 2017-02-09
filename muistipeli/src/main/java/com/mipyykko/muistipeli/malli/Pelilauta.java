@@ -5,6 +5,7 @@
  */
 package com.mipyykko.muistipeli.malli;
 
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,7 +15,8 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- *
+ * Pelin kortit sisältävä pelilauta-luokka.
+ * 
  * @author pyykkomi
  */
 public class Pelilauta {
@@ -34,14 +36,14 @@ public class Pelilauta {
         // TODO: taustakuva josta lohkotaan taustat korteille?
     }
     
-    private void tulostaSarja() {
-        // testiä
-        for (Kuva k : kuvasarja) {
-            System.err.println(k.toString());
-        }
-    }
-
-    public void luoPelilauta(String korttiTyyppi, boolean sekoita) throws Exception {
+    /**
+     * Luo uuden pelilaudan ja asettaa sille kortit.
+     * 
+     * @param korttityyppi Kortin tyyppi.
+     * @param sekoita Sekoitetaanko kortit? Ilman sekoitusta jokainen pari on laudalla peräkkäin.
+     * @throws Exception Virheellinen määrä kuvia tai taustoja.
+     */
+    public void luoPelilauta(Korttityyppi korttityyppi, boolean sekoita) throws Exception {
         if (kuvasarja == null || kuvasarja.isEmpty() || kuvasarja.size() < (leveys * korkeus) / 2) {
             int s = 0;
             if (kuvasarja != null) {
@@ -58,7 +60,7 @@ public class Pelilauta {
         }
         List<Kortti> arvottavat = new ArrayList<>();
         
-        Korttitehdas kt = new Korttitehdas(korttiTyyppi);
+        Korttitehdas kt = new Korttitehdas(korttityyppi);
         
         for (Kuva k : kuvasarja) {
             arvottavat.add(kt.uusiKortti(k, null));
@@ -68,6 +70,7 @@ public class Pelilauta {
         if (sekoita) { // pääasiassa testejä varten
             Collections.shuffle(arvottavat);
         }
+        
         Iterator<Kortti> kortit = arvottavat.iterator();
         Iterator<Tausta> taustat = taustasarja.iterator();
         
@@ -79,6 +82,11 @@ public class Pelilauta {
         }
     }
  
+    /**
+     * Onko kaikki kortit käännetty?
+     * 
+     * @return boolean-arvo
+     */
     public boolean kaikkiKaannetty() {
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {

@@ -5,11 +5,12 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenTausta;
+import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
+import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.ui.TestUI;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
@@ -17,11 +18,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -50,19 +49,15 @@ public class PeliTest {
     private void luoTestikuvat() {
         testikuvat = new HashSet<>();
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
-            testikuvat.add(new GeneerinenKuva(Integer.toString(i)));
-        }
-        // testin testausta
-        for (Kuva k : testikuvat) {
-            System.err.println(k.toString());
+            testikuvat.add(new TekstiKuva(Integer.toString(i)));
         }
     }
     
     private void luoTestitaustat() {
         testitaustat = new HashSet<>();
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
-            testitaustat.add(new GeneerinenTausta("*"));
-            testitaustat.add(new GeneerinenTausta("*"));
+            testitaustat.add(new TekstiTausta("*"));
+            testitaustat.add(new TekstiTausta("*"));
         }
     }
     
@@ -73,7 +68,7 @@ public class PeliTest {
         pelilauta.setKuvasarja(testikuvat);
         pelilauta.setTaustasarja(testitaustat);
         try {
-            pelilauta.luoPelilauta("Geneerinen", false); // ainoa ero pelilautatestiin: ei sekoiteta
+            pelilauta.luoPelilauta(Korttityyppi.TEKSTI, false); // ainoa ero pelilautatestiin: ei sekoiteta
         } catch (Exception ex) {
             System.err.println("Pelilaudan luominen epäonnistui, " + ex.getMessage());
         }
@@ -81,11 +76,17 @@ public class PeliTest {
     
     @Before
     public void setUp() {
-        peli = new Peli(null, "Geneerinen");
+        peli = new Peli(null, Korttityyppi.TEKSTI);
         luoTestipelilauta();
         peli.setPelilauta(pelilauta);
     }
     
+    @Test
+    public void testaaUusiPeli() {
+        assertTrue("Pelilaudan luomisessa jotain häikkää", pelilauta.getKortit().length > 0);
+    }
+    
+     
     @Test
     public void testaaPeli() {
         List<Point> siirrot = new ArrayList<>();
@@ -97,11 +98,13 @@ public class PeliTest {
         UI ui = new TestUI(siirrot);
         ui.setPeli(peli);
         peli.setUI(ui);
+        assertEquals("Kortteja ei käännetty mutta peli on loppu", false, peli.peliLoppu());
         peli.pelaa();
         /// TODO, hm, tää testi ei varsinaisesti testaa muuta kuin että peli menee tosiaan läpi 
         // koska jos tuo siirtosarja ei menis läpi niin se jumisi pelaa-luuppiin...
         // assertiin ei siis ikinä edes päädytä jos näin käy.
         assertEquals("Kaikki kortit käännetty mutta peli ei loppu", true, peli.peliLoppu());
+        assertEquals("Siirtojen määrä väärin", siirrot.size() / 2, peli.getSiirrot());
     }
     
 }

@@ -8,8 +8,10 @@ package com.mipyykko.muistipeli;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenTausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
+import com.mipyykko.muistipeli.malli.enums.UITyyppi;
+import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
+import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
 import com.mipyykko.muistipeli.ui.TekstiUI;
 import com.mipyykko.muistipeli.ui.UI;
 import java.util.HashSet;
@@ -31,10 +33,11 @@ public class Main /*extends Application*/ {
          mutta JavaFXUI ei pääse inittiin tai jotain vaikka ovat beisik samoja
          */
 
-        String uiTyyppi = "JavaFX";
-
+        UITyyppi uiTyyppi = UITyyppi.JAVAFX;
+        Korttityyppi korttityyppi = Korttityyppi.JAVAFX;
+        
         switch (uiTyyppi) {
-            case "Geneerinen":
+            case TEKSTI:
                 Set<Kuva> testikuvat = new HashSet<>();
                 Set<Tausta> testitaustat = new HashSet<>();
 
@@ -42,18 +45,18 @@ public class Main /*extends Application*/ {
                 int korkeus = 4;
 
                 for (int i = 0; i < (leveys * korkeus) / 2; i++) {
-                    testikuvat.add(new GeneerinenKuva(Integer.toString(i + 1)));
-                    testitaustat.add(new GeneerinenTausta("*"));
-                    testitaustat.add(new GeneerinenTausta("*"));
+                    testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
+                    testitaustat.add(new TekstiTausta("*"));
+                    testitaustat.add(new TekstiTausta("*"));
                 }
 
-                Peli peli = new Peli(null, "Geneerinen");
+                Peli peli = new Peli(null, korttityyppi);
                 peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
                 UI ui = new TekstiUI(peli, new Scanner(System.in));
                 peli.setUI(ui);
                 peli.pelaa();
                 break;
-            case "JavaFX":
+            case JAVAFX:
                 Application.launch(JavaFXMain.class, args);
                 break;
             default:

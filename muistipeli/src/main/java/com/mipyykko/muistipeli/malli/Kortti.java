@@ -8,7 +8,8 @@ package com.mipyykko.muistipeli.malli;
 import java.util.Objects;
 
 /**
- *
+ * Kortin interface.
+ * 
  * @author pyykkomi
  */
 public interface Kortti {

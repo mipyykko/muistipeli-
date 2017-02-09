@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKuva;
 import com.mipyykko.muistipeli.malli.impl.JavaFXTausta;
 import com.mipyykko.muistipeli.ui.JavaFXUI;
@@ -40,19 +41,19 @@ public class JavaFXMain extends Application {
     private Map<String, String> kuvat;
     
     /**
-     * Luo kuvat-hashmapin jossa oikeat osoitteet reasursseihin.
+     * Luo kuvat-hashmapin jossa oikeat osoitteet resursseihin.
      * 
-     * @param tileset 
+     * @param tileset Hakemiston nimi. Metodi odottaa hakemistossa olevan tileset.txt-nimisen tiedoston.
      */
     public void lataaKuvat(String tileset) {
         kuvat = new HashMap<>();
 
-        InputStream is = Main.class.getClassLoader().getResourceAsStream("kuvat/"+tileset+"/tileset.txt");
+        InputStream is = Main.class.getClassLoader().getResourceAsStream("kuvat/" + tileset + "/tileset.txt");
         try (Scanner s = new Scanner(is)) {
             while (s.hasNextLine()) {
                 String[] t = s.nextLine().split(",");
                 kuvat.put(t[0].replaceAll("^\"|\"$", ""),
-                        "kuvat/"+tileset+"/images/" + t[1].replaceAll("^\"|\"$", ""));
+                        "kuvat/" + tileset + "/images/" + t[1].replaceAll("^\"|\"$", ""));
             }
         }
     }
@@ -79,6 +80,7 @@ public class JavaFXMain extends Application {
         Iterator<String> it = kuvat.keySet().iterator();
         for (int i = 0; i < (leveys * korkeus) / 2; i++) {
             String key = it.next();
+            // TODO: kuvien skaalaus pois?
             Image im = new Image(getClass().getClassLoader().getResource(kuvat.get(key)).toString(), 100, 100, false, false);
             testikuvat.add(new JavaFXKuva(key, im));
             testitaustat.add(new JavaFXTausta("tausta",
@@ -87,7 +89,7 @@ public class JavaFXMain extends Application {
                     new Image(getClass().getClassLoader().getResource("taustat/basic/tausta.png").toString(), 100, 100, false, false)));
         }
 
-        Peli peli = new Peli(null, "JavaFX");
+        Peli peli = new Peli(null, Korttityyppi.JAVAFX);
         peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
         JavaFXUI ui = new JavaFXUI(peli);
         peli.setUI(ui);

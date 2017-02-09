@@ -10,7 +10,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- *
+ * JavaFX-toteutuksen Image-objektin sisältävä kuva.
+ * 
  * @author pyykkomi
  */
 public class JavaFXKuva extends ImageView implements Kuva {
@@ -39,7 +40,7 @@ public class JavaFXKuva extends ImageView implements Kuva {
         this.key = key;
     }
    
-    
+    @Override
     public Object getSisalto() {
         return imgKuva;
     }
@@ -61,6 +62,9 @@ public class JavaFXKuva extends ImageView implements Kuva {
 
     @Override
     public int compareTo(Object o) {
+        if (!(o instanceof JavaFXKuva)) {
+            return -1;
+        }
         return key.compareTo(((JavaFXKuva) o).getKey());
     }
 }
