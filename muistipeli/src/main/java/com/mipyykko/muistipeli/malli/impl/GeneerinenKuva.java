@@ -47,6 +47,11 @@ public class GeneerinenKuva implements Kuva {
     public Object getSisalto() {
         return teksti;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return teksti.compareTo(o.toString());
+    }
     
     
     

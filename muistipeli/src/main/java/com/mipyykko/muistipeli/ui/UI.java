@@ -9,7 +9,8 @@ import com.mipyykko.muistipeli.logiikka.Peli;
 import java.awt.Point;
 
 /**
- *
+ * UI:n interface.
+ * 
  * @author pyykkomi
  */
 public interface UI {

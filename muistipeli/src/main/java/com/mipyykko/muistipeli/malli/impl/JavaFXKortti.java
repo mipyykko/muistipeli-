@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
  *
  * @author pyykkomi
  */
-public class JavaFXKortti extends ImageView implements Kortti, Comparable<Kortti> {
+public class JavaFXKortti extends ImageView implements Kortti {
 
     private Kuva kuva;
     private Tausta tausta;
@@ -31,7 +31,7 @@ public class JavaFXKortti extends ImageView implements Kortti, Comparable<Kortti
     }
 
     public void oikeaKuva() {
-        System.out.println("oikee " + kuva);
+        System.err.println("oikee " + kuva); // DEBUG
         setImage(kaannetty ? (Image) kuva.getSisalto() : (Image) tausta.getSisalto());
     }
     
@@ -99,8 +99,8 @@ public class JavaFXKortti extends ImageView implements Kortti, Comparable<Kortti
     }
     
     @Override
-    public int compareTo(Kortti k) {
-        return this.compareTo(k);
+    public int compareTo(Object o) {
+        return this.kuva.compareTo(((Kortti) o).getKuva());
         //return this.kuva.toString().compareTo(k.getKuva().toString());
     }
     

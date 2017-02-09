@@ -13,7 +13,7 @@ import com.mipyykko.muistipeli.malli.Tausta;
  *
  * @author pyykkomi
  */
-public class GeneerinenKortti implements Kortti, Comparable<Kortti> {
+public class GeneerinenKortti implements Kortti {
 
     private Kuva kuva;
     private Tausta tausta;
@@ -62,8 +62,8 @@ public class GeneerinenKortti implements Kortti, Comparable<Kortti> {
     }
     
     @Override
-    public int compareTo(Kortti k) {
-        return this.kuva.toString().compareTo(k.getKuva().toString());
+    public int compareTo(Object o) {
+        return this.kuva.toString().compareTo(((Kortti) o).getKuva().toString());
     }
     
     @Override

@@ -5,19 +5,16 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
-import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
- *
+ * Pelin päälogiikka.
+ * 
  * @author pyykkomi
  */
 public class Peli {
@@ -32,6 +29,15 @@ public class Peli {
         this.korttityyppi = korttityyppi;
     }
 
+    /**
+     * 
+     * Luo uuden pelin annetuilla parametreilla.
+     * 
+     * @param leveys
+     * @param korkeus
+     * @param kuvasarja
+     * @param taustasarja 
+     */
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
         this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
         try {
@@ -42,6 +48,9 @@ public class Peli {
         this.siirrot = 0;
     }
     
+    /**
+     * Kasvattaa sirtojen määrää.
+     */
     public void lisaaSiirto() {
         siirrot++;
     }
@@ -66,10 +75,22 @@ public class Peli {
         this.pelilauta = pelilauta;
     }
 
+    /**
+     * Onko kaikki kortit käännetty eli onko peli loppu?
+     * 
+     * @return boolean-arvo
+     */
+    
     public boolean peliLoppu() {
         return pelilauta.kaikkiKaannetty();
     }
 
+    /**
+     * Onko siirto laillinen?
+     * 
+     * @param p siirto Point-muodossa
+     * @return boolean-arvo
+     */
     private boolean okSiirto(Point p) {
         return (p != null && p.x < pelilauta.getLeveys() && p.y < pelilauta.getKorkeus()
                 && p.x >= 0 && p.y >= 0 && !pelilauta.getKortti(p).kaannetty());
@@ -92,7 +113,6 @@ public class Peli {
     }
 
     private boolean tarkistaPari(Point[] siirrot) {
-        System.err.println(pelilauta.getKortti(siirrot[0])+" "+pelilauta.getKortti(siirrot[1]));
         return pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
     }
     
@@ -108,7 +128,6 @@ public class Peli {
     public void pelaa() {
         while (!peliLoppu()) {
             Point[] pari = haeSiirtopari();
-            System.err.println(pari[0].toString() + pari[1].toString());
             ui.nayta();
             if (!tarkistaPari(pari)) {
                 kaannaPari(pari);

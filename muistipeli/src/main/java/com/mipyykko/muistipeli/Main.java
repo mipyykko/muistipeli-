@@ -31,7 +31,7 @@ public class Main /*extends Application*/ {
          mutta JavaFXUI ei pääse inittiin tai jotain vaikka ovat beisik samoja
          */
 
-        String uiTyyppi = "Geneerinen";
+        String uiTyyppi = "JavaFX";
 
         switch (uiTyyppi) {
             case "Geneerinen":

@@ -58,4 +58,9 @@ public class JavaFXKuva extends ImageView implements Kuva {
     public int getKorkeus() {
         return (int) imgKuva.getHeight();
     }
+
+    @Override
+    public int compareTo(Object o) {
+        return key.compareTo(((JavaFXKuva) o).getKey());
+    }
 }

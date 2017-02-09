@@ -60,8 +60,6 @@ public class Pelilauta {
         
         Korttitehdas kt = new Korttitehdas(korttiTyyppi);
         
-        tulostaSarja();
-        
         for (Kuva k : kuvasarja) {
             arvottavat.add(kt.uusiKortti(k, null));
             arvottavat.add(kt.uusiKortti(k, null)); // kaksi jokaista

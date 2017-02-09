@@ -6,12 +6,7 @@
 package com.mipyykko.muistipeli.malli.impl;
 
 import com.mipyykko.muistipeli.malli.Kortti;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKuva;
-import com.mipyykko.muistipeli.malli.impl.GeneerinenKortti;
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -21,11 +16,13 @@ import static org.junit.Assert.*;
  */
 public class GeneerinenKorttiTest {
     
-    private Kortti kortti;
+    private Kortti kortti, kortti2, kortti3;
     
     @Before
     public void setUp() {
-        kortti = new GeneerinenKortti(new GeneerinenKuva("testi"), null);
+        kortti = new GeneerinenKortti(new GeneerinenKuva("testikuva"), new GeneerinenTausta("testitausta"));
+        kortti2 = new GeneerinenKortti(new GeneerinenKuva("testikuva"), new GeneerinenTausta("testitausta"));
+        kortti3 = new GeneerinenKortti(new GeneerinenKuva("testikuva2"), new GeneerinenTausta("testitausta2"));
     }
     
     @Test
@@ -43,7 +40,37 @@ public class GeneerinenKorttiTest {
     
     @Test
     public void kortitSamanlaiset() {
-        Kortti kortti2 = new GeneerinenKortti(new GeneerinenKuva("testi"), null);
         assertTrue("Korttien sisältö sama mutta vertailu ei toimi", kortti.equals(kortti2));
+    }
+    
+    @Test
+    public void korttiKaantyy() {
+        assertTrue("Kortti ei käänny", kortti.kaanna() == true);
+        assertTrue("Kortti ei käänny toisen kerran", kortti.kaanna() == false);
+    }
+    
+    @Test
+    public void korttiPalauttaaOikeanToStringin() {
+        assertEquals("Kortti ei palatua oikeaa toStringiä", kortti.toString(), "testitausta");
+    }
+    
+    @Test
+    public void korttiKaantyyJaPalauttaaOikeanToStringin() {
+        kortti.kaanna();
+        assertEquals("Kortti ei kääntämisen jälkeen palauta oikeaa toStringiä", kortti.toString(), "testikuva");
+        kortti.kaanna();
+        assertEquals("Kortti ei toisen kääntämisen jälkeen palauta oikeaa toStringiä", kortti.toString(), "testitausta");
+    }
+    
+    @Test
+    public void korttiCompareTo() {
+        assertEquals("Korttien compareTo ei palauta oikein", kortti.compareTo(kortti2), 0);
+        assertTrue("Korttien compareTo ei palauta oikein kun kortit erilaiset", kortti.compareTo(kortti3) != 0);
+    }
+    
+    @Test
+    public void korttiHashCode() {
+        assertEquals("Korttien hashCode ei palauta oikein", kortti.hashCode(), kortti2.hashCode());
+        assertNotEquals("Korttien hashCode ei palauta oikein kun kortit erilaiset", kortti.hashCode(), kortti3.hashCode());
     }
 }
