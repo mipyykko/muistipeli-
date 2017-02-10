@@ -36,67 +36,83 @@ public class JavaFXMain extends Application {
     private GridPane root;
     private Group kortit;
     private Scene scene;
+    private Set<Kuva> kuvat;
+    private Set<Tausta> taustat;
     private int ikkunaleveys = 800;
     private int ikkunakorkeus = 600;
-    private Map<String, String> kuvat;
+    private Map<String, String> kuvalista;
+    private int leveys, korkeus;
     
     /**
-     * Luo kuvat-hashmapin jossa oikeat osoitteet resursseihin.
+     * Luo kuvalistan jossa oikeat osoitteet resursseihin.
      * 
      * @param tileset Hakemiston nimi. Metodi odottaa hakemistossa olevan tileset.txt-nimisen tiedoston.
      */
-    public void lataaKuvat(String tileset) {
-        kuvat = new HashMap<>();
+    public void lueKuvalista(String tileset) {
+        kuvalista = new HashMap<>();
 
         InputStream is = Main.class.getClassLoader().getResourceAsStream("kuvat/" + tileset + "/tileset.txt");
         try (Scanner s = new Scanner(is)) {
             while (s.hasNextLine()) {
                 String[] t = s.nextLine().split(",");
-                kuvat.put(t[0].replaceAll("^\"|\"$", ""),
+                kuvalista.put(t[0].replaceAll("^\"|\"$", ""),
                         "kuvat/" + tileset + "/images/" + t[1].replaceAll("^\"|\"$", ""));
             }
         }
     }
+    /**
+     * Luo Image-objektit korttien kuville.
+     */
+    public void luoKuvat() {
+        Iterator<String> it = kuvalista.keySet().iterator();
+        double maxWidth = 0;
+        double maxHeight = 0;
+        
+        for (int i = 0; i < (leveys * korkeus) / 2; i++) {
+            String key = it.next();
+            // TODO: kuvien skaalaus pois?
+            Image kuva = new Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, true, false);
+            maxWidth = Math.max(maxWidth, kuva.getWidth());
+            maxHeight = Math.max(maxHeight, kuva.getHeight());
+            kuvat.add(new JavaFXKuva(key, kuva));
+            // test
+            Image tausta = new Image(getClass().getClassLoader().getResource("taustat/basic/tausta.png").toString(), 200, 200, true, false);
+            maxWidth = Math.max(maxWidth, tausta.getWidth());
+            maxHeight = Math.max(maxHeight, tausta.getHeight());
+            taustat.add(new JavaFXTausta("tausta", tausta));
+            taustat.add(new JavaFXTausta("tausta", tausta));
+        }
 
+        
+    }
     public void lataaTaustat(String bgset) {
        // toistaiseksi ei mitään 
     }
     
+    /**
+     * Käyttöliittymän ajava pääohjelma.
+     * 
+     * @param primaryStage JavaFX:n luoma Stage.
+     * @throws Exception -
+     */
     @Override
     public void start(Stage primaryStage) throws Exception {
-        //root.getChildren().add(btn);
-
-        // testauksena tässä vaiheessa
-
-        ///////
         
-        Set<Kuva> testikuvat = new HashSet<>();
-        Set<Tausta> testitaustat = new HashSet<>();
-
-        int leveys = 4, korkeus = 4;
-
-        lataaKuvat("elukat"); // test
+        kuvat = new HashSet<>();
+        taustat = new HashSet<>();
         
-        Iterator<String> it = kuvat.keySet().iterator();
-        for (int i = 0; i < (leveys * korkeus) / 2; i++) {
-            String key = it.next();
-            // TODO: kuvien skaalaus pois?
-            Image im = new Image(getClass().getClassLoader().getResource(kuvat.get(key)).toString(), 100, 100, false, false);
-            testikuvat.add(new JavaFXKuva(key, im));
-            testitaustat.add(new JavaFXTausta("tausta",
-                    new Image(getClass().getClassLoader().getResource("taustat/basic/tausta.png").toString(), 100, 100, false, false)));
-            testitaustat.add(new JavaFXTausta("tausta",
-                    new Image(getClass().getClassLoader().getResource("taustat/basic/tausta.png").toString(), 100, 100, false, false)));
-        }
+        leveys = 4;
+        korkeus = 4;
 
+        lueKuvalista("elukat"); // test
+        luoKuvat();
+        
         Peli peli = new Peli(null, Korttityyppi.JAVAFX);
-        peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
+        peli.uusiPeli(leveys, korkeus, kuvat, taustat);
         JavaFXUI ui = new JavaFXUI(peli);
         peli.setUI(ui);
         ui.setStage(primaryStage);
         ui.nayta();
-        
-        //peli.pelaa();
     }
     
 }

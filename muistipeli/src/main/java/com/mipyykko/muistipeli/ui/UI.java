@@ -17,5 +17,4 @@ public interface UI {
     
     public void setPeli(Peli peli);
     public void nayta();
-    public Point siirto();
 }

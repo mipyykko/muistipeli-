@@ -9,6 +9,7 @@ import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.util.TestApplication;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.image.Image;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -39,15 +40,20 @@ public class JavaFXKorttiTest {
         thread = new Thread() {
             @Override
             public void run() {
-                Application.launch(TestApplication.class);
+                try {
+                    Application.launch(TestApplication.class);
+                } catch (Exception e) {
+                    // jo käynnissä
+                }    
             }
         };
         thread.setDaemon(true);
         thread.start();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(300);
         } catch (Exception e) {
         }
+        thread.interrupt();
     }
 
     @Before
@@ -57,12 +63,13 @@ public class JavaFXKorttiTest {
         testikuvaImage = new Image(tk, 100, 100, false, false);
         isoTestikuvaImage = new Image(tk, 200, 200, false, false);
         testikuva = new JavaFXKuva("testikuva", testikuvaImage);
-        isoTestikuva = new JavaFXKuva("testikuva", isoTestikuvaImage);
+        isoTestikuva = new JavaFXKuva("isoTestikuva", isoTestikuvaImage);
         testitaustaImage = new Image(tt, 100, 100, false, false);
         isoTestitaustaImage = new Image(tt, 200, 200, false, false);
         testitausta = new JavaFXTausta("testitausta", testitaustaImage);
-        isoTestitausta = new JavaFXTausta("testitausta", isoTestitaustaImage);
+        isoTestitausta = new JavaFXTausta("isoTestitausta", isoTestitaustaImage);
         kortti = new JavaFXKortti(testikuva, testitausta);
+
     }
 
     @Test
@@ -79,8 +86,8 @@ public class JavaFXKorttiTest {
     @Test
     public void oikeaKuvaKaantamisenJalkeen() {
         kortti.setTausta(isoTestitausta);
-        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen / tiedosto", 200, Math.round(kortti.getImage().getHeight()));
-        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen / key", "testitausta", kortti.toString());
+        assertEquals("Kortin kuvaa ei aseteta oikein / tiedosto", 200, Math.round(kortti.getImage().getHeight()));
+        assertEquals("Kortin kuvaa ei aseteta oikein / key", "isoTestitausta", kortti.toString());
         kortti.kaanna();
         assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen # 2/ tiedosto", 100, Math.round(kortti.getImage().getHeight()));
         assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen #2", "testikuva", kortti.toString());
@@ -123,8 +130,16 @@ public class JavaFXKorttiTest {
         assertEquals("Kortti ei palauta käännön jälkeen oikeata oliota", 100, Math.round(i.getHeight()));
     }
     
+    @Test
+    public void testaaEquals() {
+        JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
+        assertTrue("Equals ei palauta oikein kun kortit samanlaiset", kortti.equals(kortti2));
+        kortti2.setKuva(isoTestikuva);
+        assertTrue("Equals ei palauta oikein kun kortit erilaiset", !kortti.equals(kortti2));
+    }
+    
     @AfterClass
     public static void tearDown() {
-        thread.interrupt();
+        Platform.exit();
     }
 }

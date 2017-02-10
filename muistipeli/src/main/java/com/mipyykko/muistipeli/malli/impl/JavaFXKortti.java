@@ -12,7 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 /**
- * JavaFX-toteutuklsen Image-objektin sisältävä kortti.
+ * JavaFX-toteutuksen Image-objektin sisältävä kortti.
  * 
  * @author pyykkomi
  */
@@ -79,7 +79,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
     @Override
     public boolean kaanna() {
         kaannetty = !kaannetty;
-        oikeaKuva();
+        oikeaKuva(); // TODO onko tää oikein?
         return kaannetty;
     }
     
@@ -114,32 +114,28 @@ public class JavaFXKortti extends ImageView implements Kortti {
         return kaannetty ? getKuva().toString() : getTausta().toString();
     }
     
-    @Override
+    /*@Override
     public int compareTo(Object o) {
         if (!(o instanceof Kortti)) {
             return -1;
         }
         return this.kuva.compareTo(((Kortti) o).getKuva());
-        //return this.kuva.toString().compareTo(k.getKuva().toString());
-    }
+    }*/
     
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof JavaFXKortti)) {
             return false;
         }
-        return super.equals(o);
-        /*Kortti k = (Kortti) o;
-        
-        return this.kuva.toString().equals(k.getKuva().toString());*/
-        // tän vois kyllä miettiä 
+        // TODO vertailu?
+        return ((JavaFXKortti) o).getKuva().equals(this.kuva);
     }
     
-    @Override
-    public int hashCode() {
-        return super.hashCode();
-        //return 42 * (17 + this.kuva.toString().hashCode());
-    }
+//    @Override
+//    public int hashCode() {
+//        return super.hashCode();
+//        //return 42 * (17 + this.kuva.toString().hashCode());
+//    }
     
     
 }

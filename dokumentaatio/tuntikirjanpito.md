@@ -12,3 +12,4 @@ Päivä | Tunnit | Kuvaus
 7.2.2017 | 4 | Graafista käyttöliittymää, JavaFXUI "toimii" mutta peli ei
 8.2.2017 | 2 | Testejä, JavaFX yms.
 9.2.2017 | 3 | Testejä, korttianimaatiot, JavaDoc
+10.2.2017 | 3 | Testejä, pelin rakenteen järjestelyä

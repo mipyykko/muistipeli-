@@ -11,6 +11,10 @@ package com.mipyykko.muistipeli.malli.enums;
  */
 public enum Pelitila {
     EI_KAYNNISSA,
+    INIT,
     ODOTTAA_SIIRTOA,
+    ANIM_KAYNNISSA,
+    ANIM_LOPPU,
+    UI_ODOTUS,
     PELI_LOPPU;
 }

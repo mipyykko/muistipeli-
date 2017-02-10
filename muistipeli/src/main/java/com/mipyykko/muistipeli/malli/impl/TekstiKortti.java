@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli.malli.impl;
 import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
+import java.util.Objects;
 
 /**
  * Tekstimuotoinen kortti.
@@ -72,10 +73,10 @@ public class TekstiKortti implements Kortti {
         return kaannetty ? getKuva().toString() : getTausta().toString();
     }
     
-    @Override
-    public int compareTo(Object o) {
-        return this.kuva.toString().compareTo(((Kortti) o).getKuva().toString());
-    }
+//    @Override
+//    public int compareTo(Object o) {
+//        return this.kuva.toString().compareTo(((Kortti) o).getKuva().toString());
+//    }
     
     @Override
     public boolean equals(Object o) {
@@ -89,7 +90,9 @@ public class TekstiKortti implements Kortti {
     
     @Override
     public int hashCode() {
-        return 42 * (17 + this.kuva.toString().hashCode());
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(this.kuva);
+        return hash;
     }
 
 }

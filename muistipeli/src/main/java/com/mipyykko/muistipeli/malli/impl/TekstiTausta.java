@@ -35,11 +35,17 @@ public class TekstiTausta implements Tausta {
     
     @Override
     public int getKorkeus() {
+        if (teksti == null) {
+            return 0;
+        }
         return 1;
     }
 
     @Override
     public int getLeveys() {
+        if (teksti == null) {
+            return 0;
+        }
         return teksti.length();
     }
 

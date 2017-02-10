@@ -36,11 +36,17 @@ public class TekstiKuva implements Kuva {
 
     @Override
     public int getLeveys() {
+        if (teksti == null) {
+            return 0; 
+        }
         return teksti.length();
     }
 
     @Override
     public int getKorkeus() {
+        if (teksti == null) {
+            return 0;
+        }
         return 1;
     }
 
@@ -49,10 +55,10 @@ public class TekstiKuva implements Kuva {
         return teksti;
     }
 
-    @Override
-    public int compareTo(Object o) {
-        return teksti.compareTo(o.toString());
-    }
+//    @Override
+//    public int compareTo(Object o) {
+//        return teksti.compareTo(o.toString());
+//    }
     
     
     

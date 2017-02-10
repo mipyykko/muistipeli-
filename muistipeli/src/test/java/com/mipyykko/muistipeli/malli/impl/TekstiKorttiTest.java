@@ -62,15 +62,15 @@ public class TekstiKorttiTest {
         assertEquals("Kortti ei toisen kääntämisen jälkeen palauta oikeaa toStringiä", kortti.toString(), "testitausta");
     }
     
-    @Test
-    public void korttiCompareTo() {
-        assertEquals("Korttien compareTo ei palauta oikein", kortti.compareTo(kortti2), 0);
-        assertTrue("Korttien compareTo ei palauta oikein kun kortit erilaiset", kortti.compareTo(kortti3) != 0);
-    }
-    
-    @Test
-    public void korttiHashCode() {
-        assertEquals("Korttien hashCode ei palauta oikein", kortti.hashCode(), kortti2.hashCode());
-        assertNotEquals("Korttien hashCode ei palauta oikein kun kortit erilaiset", kortti.hashCode(), kortti3.hashCode());
-    }
+//    @Test
+//    public void korttiCompareTo() {
+//        assertEquals("Korttien compareTo ei palauta oikein", kortti.compareTo(kortti2), 0);
+//        assertTrue("Korttien compareTo ei palauta oikein kun kortit erilaiset", kortti.compareTo(kortti3) != 0);
+//    }
+//    
+//    @Test
+//    public void korttiHashCode() {
+//        assertEquals("Korttien hashCode ei palauta oikein", kortti.hashCode(), kortti2.hashCode());
+//        assertNotEquals("Korttien hashCode ei palauta oikein kun kortit erilaiset", kortti.hashCode(), kortti3.hashCode());
+//    }
 }

@@ -17,7 +17,7 @@ import org.junit.Test;
  */
 public class TekstiKuvaTest {
     
-    private Kuva kuva, kuva2, kuva3;
+    private TekstiKuva kuva, kuva2, kuva3;
     
     @Before
     public void setUp() {
@@ -27,9 +27,19 @@ public class TekstiKuvaTest {
     }
     
     @Test
-    public void kuvaCompareTo() {
-        assertEquals("Kuvien compareTo ei toimi oikein", kuva.compareTo(kuva2), 0);
-        assertTrue("Kuvien compareTo ei toimi oikein kun kuvat erilaiset", kuva.compareTo(kuva3) != 0);
+    public void oikeatMitat() {
+        kuva2.setTeksti(null);
+        assertEquals("Kuvan leveys väärin", 9, kuva.getLeveys());
+        assertEquals("Tekstittömän kuvan leveys väärin", 0, kuva2.getLeveys());
+        assertEquals("Kuvan korkeus väärin", 1, kuva.getKorkeus());
+        assertEquals("Tekstittömän kuvan korkeus väärin", 0, kuva2.getKorkeus());
+        
     }
+    
+//    @Test
+//    public void kuvaCompareTo() {
+//        assertEquals("Kuvien compareTo ei toimi oikein", kuva.compareTo(kuva2), 0);
+//        assertTrue("Kuvien compareTo ei toimi oikein kun kuvat erilaiset", kuva.compareTo(kuva3) != 0);
+//    }
     
 }

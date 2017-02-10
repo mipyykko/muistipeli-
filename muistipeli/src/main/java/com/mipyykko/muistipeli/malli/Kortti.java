@@ -26,8 +26,8 @@ public interface Kortti {
 
     public void setTausta(Tausta tausta);
     
-    public int compareTo(Object o);
+    //public int compareTo(Object o);
     
-    @Override
-    public int hashCode();
+    //@Override
+    //public int hashCode();
 }

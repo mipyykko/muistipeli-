@@ -16,7 +16,7 @@ public interface Kuva {
     public int getKorkeus();
     public Object getSisalto();
     
-    public int compareTo(Object o);
+    //public int compareTo(Object o);
     
     
 }

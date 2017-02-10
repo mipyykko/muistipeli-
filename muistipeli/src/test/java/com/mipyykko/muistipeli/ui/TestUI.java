@@ -36,7 +36,6 @@ public class TestUI implements UI {
         // ei näytetä mitään
     }
 
-    @Override
     public Point siirto() {
         if (seuraavaSiirto.hasNext()) {
             return seuraavaSiirto.next();

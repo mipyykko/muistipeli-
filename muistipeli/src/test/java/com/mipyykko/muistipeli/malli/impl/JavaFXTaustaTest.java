@@ -30,15 +30,20 @@ public class JavaFXTaustaTest {
         thread = new Thread() {
             @Override
             public void run() {
-                Application.launch(TestApplication.class);
+                try {
+                    Application.launch(TestApplication.class);
+                } catch (Exception e) {
+                    // jo käynnissä
+                }    
             }
         };
         thread.setDaemon(true);
         thread.start();
         try {
-            Thread.sleep(3000);
+            Thread.sleep(300);
         } catch (Exception e) {
         }
+        thread.interrupt();
     }
     
     @Before

@@ -61,10 +61,17 @@ public class JavaFXKuva extends ImageView implements Kuva {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof JavaFXKuva)) {
+            return false;
+        }
+        return key.equals(((JavaFXKuva) o).getKey());
+    }
+    /*@Override
     public int compareTo(Object o) {
         if (!(o instanceof JavaFXKuva)) {
             return -1;
         }
         return key.compareTo(((JavaFXKuva) o).getKey());
-    }
+    }*/
 }

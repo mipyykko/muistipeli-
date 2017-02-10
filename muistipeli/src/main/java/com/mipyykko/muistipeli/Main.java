@@ -25,6 +25,8 @@ import javafx.application.Application;
  */
 public class Main /*extends Application*/ {
 
+    private static Thread thread;
+
     public static void main(String[] args) {
         /*
          ooookei, notes to future self:
@@ -35,7 +37,7 @@ public class Main /*extends Application*/ {
 
         UITyyppi uiTyyppi = UITyyppi.JAVAFX;
         Korttityyppi korttityyppi = Korttityyppi.JAVAFX;
-        
+
         switch (uiTyyppi) {
             case TEKSTI:
                 Set<Kuva> testikuvat = new HashSet<>();
@@ -54,7 +56,7 @@ public class Main /*extends Application*/ {
                 peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
                 UI ui = new TekstiUI(peli, new Scanner(System.in));
                 peli.setUI(ui);
-                peli.pelaa();
+                ui.nayta();
                 break;
             case JAVAFX:
                 Application.launch(JavaFXMain.class, args);
