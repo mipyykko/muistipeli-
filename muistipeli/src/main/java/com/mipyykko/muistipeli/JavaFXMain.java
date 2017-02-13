@@ -71,7 +71,7 @@ public class JavaFXMain extends Application {
         for (int i = 0; i < (leveys * korkeus) / 2; i++) {
             String key = it.next();
             // TODO: kuvien skaalaus pois?
-            Image kuva = new Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, true, false);
+            Image kuva = new Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, false, false);
             maxWidth = Math.max(maxWidth, kuva.getWidth());
             maxHeight = Math.max(maxHeight, kuva.getHeight());
             kuvat.add(new JavaFXKuva(key, kuva));
@@ -104,7 +104,7 @@ public class JavaFXMain extends Application {
         leveys = 4;
         korkeus = 4;
 
-        lueKuvalista("elukat"); // test
+        lueKuvalista("elukat-scaled"); // test
         luoKuvat();
         
         Peli peli = new Peli(null, Korttityyppi.JAVAFX);

@@ -13,3 +13,4 @@ Päivä | Tunnit | Kuvaus
 8.2.2017 | 2 | Testejä, JavaFX yms.
 9.2.2017 | 3 | Testejä, korttianimaatiot, JavaDoc
 10.2.2017 | 3 | Testejä, pelin rakenteen järjestelyä
+13.2.2017 | 2 | Siirrot näkyviin, fontin lataus, ikkunan järjestely

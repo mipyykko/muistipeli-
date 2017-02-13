@@ -20,8 +20,12 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -36,7 +40,10 @@ public class JavaFXUI implements UI {
     private int ikkunaleveys, ikkunakorkeus;
     private Stage primaryStage;
     private Group kortit;
-    private GridPane root;
+    private GridPane ruudukko;
+    private BorderPane ikkuna;
+    private Text score;
+    private HBox status;
     private Scene scene;
     private boolean firstrun;
     private Point[] siirto;
@@ -44,8 +51,8 @@ public class JavaFXUI implements UI {
 
     public JavaFXUI(Peli peli) {
         this.peli = peli;
-        this.ikkunaleveys = 800;
-        this.ikkunakorkeus = 600;
+        this.ikkunaleveys = 560; // magic numbers!
+        this.ikkunakorkeus = 620;
         this.firstrun = true;
         this.siirto = new Point[2];
         this.siirtoNodet = new Node[2];
@@ -66,32 +73,43 @@ public class JavaFXUI implements UI {
      * Piirtää pelilaudan.
      */
     private void alusta() {
-        root = new GridPane();
-        root.setPadding(new Insets(5, 0, 5, 0));
-        root.setVgap(4);
-        root.setHgap(4);
+        ikkuna = new BorderPane();
+        status = new HBox();
+        status.setPadding(new Insets(15, 15, 15, 15));
+        status.setSpacing(10);
+        status.setStyle("-fx-background-color: #800000");
+        score = new Text("Siirrot: 0");
+        score.setFont(Font.loadFont(getClass().getClassLoader().getResource("fontit/GoodDog.otf").toExternalForm(), 24));
+        score.setFill(Color.YELLOW);
+        status.getChildren().add(score);
+        ikkuna.setTop(status);
+        
+        ruudukko = new GridPane();
+        //ruudukko.prefHeightProperty().bind(ikkuna.heightProperty().subtract(status.heightProperty()));
+        //ruudukko.prefWidthProperty().bind(ikkuna.widthProperty().subtract(status.widthProperty()));
+        ruudukko.setPadding(new Insets(5, 0, 5, 0));
+        ruudukko.setVgap(4);
+        ruudukko.setHgap(4);
 
+        ikkuna.setCenter(ruudukko);
+        
         kortit = new Group();
 
         kortit.getChildren().clear();
 
-        // TODO: tän pitäis ehkä olla vaan jossain first run-jutussa
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
-                //k.oikeaKuva();
                 kortit.getChildren().remove(k);
-                //k.setXY(x * (k.getKorttiLeveys() + 20), y * (k.getKorttiKorkeus() + 20));
                 ImageView iv = new ImageView((Image) k.getSisalto());
-                // TODO: skaalautuvuus kuntoon
                 sijoitaJaSkaalaaIV(iv, x, y);
-                root.getChildren().add(iv);
+                ruudukko.getChildren().add(iv);
             }
         }
-        root.getChildren().add(kortit);
-        root.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
-        scene = new Scene(root, ikkunaleveys, ikkunakorkeus);
-        root.setBackground(null);
+        ruudukko.getChildren().add(kortit);
+        ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
+        scene = new Scene(ikkuna, ikkunaleveys, ikkunakorkeus);
+        ruudukko.setBackground(null);
         scene.setFill(Color.YELLOW);
 
         primaryStage.setTitle("Muistipeliö");
@@ -116,35 +134,15 @@ public class JavaFXUI implements UI {
         primaryStage.close();
     }
 
-    private void keskitaKuva(ImageView iv) {
-        Image img = iv.getImage();
-        double w = 0;
-        double h = 0;
-
-        double ratioX = iv.getFitWidth() / img.getWidth();
-        double ratioY = iv.getFitHeight() / img.getHeight();
-
-        double reducCoeff = 0;
-        if (ratioX >= ratioY) {
-            reducCoeff = ratioY;
-        } else {
-            reducCoeff = ratioX;
-        }
-
-        w = img.getWidth() * reducCoeff;
-        h = img.getHeight() * reducCoeff;
-
-        iv.setX((iv.getFitWidth() - w) / 2);
-        iv.setY((iv.getFitHeight() - h) / 2);
-    }
-
     private void sijoitaJaSkaalaaIV(ImageView iv, int x, int y) {
-        //iv.setPreserveRatio(true);
-        keskitaKuva(iv);
-        iv.fitWidthProperty().bind(root.widthProperty().divide(peli.getPelilauta().getLeveys()));
-        iv.fitHeightProperty().bind(root.heightProperty().divide(peli.getPelilauta().getKorkeus()));
-        root.setColumnIndex(iv, x);
-        root.setRowIndex(iv, y);
+        /* note to self:
+            for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
+        */
+        iv.setPreserveRatio(true);
+        iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
+        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(peli.getPelilauta().getKorkeus()));
+        ruudukko.setColumnIndex(iv, x);
+        ruudukko.setRowIndex(iv, y);
     }
 
     private void kaannaKortti(Node n, int x, int y) {
@@ -174,7 +172,7 @@ public class JavaFXUI implements UI {
         ((ImageView) n).setImage((Image) ivAlku.getImage());
         //peli.setTila(Pelitila.ANIM_ALKU);
         stPiilota.play();
-        root.getChildren().add(ivLoppu);
+        ruudukko.getChildren().add(ivLoppu);
         //root.getChildren().remove(ivAlku);
         //root.getChildren().addAll(ivAlku, ivLoppu);
         stNayta.setOnFinished(new EventHandler<ActionEvent>() {
@@ -192,8 +190,8 @@ public class JavaFXUI implements UI {
 
             @Override
             public void handle(ActionEvent t) {
-                kaannaKortti(n0, root.getColumnIndex(n0), root.getRowIndex(n0));
-                kaannaKortti(n1, root.getColumnIndex(n1), root.getRowIndex(n1));
+                kaannaKortti(n0, ruudukko.getColumnIndex(n0), ruudukko.getRowIndex(n0));
+                kaannaKortti(n1, ruudukko.getColumnIndex(n1), ruudukko.getRowIndex(n1));
                 peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
         });
@@ -216,6 +214,8 @@ public class JavaFXUI implements UI {
                     peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
                 }
             }
+            peli.lisaaSiirto();
+            score.setText("Siirrot: " + peli.getSiirrot());
             siirto = new Point[2];
             siirtoNodet = new Node[2];
         } else {
@@ -223,7 +223,6 @@ public class JavaFXUI implements UI {
             siirtoNodet[0] = n;
             peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         }
-        peli.lisaaSiirto();
     }
     
     private void klikattuRuutua(MouseEvent event) {
@@ -232,7 +231,7 @@ public class JavaFXUI implements UI {
         if (n == null || !(n instanceof GridPane) && !(n instanceof ImageView)) {
             return;
         }
-        Integer ex = root.getColumnIndex(n), ey = root.getRowIndex(n);
+        Integer ex = ruudukko.getColumnIndex(n), ey = ruudukko.getRowIndex(n);
         if (ex == null || ey == null) {
             return;
         }
