@@ -69,7 +69,7 @@
 <a class="jxr_linenumber" name="L61" href="#L61">61</a>          Point p = <strong class="jxr_keyword">new</strong> Point();
 <a class="jxr_linenumber" name="L62" href="#L62">62</a>          <strong class="jxr_keyword">do</strong> {
 <a class="jxr_linenumber" name="L63" href="#L63">63</a>              naytaPelilauta();
-<a class="jxr_linenumber" name="L64" href="#L64">64</a>              String syote = kysy(<span class="jxr_string">"Siirto %d, x y? "</span>, peli.getSiirrot());
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>              String syote = kysy(<span class="jxr_string">"Siirto %d, x y? "</span>, peli.getSiirrotLkm());
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>              System.out.println(<span class="jxr_string">""</span>);
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>              String s[] = syote.split(<span class="jxr_string">" "</span>);
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>              <strong class="jxr_keyword">if</strong> (s.length != 2 || !s[0].matches(<span class="jxr_string">"^&#92;&#92;d+$"</span>) || !s[1].matches(<span class="jxr_string">"^&#92;&#92;d+$"</span>)) {

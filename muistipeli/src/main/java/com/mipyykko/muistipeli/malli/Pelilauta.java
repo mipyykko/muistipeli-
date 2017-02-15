@@ -49,7 +49,7 @@ public class Pelilauta {
             if (kuvasarja != null) {
                 s = kuvasarja.size();
             }
-            throw new Exception("kuvia odotettu " + leveys * korkeus + ", saatu " + s);
+            throw new Exception("kuvia odotettu " + (leveys * korkeus) / 2 + ", saatu " + s);
         }
         if (taustasarja == null || taustasarja.isEmpty() || taustasarja.size() < leveys * korkeus) {
             int s = 0;
@@ -57,6 +57,9 @@ public class Pelilauta {
                 s = taustasarja.size();
             }
             throw new Exception("taustoja odotettu " + leveys * korkeus + ", saatu " + s);
+        }
+        if (korttityyppi == null) {
+            throw new Exception("korttityyppi puuttuu");
         }
         List<Kortti> arvottavat = new ArrayList<>();
         
@@ -115,16 +118,8 @@ public class Pelilauta {
         return leveys;
     }
 
-    public void setLeveys(int leveys) {
-        this.leveys = leveys;
-    }
-
     public int getKorkeus() {
         return korkeus;
-    }
-
-    public void setKorkeus(int korkeus) {
-        this.korkeus = korkeus;
     }
 
     public Set<Kuva> getKuvasarja() {

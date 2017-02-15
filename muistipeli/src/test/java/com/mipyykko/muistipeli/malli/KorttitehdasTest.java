@@ -36,6 +36,9 @@ public class KorttitehdasTest {
         kt = new Korttitehdas(Korttityyppi.JAVAFX);
         assertTrue("Korttitehdas toimii väärin oikeilla parametreilla #2", 
                     kt.uusiKortti(null, null).getClass() == JavaFXKortti.class);
+        kt = new Korttitehdas(null);
+        assertTrue("Korttitehdas toimii väärin väärillä parametreilla",
+                kt.uusiKortti(null, null) == null);
         
     }
 }

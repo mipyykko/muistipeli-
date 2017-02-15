@@ -68,4 +68,25 @@ public class JavaFXKuvaTest {
         assertEquals("Ison testikuvan leveys väärin", 200, Math.round(isoTestikuva.getLeveys()));
         assertEquals("Ison testikuvan korkeus väärin", 200, Math.round(isoTestikuva.getKorkeus()));
     }
+
+    @Test
+    public void getteritJaSetteritKunnossa() {
+        assertTrue("getImgKuva ei palauta Image-objektia", testikuva.getImgKuva() instanceof Image);
+        testikuva.setImgKuva(null);
+        assertTrue("getImgKuva ei palauta oikein asettamisen jälkeen", testikuva.getImgKuva() == null);
+        assertEquals("getKey ei palauta oikein", "testikuva", testikuva.getKey());
+        testikuva.setKey("abcdf");
+        assertEquals("getKey ei palauta oikein asettamisen jälkeen", "abcdf", testikuva.getKey());
+    } 
+    
+    @Test
+    public void equalsToimii() {
+        JavaFXKuva t = new JavaFXKuva("testikuva", null);
+        assertTrue("Equals ei palauta samanlaisen kuvan kohdalla oikein", testikuva.equals(t));
+        t.setKey("abcdf");
+        assertTrue("Equals ei palauta erilaisen kuvan kohdalla oikein", !testikuva.equals(t));
+        String s = "bläh";
+        assertTrue("Equals ei palauta vääränlaisen objektin kuvalla oikein", !testikuva.equals(s));
+    }
+
 }

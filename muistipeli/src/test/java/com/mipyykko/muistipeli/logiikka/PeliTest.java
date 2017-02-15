@@ -11,6 +11,7 @@ import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
+import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.ui.TestUI;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
@@ -19,9 +20,12 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -84,7 +88,62 @@ public class PeliTest {
     
     @Test
     public void testaaUusiPeli() {
-        assertTrue("Pelilaudan luomisessa jotain häikkää", pelilauta.getKortit().length > 0);
+        assertTrue("Pelilaudan luomisessa jotain häikkää", peli.getPelilauta().getKortit().length > 0);
+        assertTrue("Pelilaudan luomisessa häikkää", peli.getPelilauta().getKortti(new Point(0, 0)) != null);
+        try {    
+            peli.uusiPeli(LEVEYS, KORKEUS, testikuvat, testitaustat);
+            Object o = peli.getPelilauta().getKortti(new Point(0, 0)).getKuva().getSisalto();
+        } catch (Exception e) {
+            fail("Pelin luomisen jälkeen ei kuvia korteissa");
+        }
+        assertTrue("Pelin luomisen jälkeen ei kuvia korteissa #2", peli.getPelilauta().getKortti(new Point(0,0)).getKuva() != null);
+        assertTrue("Pelin luomisen jälkeen ei siirtoluetteloa", peli.getSiirrot() != null);
+        Peli tPeli = new Peli(null, null);
+        try {
+            tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, testitaustat);
+        } catch (Exception e) {
+            assertEquals("Ei virheilmoitusta ilman korttityyppiä luodessa", "Pelilaudan luominen epäonnistui, korttityyppi puuttuu", e.getMessage());
+        }
+        assertTrue("Pelin luominen onnistui ilman korttityyppiä", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
+        try {
+            Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getKuva().getSisalto();
+            fail("Pelin luominen onnistui ilman korttityyppiä #2");
+            o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getTausta().getSisalto();
+            fail("Pelin luominen onnistui ilman korttityyppiä #3");
+        } catch (Exception e) {
+            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+        }
+        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        try {
+            tPeli.uusiPeli(LEVEYS, KORKEUS, null, testitaustat);
+        } catch (Exception e) {
+            assertEquals("Ei virheilmoitusta ilman kuvia luodessa", 
+                    "Pelilaudan luominen epäonnistui, kuvia odotettu " + (LEVEYS * KORKEUS) / 2 + ", saatu 0", e.getMessage());
+        }
+        assertTrue("Pelin luominen onnistui ilman kuvia", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
+        try {
+            tPeli.uusiPeli(LEVEYS, KORKEUS, null, testitaustat);
+            Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getKuva().getSisalto();
+            fail("Pelin luominen onnistui ilman kuvia #2");
+        } catch (Exception e) {
+            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+        }
+        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        try {
+            tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, null);
+        } catch (Exception e) {
+            assertEquals("Ei virheilmoitusta ilman taustoja luodessa", 
+                    "Pelilaudan luominen epäonnistui, taustoja odotettu " + LEVEYS * KORKEUS + ", saatu 0", e.getMessage());
+        }
+        assertTrue("Pelin luominen onnistui ilman taustoja", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
+        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        try {
+            tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, null);
+            Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getTausta().getSisalto();
+            fail("Pelin luominen onnistui ilman taustoja #2");
+        } catch (Exception e) {
+            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+        }
     }
     
      
@@ -107,15 +166,15 @@ public class PeliTest {
             assertTrue("Kortit eivät käänny #1", peli.getPelilauta().getKortti(s[0]).kaannetty());
             assertTrue("Kortit eivät käänny #2", peli.getPelilauta().getKortti(s[1]).kaannetty());
             assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
-            int n = peli.getSiirrot();
+            int n = peli.getSiirrotLkm();
             peli.lisaaSiirto();
-            assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrot());
+            assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());
         }
         /// TODO, hm, tää testi ei varsinaisesti testaa muuta kuin että peli menee tosiaan läpi 
         // koska jos tuo siirtosarja ei menis läpi niin se jumisi pelaa-luuppiin...
         // assertiin ei siis ikinä edes päädytä jos näin käy.
         assertEquals("Kaikki kortit käännetty mutta peli ei loppu", true, peli.peliLoppu());
-        assertEquals("Siirtojen määrä väärin", siirrot.size() / 2, peli.getSiirrot());
+        assertEquals("Siirtojen määrä väärin", siirrot.size() / 2, peli.getSiirrotLkm());
     }
     
     @Test
@@ -138,6 +197,20 @@ public class PeliTest {
         assertTrue("Kääntämätön kortti ei ole ok-siirto", peli.okSiirto(new Point(0, 0)));
         peli.getPelilauta().getKortti(new Point(0, 0)).kaanna();
         assertTrue("Käännetty kortti on ok-siirto", !peli.okSiirto(new Point(0, 0)));
+    }
+    
+    @Test
+    public void UIPalautuu() {
+        assertTrue("getUI ei palauta nullia vaikka se puuttuu", peli.getUI() == null);
+        peli.setUI(new TestUI(new ArrayList<Point>()));
+        assertTrue("getUI ei palauta UIta oikein", peli.getUI() instanceof UI);
+    }
+    
+    @Test
+    public void TilaPalautuuJaMuuttuu() {
+        assertEquals("Tila ei alkutilanteessa palaudu oikein", Pelitila.EI_KAYNNISSA, peli.getTila());
+        peli.setTila(Pelitila.PELI_LOPPU);
+        assertEquals("Tila ei palaudu muutoksen jälkeen", Pelitila.PELI_LOPPU, peli.getTila());
     }
     
 }

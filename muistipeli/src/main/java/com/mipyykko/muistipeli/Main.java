@@ -17,6 +17,8 @@ import com.mipyykko.muistipeli.ui.UI;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Application;
 
 /**
@@ -53,7 +55,11 @@ public class Main /*extends Application*/ {
                 }
 
                 Peli peli = new Peli(null, korttityyppi);
-                peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
+                try {
+                    peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
+                } catch (Exception ex) {
+                    System.out.println("hetkinen?"); //TODO
+                }
                 UI ui = new TekstiUI(peli, new Scanner(System.in));
                 peli.setUI(ui);
                 ui.nayta();

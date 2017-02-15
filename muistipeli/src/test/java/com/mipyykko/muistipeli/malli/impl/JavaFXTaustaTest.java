@@ -10,6 +10,7 @@ import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -56,13 +57,23 @@ public class JavaFXTaustaTest {
     }
     
     @Test
-    public void kuvanMitatOikein() {
-        assertEquals("Testikuvan leveys väärin", 100, Math.round(testitausta.getLeveys()));
-        assertEquals("Testikuvan korkeus väärin", 100, Math.round(testitausta.getKorkeus()));
-        assertEquals("Ison testikuvan leveys väärin", 200, Math.round(isoTestitausta.getLeveys()));
-        assertEquals("Ison testikuvan korkeus väärin", 200, Math.round(isoTestitausta.getKorkeus()));
+    public void taustanMitatOikein() {
+        assertEquals("Testitaustan leveys väärin", 100, Math.round(testitausta.getLeveys()));
+        assertEquals("Testitaustan korkeus väärin", 100, Math.round(testitausta.getKorkeus()));
+        assertEquals("Ison testitaustan leveys väärin", 200, Math.round(isoTestitausta.getLeveys()));
+        assertEquals("Ison testitaustan korkeus väärin", 200, Math.round(isoTestitausta.getKorkeus()));
     }
     
+    @Test
+    public void getteritJaSetteritKunnossa() {
+        assertTrue("getImgTausta ei palauta Image-objektia", testitausta.getImgTausta() instanceof Image);
+        testitausta.setImgTausta(null);
+        assertTrue("getImgTausta ei palauta oikein asettamisen jälkeen", testitausta.getImgTausta() == null);
+        assertEquals("getKey ei palauta oikein", "testitausta", testitausta.getKey());
+        testitausta.setKey("abcdf");
+        assertEquals("getKey ei palauta oikein asettamisen jälkeen", "abcdf", testitausta.getKey());
+    } 
+
     @AfterClass
     public static void tearDown() {
         thread.interrupt();

@@ -29,16 +29,11 @@ public class Korttitehdas {
      * @return korttityypin mukainen Kortti tai null jos korttityyppi on väärä
      */
     public Kortti uusiKortti(Object... params) {
-        if (korttityyppi == null) {
-            return null;
+        if (korttityyppi == Korttityyppi.TEKSTI) {
+            return new TekstiKortti((Kuva) params[0], (Tausta) params[1]);
+        } else if (korttityyppi == Korttityyppi.JAVAFX) {
+            return new JavaFXKortti((Kuva) params[0], (Tausta) params[1]);
         }
-        switch (korttityyppi) {
-            case TEKSTI:
-                return new TekstiKortti((Kuva) params[0], (Tausta) params[1]);
-            case JAVAFX:
-                return new JavaFXKortti((Kuva) params[0], (Tausta) params[1]);
-            default:
-                return null;
-        }
+        return null;
     }
 }

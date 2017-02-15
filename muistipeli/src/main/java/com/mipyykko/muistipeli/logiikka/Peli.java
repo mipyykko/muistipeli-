@@ -32,6 +32,7 @@ public class Peli {
     
     public Peli(UI ui, Korttityyppi korttityyppi) {
         this.ui = ui;
+        this.siirrot = new ArrayList<>();
         this.korttityyppi = korttityyppi;
         this.tila = Pelitila.EI_KAYNNISSA;
     }
@@ -45,16 +46,16 @@ public class Peli {
      * @param kuvasarja Set Kuva-objekteja.
      * @param taustasarja Set Kuva-objekteja. 
      */
-    public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
+    public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) throws Exception {
         // TODO: pelilaudan oikean koon tarkistus
         tila = Pelitila.INIT;
         this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
         try {
             pelilauta.luoPelilauta(korttityyppi, true); // TODO: tälle jotain
         } catch (Exception ex) {
-            System.err.println("Pelilaudan luominen epäonnistui, " + ex.getMessage());
+            throw new Exception("Pelilaudan luominen epäonnistui, " + ex.getMessage());
         }
-        this.siirrot = new ArrayList<>();
+        this.siirrot = new ArrayList<>(); // TODO: tämä esim. käyttöön
         this.siirrotLkm = 0;
         tila = Pelitila.ODOTTAA_SIIRTOA;
     }
@@ -66,8 +67,12 @@ public class Peli {
         siirrotLkm++;
     }
     
-    public int getSiirrot() {
+    public int getSiirrotLkm() {
         return siirrotLkm;
+    }
+    
+    public List<Point> getSiirrot() {
+        return siirrot;
     }
     
     public void setUI(UI ui) {

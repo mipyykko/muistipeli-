@@ -215,7 +215,7 @@ public class JavaFXUI implements UI {
                 }
             }
             peli.lisaaSiirto();
-            score.setText("Siirrot: " + peli.getSiirrot());
+            score.setText("Siirrot: " + peli.getSiirrotLkm());
             siirto = new Point[2];
             siirtoNodet = new Node[2];
         } else {
@@ -243,7 +243,7 @@ public class JavaFXUI implements UI {
         peli.setTila(Pelitila.ANIM_KAYNNISSA);
         hoidaSiirto(n, ex, ey);
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
-            // peli loppu, tee jotain!
+            System.out.println("lölz"); //TODO
         }
     }
 }

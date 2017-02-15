@@ -61,7 +61,7 @@ public class TekstiUI implements UI {
         Point p = new Point();
         do {
             naytaPelilauta();
-            String syote = kysy("Siirto %d, x y? ", peli.getSiirrot());
+            String syote = kysy("Siirto %d, x y? ", peli.getSiirrotLkm());
             System.out.println("");
             String s[] = syote.split(" ");
             if (s.length != 2 || !s[0].matches("^\\d+$") || !s[1].matches("^\\d+$")) {

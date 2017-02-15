@@ -136,6 +136,17 @@ public class JavaFXKorttiTest {
         assertTrue("Equals ei palauta oikein kun kortit samanlaiset", kortti.equals(kortti2));
         kortti2.setKuva(isoTestikuva);
         assertTrue("Equals ei palauta oikein kun kortit erilaiset", !kortti.equals(kortti2));
+        assertTrue("Equals ei palauta oikein kun objektit erityyppiset", !kortti.equals(new String("jee")));
+    }
+    
+    @Test
+    public void setKuvaAsettaaImagen() {
+        JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
+        kortti2.setKuva(isoTestikuva);
+        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getImage().equals(testitausta.getSisalto()));
+        kortti2.kaanna();
+        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getImage().equals(isoTestikuva.getSisalto()));
+    
     }
     
     @AfterClass

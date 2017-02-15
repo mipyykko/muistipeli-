@@ -79,7 +79,7 @@
 <a class="jxr_linenumber" name="L71" href="#L71">71</a>          <strong class="jxr_keyword">for</strong> (<strong class="jxr_keyword">int</strong> i = 0; i &lt; (leveys * korkeus) / 2; i++) {
 <a class="jxr_linenumber" name="L72" href="#L72">72</a>              String key = it.next();
 <a class="jxr_linenumber" name="L73" href="#L73">73</a>              <em class="jxr_comment">// TODO: kuvien skaalaus pois?</em>
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>              Image kuva = <strong class="jxr_keyword">new</strong> Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, <strong class="jxr_keyword">true</strong>, false);
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>              Image kuva = <strong class="jxr_keyword">new</strong> Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, false, false);
 <a class="jxr_linenumber" name="L75" href="#L75">75</a>              maxWidth = Math.max(maxWidth, kuva.getWidth());
 <a class="jxr_linenumber" name="L76" href="#L76">76</a>              maxHeight = Math.max(maxHeight, kuva.getHeight());
 <a class="jxr_linenumber" name="L77" href="#L77">77</a>              kuvat.add(<strong class="jxr_keyword">new</strong> <a href="../../../com/mipyykko/muistipeli/malli/impl/JavaFXKuva.html">JavaFXKuva</a>(key, kuva));
@@ -112,7 +112,7 @@
 <a class="jxr_linenumber" name="L104" href="#L104">104</a>         leveys = 4;
 <a class="jxr_linenumber" name="L105" href="#L105">105</a>         korkeus = 4;
 <a class="jxr_linenumber" name="L106" href="#L106">106</a> 
-<a class="jxr_linenumber" name="L107" href="#L107">107</a>         lueKuvalista(<span class="jxr_string">"elukat"</span>); <em class="jxr_comment">// test</em>
+<a class="jxr_linenumber" name="L107" href="#L107">107</a>         lueKuvalista(<span class="jxr_string">"elukat-scaled"</span>); <em class="jxr_comment">// test</em>
 <a class="jxr_linenumber" name="L108" href="#L108">108</a>         luoKuvat();
 <a class="jxr_linenumber" name="L109" href="#L109">109</a>         
 <a class="jxr_linenumber" name="L110" href="#L110">110</a>         <a href="../../../com/mipyykko/muistipeli/logiikka/Peli.html">Peli</a> peli = <strong class="jxr_keyword">new</strong> <a href="../../../com/mipyykko/muistipeli/logiikka/Peli.html">Peli</a>(<strong class="jxr_keyword">null</strong>, Korttityyppi.JAVAFX);
