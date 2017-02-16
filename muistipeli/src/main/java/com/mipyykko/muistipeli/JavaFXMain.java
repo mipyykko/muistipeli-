@@ -11,7 +11,7 @@ import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKuva;
 import com.mipyykko.muistipeli.malli.impl.JavaFXTausta;
-import com.mipyykko.muistipeli.ui.JavaFXUI;
+import com.mipyykko.muistipeli.ui.javafx.JavaFXUI;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;

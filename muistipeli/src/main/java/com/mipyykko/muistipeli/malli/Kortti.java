@@ -26,6 +26,8 @@ public interface Kortti {
 
     public void setTausta(Tausta tausta);
     
+    public Object getSisalto();
+    
     //public int compareTo(Object o);
     
     //@Override

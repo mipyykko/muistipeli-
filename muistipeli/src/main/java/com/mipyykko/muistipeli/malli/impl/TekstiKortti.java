@@ -73,6 +73,10 @@ public class TekstiKortti implements Kortti {
         return kaannetty ? getKuva().toString() : getTausta().toString();
     }
     
+    @Override
+    public Object getSisalto() {
+        return kuva.getKey();
+    }
 //    @Override
 //    public int compareTo(Object o) {
 //        return this.kuva.toString().compareTo(((Kortti) o).getKuva().toString());

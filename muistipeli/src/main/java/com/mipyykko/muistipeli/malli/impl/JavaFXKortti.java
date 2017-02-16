@@ -83,6 +83,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
         return kaannetty;
     }
     
+    @Override
     public Object getSisalto() {
         return (kaannetty ? kuva.getSisalto() : tausta.getSisalto());
     }
