@@ -48,6 +48,7 @@ public class JavaFXUI implements UI {
     private boolean firstrun;
     private Point[] siirto;
     private Node[] siirtoNodet;
+    private ImageView[][] ivRuudukko;
 
     public JavaFXUI(Peli peli) {
         this.peli = peli;
@@ -78,7 +79,7 @@ public class JavaFXUI implements UI {
         status.setPadding(new Insets(15, 15, 15, 15));
         status.setSpacing(10);
         status.setStyle("-fx-background-color: #800000");
-        score = new Text("Siirrot: 0");
+        score = new Text("Siirrot: 0 Parit: 0");
         score.setFont(Font.loadFont(getClass().getClassLoader().getResource("fontit/GoodDog.otf").toExternalForm(), 24));
         score.setFill(Color.YELLOW);
         status.getChildren().add(score);
@@ -94,16 +95,16 @@ public class JavaFXUI implements UI {
         ikkuna.setCenter(ruudukko);
         
         kortit = new Group();
-
         kortit.getChildren().clear();
-
+        ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
+        // NEXT: imageviewit pysyy samoina, imaget vaihtuu
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
-                kortit.getChildren().remove(k);
-                ImageView iv = new ImageView((Image) k.getSisalto());
-                sijoitaJaSkaalaaIV(iv, x, y);
-                ruudukko.getChildren().add(iv);
+                //kortit.getChildren().remove(k);
+                ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
+                sijoitaJaSkaalaaIV(ivRuudukko[x][y], x, y);
+                ruudukko.getChildren().add(ivRuudukko[x][y]);
             }
         }
         ruudukko.getChildren().add(kortit);
@@ -116,6 +117,8 @@ public class JavaFXUI implements UI {
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
+        
+        vilautaKortteja(1);
     }
 
     /**
@@ -138,76 +141,87 @@ public class JavaFXUI implements UI {
         /* note to self:
             for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
         */
+        // TODO: magic numbers!
         iv.setPreserveRatio(true);
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
         iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(peli.getPelilauta().getKorkeus()));
-        ruudukko.setColumnIndex(iv, x);
-        ruudukko.setRowIndex(iv, y);
+        GridPane.setColumnIndex(iv, x);
+        GridPane.setRowIndex(iv, y);
     }
 
-    private void kaannaKortti(Node n, int x, int y) {
-        JavaFXKortti j = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
-        //root.getChildren().remove(n);
-        ImageView ivAlku = (ImageView) n;
+    private void kaannaKortti(Node n, Point p) {
+        JavaFXKortti j = (JavaFXKortti) peli.getPelilauta().getKortti(p);
+        ImageView ivAlku = ivRuudukko[p.x][p.y];
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
         stPiilota.setFromX(1);
         stPiilota.setToX(0);
-        System.out.println("ennen kääntämistä " + j.toString());
-        // tuleeko tähän tuplakääntö
+
         j.kaanna();
 
         ImageView ivLoppu = new ImageView((Image) j.getSisalto());
-        sijoitaJaSkaalaaIV(ivLoppu, x, y);
+        sijoitaJaSkaalaaIV(ivLoppu, p.x, p.y);
         ivLoppu.setScaleX(0);
         ScaleTransition stNayta = new ScaleTransition(Duration.millis(150), ivLoppu);
         stNayta.setFromX(0);
         stNayta.setToX(1);
 
-        stPiilota.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                stNayta.play();
-            }
+        stPiilota.setOnFinished((ActionEvent t) -> {
+            ruudukko.getChildren().remove(ivAlku);
+            ruudukko.getChildren().add(ivLoppu);
+            ivRuudukko[p.x][p.y] = ivLoppu;
+            stNayta.play();
         });
-        ((ImageView) n).setImage((Image) ivAlku.getImage());
         //peli.setTila(Pelitila.ANIM_ALKU);
         stPiilota.play();
-        ruudukko.getChildren().add(ivLoppu);
-        //root.getChildren().remove(ivAlku);
-        //root.getChildren().addAll(ivAlku, ivLoppu);
-        stNayta.setOnFinished(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent t) {
-                //j.oikeaKuva();
-            }
+        stNayta.setOnFinished((ActionEvent t) -> {
+            //j.oikeaKuva();
         });
     }
-
-    private void luoTauko(int seconds) {
+    
+    private PauseTransition odotaKortinKaantoa(Point p, int seconds) {
+        PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
+        pause.setOnFinished((ActionEvent t) -> {
+            System.out.println("hello polly"); // debug
+            kaannaKortti(ivRuudukko[p.x][p.y], p);
+        });
+        return pause;
+    }
+    
+    private void vilautaKortteja(int seconds) {
+        // yhyy
+    }
+    
+    private void odotaEnnenParinKaantoa(int seconds) {
         PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
         pause.setOnFinished(new EventHandler<ActionEvent>() {
-            Node n0 = siirtoNodet[0], n1 = siirtoNodet[1];
-
+            Node[] nodes = siirtoNodet;
+            
             @Override
             public void handle(ActionEvent t) {
-                kaannaKortti(n0, ruudukko.getColumnIndex(n0), ruudukko.getRowIndex(n0));
-                kaannaKortti(n1, ruudukko.getColumnIndex(n1), ruudukko.getRowIndex(n1));
+                for (Node n : nodes) {
+                    kaannaKortti(n, new Point(GridPane.getColumnIndex(n), GridPane.getRowIndex(n)));
+                }
                 peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
         });
         pause.play();
     }
 
-    private void hoidaSiirto(Node n, int x, int y) {
-        kaannaKortti(n, x, y);
+    private void paivitaScore() {
+        score.setText("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
+    }
+    
+    private void hoidaSiirto(Node n, Point p) {
+        kaannaKortti(n, p);
         if (siirto[0] != null) {
-            siirto[1] = new Point(x, y);
+            siirto[1] = p;
             siirtoNodet[1] = n;
             if (!peli.tarkistaPari(siirto)) {
                 // sekunnin tauko korttien kääntämisen jälkeen
-                luoTauko(1);
+                odotaEnnenParinKaantoa(1);
             } else {
                 // pari
+                peli.lisaaPari();
                 if (peli.peliLoppu()) {
                     peli.setTila(Pelitila.PELI_LOPPU);
                 } else {
@@ -215,11 +229,11 @@ public class JavaFXUI implements UI {
                 }
             }
             peli.lisaaSiirto();
-            score.setText("Siirrot: " + peli.getSiirrotLkm());
+            paivitaScore();
             siirto = new Point[2];
             siirtoNodet = new Node[2];
         } else {
-            siirto[0] = new Point(x, y);
+            siirto[0] = p;
             siirtoNodet[0] = n;
             peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         }
@@ -231,17 +245,19 @@ public class JavaFXUI implements UI {
         if (n == null || !(n instanceof GridPane) && !(n instanceof ImageView)) {
             return;
         }
-        Integer ex = ruudukko.getColumnIndex(n), ey = ruudukko.getRowIndex(n);
-        if (ex == null || ey == null) {
+        Integer x = ruudukko.getColumnIndex(n), y = ruudukko.getRowIndex(n);
+        if (x == null || y == null) {
             return;
         }
+        Point p = new Point(x, y);
+        
         if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA || 
-            peli.getPelilauta().getKortti(new Point(ex, ey)).kaannetty()) {
+            peli.getPelilauta().getKortti(p).kaannetty()) {
             return;
         }
 
         peli.setTila(Pelitila.ANIM_KAYNNISSA);
-        hoidaSiirto(n, ex, ey);
+        hoidaSiirto(n, p);
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             System.out.println("lölz"); //TODO
         }

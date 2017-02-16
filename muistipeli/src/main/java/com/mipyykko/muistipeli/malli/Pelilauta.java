@@ -67,10 +67,10 @@ public class Pelilauta {
         
         for (Kuva k : kuvasarja) {
             arvottavat.add(kt.uusiKortti(k, null));
-            arvottavat.add(kt.uusiKortti(k, null)); // kaksi jokaista
+            arvottavat.add(kt.uusiKortti(k, null));
         }
  
-        if (sekoita) { // pääasiassa testejä varten
+        if (sekoita) { // pääasiassa testejä varten, nyt tää on hajalla kuitenkin taas
             Collections.shuffle(arvottavat);
         }
         

@@ -32,6 +32,7 @@ public class JavaFXKuva extends ImageView implements Kuva {
         this.imgKuva = imgKuva;
     }
 
+    @Override
     public String getKey() {
         return key;
     }

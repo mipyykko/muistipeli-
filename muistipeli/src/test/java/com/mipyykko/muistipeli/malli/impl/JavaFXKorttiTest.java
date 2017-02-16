@@ -89,7 +89,8 @@ public class JavaFXKorttiTest {
         assertEquals("Kortin kuvaa ei aseteta oikein / tiedosto", 200, Math.round(kortti.getImage().getHeight()));
         assertEquals("Kortin kuvaa ei aseteta oikein / key", "isoTestitausta", kortti.toString());
         kortti.kaanna();
-        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen # 2/ tiedosto", 100, Math.round(kortti.getImage().getHeight()));
+        Image tk = (Image) kortti.getSisalto();
+        assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen # 2 / tiedosto", 100, Math.round(tk.getHeight()));
         assertEquals("Kortin kuvaa ei aseteta oikein kääntämisen jälkeen #2", "testikuva", kortti.toString());
     }
 
@@ -143,9 +144,9 @@ public class JavaFXKorttiTest {
     public void setKuvaAsettaaImagen() {
         JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
         kortti2.setKuva(isoTestikuva);
-        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getImage().equals(testitausta.getSisalto()));
+        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getSisalto().equals(testitausta.getSisalto()));
         kortti2.kaanna();
-        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getImage().equals(isoTestikuva.getSisalto()));
+        assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getSisalto().equals(isoTestikuva.getSisalto()));
     
     }
     

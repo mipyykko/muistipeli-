@@ -86,6 +86,7 @@ public class TekstiUI implements UI {
             }
             
             if (!peli.tarkistaPari(siirto)) {
+                naytaPelilauta();
                 peli.kaannaPari(siirto);
             }
             peli.lisaaSiirto();

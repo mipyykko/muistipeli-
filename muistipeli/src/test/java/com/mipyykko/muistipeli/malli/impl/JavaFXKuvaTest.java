@@ -9,7 +9,6 @@ import com.mipyykko.muistipeli.util.TestApplication;
 import javafx.application.Application;
 import javafx.scene.image.Image;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

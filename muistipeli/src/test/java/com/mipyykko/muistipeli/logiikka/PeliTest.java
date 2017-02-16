@@ -168,7 +168,9 @@ public class PeliTest {
             assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             int n = peli.getSiirrotLkm();
             peli.lisaaSiirto();
+            peli.lisaaPari();
             assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());
+            assertEquals("Parit eivät kasva", n + 1, peli.getParitLkm());
         }
         /// TODO, hm, tää testi ei varsinaisesti testaa muuta kuin että peli menee tosiaan läpi 
         // koska jos tuo siirtosarja ei menis läpi niin se jumisi pelaa-luuppiin...

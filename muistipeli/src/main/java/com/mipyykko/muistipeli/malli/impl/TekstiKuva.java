@@ -14,37 +14,36 @@ import com.mipyykko.muistipeli.malli.Kuva;
  */
 public class TekstiKuva implements Kuva {
 
-    private String teksti;
+    private String key;
     
-    public TekstiKuva(String teksti) {
-        this.teksti = teksti;
+    public TekstiKuva(String key) {
+        this.key = key;
     }
 
-    public String getTeksti() {
-        return teksti;
+    public String getKey() {
+        return key;
     }
 
-    public void setTeksti(String teksti) {
-        this.teksti = teksti;
+    public void setKey(String key) {
+        this.key = key;
     }
 
-    
     @Override
     public String toString() {
-        return teksti;
+        return key;
     }
 
     @Override
     public int getLeveys() {
-        if (teksti == null) {
+        if (key == null) {
             return 0; 
         }
-        return teksti.length();
+        return key.length();
     }
 
     @Override
     public int getKorkeus() {
-        if (teksti == null) {
+        if (key == null) {
             return 0;
         }
         return 1;
@@ -52,9 +51,17 @@ public class TekstiKuva implements Kuva {
 
     @Override
     public Object getSisalto() {
-        return teksti;
+        return key;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof TekstiKuva)) {
+            return false;
+        }
+        return key.equals(((TekstiKuva) o).getKey());
+    }
+    
 //    @Override
 //    public int compareTo(Object o) {
 //        return teksti.compareTo(o.toString());

@@ -50,6 +50,7 @@ public class Main /*extends Application*/ {
 
                 for (int i = 0; i < (leveys * korkeus) / 2; i++) {
                     testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
+                    testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
                     testitaustat.add(new TekstiTausta("*"));
                     testitaustat.add(new TekstiTausta("*"));
                 }

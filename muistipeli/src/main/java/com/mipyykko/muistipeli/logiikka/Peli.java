@@ -26,6 +26,7 @@ public class Peli {
     private Pelilauta pelilauta;
     private UI ui;
     private int siirrotLkm;
+    private int paritLkm;
     private List<Point> siirrot;
     private final Korttityyppi korttityyppi;
     private Pelitila tila;
@@ -57,6 +58,7 @@ public class Peli {
         }
         this.siirrot = new ArrayList<>(); // TODO: tämä esim. käyttöön
         this.siirrotLkm = 0;
+        this.paritLkm = 0;
         tila = Pelitila.ODOTTAA_SIIRTOA;
     }
     
@@ -69,6 +71,14 @@ public class Peli {
     
     public int getSiirrotLkm() {
         return siirrotLkm;
+    }
+    
+    public void lisaaPari() {
+        paritLkm++;
+    }
+    
+    public int getParitLkm() {
+        return paritLkm;
     }
     
     public List<Point> getSiirrot() {

@@ -79,7 +79,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
     @Override
     public boolean kaanna() {
         kaannetty = !kaannetty;
-        oikeaKuva(); // TODO onko tää oikein?
+        //oikeaKuva(); // TODO onko tää oikein?
         return kaannetty;
     }
     
@@ -108,6 +108,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
         this.tausta = tausta;
         oikeaKuva();
     }
+    
     
     @Override
     public String toString() {

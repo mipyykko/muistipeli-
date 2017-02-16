@@ -13,6 +13,7 @@ import com.mipyykko.muistipeli.malli.impl.JavaFXKuva;
 import com.mipyykko.muistipeli.malli.impl.JavaFXTausta;
 import com.mipyykko.muistipeli.ui.JavaFXUI;
 import java.io.InputStream;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -65,20 +66,15 @@ public class JavaFXMain extends Application {
      */
     public void luoKuvat() {
         Iterator<String> it = kuvalista.keySet().iterator();
-        double maxWidth = 0;
-        double maxHeight = 0;
         
         for (int i = 0; i < (leveys * korkeus) / 2; i++) {
             String key = it.next();
             // TODO: kuvien skaalaus pois?
-            Image kuva = new Image(getClass().getClassLoader().getResource(kuvalista.get(key)).toString(), 200, 200, false, false);
-            maxWidth = Math.max(maxWidth, kuva.getWidth());
-            maxHeight = Math.max(maxHeight, kuva.getHeight());
+            InputStream kuvaOsoite = Main.class.getClassLoader().getResourceAsStream(kuvalista.get(key));
+            Image kuva = new Image(kuvaOsoite, 200, 200, false, false);
             kuvat.add(new JavaFXKuva(key, kuva));
             // test
-            Image tausta = new Image(getClass().getClassLoader().getResource("taustat/basic/tausta.png").toString(), 200, 200, true, false);
-            maxWidth = Math.max(maxWidth, tausta.getWidth());
-            maxHeight = Math.max(maxHeight, tausta.getHeight());
+            Image tausta = new Image(getClass().getClassLoader().getResourceAsStream("taustat/basic/tausta.png"), 200, 200, true, false);
             taustat.add(new JavaFXTausta("tausta", tausta));
             taustat.add(new JavaFXTausta("tausta", tausta));
         }

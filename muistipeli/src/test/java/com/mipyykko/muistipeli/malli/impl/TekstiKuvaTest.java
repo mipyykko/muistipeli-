@@ -28,7 +28,7 @@ public class TekstiKuvaTest {
     
     @Test
     public void oikeatMitat() {
-        kuva2.setTeksti(null);
+        kuva2.setKey(null);
         assertEquals("Kuvan leveys väärin", 9, kuva.getLeveys());
         assertEquals("Tekstittömän kuvan leveys väärin", 0, kuva2.getLeveys());
         assertEquals("Kuvan korkeus väärin", 1, kuva.getKorkeus());
