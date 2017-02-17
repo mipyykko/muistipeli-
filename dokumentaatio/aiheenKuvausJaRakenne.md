@@ -9,8 +9,12 @@ Toteutetaan yksinkertainen muistipeli, jossa pelaajan tehtävänä on löytää 
 
 * vaikeustason valitseminen
 * pelin käynnistäminen
-* pelin pelaaminen käännettävät kortit valitsemalla
-
+* pelin pelaaminen
+** kortin klikkaaminen
+*** ei onnistu, jos kortti on käännetty tai odotetaan animaation loppua
+*** kun kaksi korttia on käännetty, tarkistetaan onko pari
+**** jos ei ole pari, odotetaan sekunti ja käännetään pari takaisin
+** kun kaikki parit on löydetty, peli loppuu
 **Luokkakaavio:**
 
 ![Luokkakaavio](luokkakaavio.png)
