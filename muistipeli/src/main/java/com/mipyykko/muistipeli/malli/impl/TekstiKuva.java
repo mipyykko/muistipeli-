@@ -16,10 +16,16 @@ public class TekstiKuva implements Kuva {
 
     private String key;
     
+    /**
+     * TekstiKuvan konstruktori.
+     * 
+     * @param key Kuvan nimi jonka perusteella vertailu tapahtuu.
+     */
     public TekstiKuva(String key) {
         this.key = key;
     }
 
+    @Override
     public String getKey() {
         return key;
     }

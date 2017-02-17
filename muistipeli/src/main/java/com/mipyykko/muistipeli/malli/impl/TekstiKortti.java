@@ -21,6 +21,12 @@ public class TekstiKortti implements Kortti {
     private Tausta tausta;
     private boolean kaannetty;
     
+    /**
+     * Tekstikortin konstruktori.
+     * 
+     * @param kuva Kuva-objekti, voi olla myös null.
+     * @param tausta Tausta-objekti, voi olla myös null.
+     */
     public TekstiKortti(Kuva kuva, Tausta tausta) {
         this.kuva = kuva;
         this.tausta = tausta;

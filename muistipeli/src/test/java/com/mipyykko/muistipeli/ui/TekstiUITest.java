@@ -65,7 +65,7 @@ public class TekstiUITest {
     
     @Before
     public void setUp() {
-        this.peli = new Peli(tekstiUI, Korttityyppi.TEKSTI); // TODO: muuta?
+        this.peli = new Peli(Korttityyppi.TEKSTI); // TODO: muuta?
         luoTestipelilauta();
         peli.setPelilauta(pelilauta);
         this.tekstiUI = new TekstiUI(peli, null);

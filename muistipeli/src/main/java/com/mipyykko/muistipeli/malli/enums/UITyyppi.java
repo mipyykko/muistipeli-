@@ -6,7 +6,8 @@
 package com.mipyykko.muistipeli.malli.enums;
 
 /**
- *
+ * UI-enum.
+ * 
  * @author pyykkomi
  */
 public enum UITyyppi {

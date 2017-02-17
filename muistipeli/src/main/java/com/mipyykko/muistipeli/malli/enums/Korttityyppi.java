@@ -6,7 +6,8 @@
 package com.mipyykko.muistipeli.malli.enums;
 
 /**
- *
+ * Korttityyppi-enum.
+ * 
  * @author pyykkomi
  */
 public enum Korttityyppi {

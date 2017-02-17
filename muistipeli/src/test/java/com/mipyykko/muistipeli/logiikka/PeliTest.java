@@ -43,14 +43,6 @@ public class PeliTest {
     
     private int LEVEYS = 4, KORKEUS = 4;
     
-    @BeforeClass
-    public static void setUpClass() {
-    }
-    
-    @AfterClass
-    public static void tearDownClass() {
-    }
-
     private void luoTestikuvat() {
         testikuvat = new HashSet<>();
         for (int i = 1; i <= (LEVEYS * KORKEUS) / 2; i++) {
@@ -81,7 +73,7 @@ public class PeliTest {
     
     @Before
     public void setUp() {
-        peli = new Peli(null, Korttityyppi.TEKSTI);
+        peli = new Peli(Korttityyppi.TEKSTI);
         luoTestipelilauta();
         peli.setPelilauta(pelilauta);
     }
@@ -98,7 +90,7 @@ public class PeliTest {
         }
         assertTrue("Pelin luomisen jälkeen ei kuvia korteissa #2", peli.getPelilauta().getKortti(new Point(0,0)).getKuva() != null);
         assertTrue("Pelin luomisen jälkeen ei siirtoluetteloa", peli.getSiirrot() != null);
-        Peli tPeli = new Peli(null, null);
+        Peli tPeli = new Peli(null);
         try {
             tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, testitaustat);
         } catch (Exception e) {
@@ -113,7 +105,7 @@ public class PeliTest {
         } catch (Exception e) {
             System.err.println("Jotain hämmentävää tapahtui pelitestissä");
         }
-        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
             tPeli.uusiPeli(LEVEYS, KORKEUS, null, testitaustat);
         } catch (Exception e) {
@@ -128,7 +120,7 @@ public class PeliTest {
         } catch (Exception e) {
             System.err.println("Jotain hämmentävää tapahtui pelitestissä");
         }
-        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
             tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, null);
         } catch (Exception e) {
@@ -136,7 +128,7 @@ public class PeliTest {
                     "Pelilaudan luominen epäonnistui, taustoja odotettu " + LEVEYS * KORKEUS + ", saatu 0", e.getMessage());
         }
         assertTrue("Pelin luominen onnistui ilman taustoja", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
-        tPeli = new Peli(null, Korttityyppi.TEKSTI);
+        tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
             tPeli.uusiPeli(LEVEYS, KORKEUS, testikuvat, null);
             Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getTausta().getSisalto();
@@ -157,18 +149,15 @@ public class PeliTest {
         }
         UI ui = new TestUI(siirrot);
         ui.setPeli(peli);
-        peli.setUI(ui);
         assertEquals("Kortteja ei käännetty mutta peli on loppu", false, peli.peliLoppu());
         Iterator<Point> it = siirrot.iterator();
         while (it.hasNext()) {
             Point s[] = new Point[]{it.next(), it.next()};
-            peli.kaannaPari(s);
+            peli.kaannaKortit(s);
             assertTrue("Kortit eivät käänny #1", peli.getPelilauta().getKortti(s[0]).kaannetty());
             assertTrue("Kortit eivät käänny #2", peli.getPelilauta().getKortti(s[1]).kaannetty());
-            assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             int n = peli.getSiirrotLkm();
-            peli.lisaaSiirto();
-            peli.lisaaPari();
+            assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());
             assertEquals("Parit eivät kasva", n + 1, peli.getParitLkm());
         }
@@ -199,13 +188,6 @@ public class PeliTest {
         assertTrue("Kääntämätön kortti ei ole ok-siirto", peli.okSiirto(new Point(0, 0)));
         peli.getPelilauta().getKortti(new Point(0, 0)).kaanna();
         assertTrue("Käännetty kortti on ok-siirto", !peli.okSiirto(new Point(0, 0)));
-    }
-    
-    @Test
-    public void UIPalautuu() {
-        assertTrue("getUI ei palauta nullia vaikka se puuttuu", peli.getUI() == null);
-        peli.setUI(new TestUI(new ArrayList<Point>()));
-        assertTrue("getUI ei palauta UIta oikein", peli.getUI() instanceof UI);
     }
     
     @Test

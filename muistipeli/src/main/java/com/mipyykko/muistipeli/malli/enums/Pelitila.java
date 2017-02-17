@@ -6,12 +6,14 @@
 package com.mipyykko.muistipeli.malli.enums;
 
 /**
- *
+ * Pelitila-enum.
+ * 
  * @author pyykkomi
  */
 public enum Pelitila {
     EI_KAYNNISSA,
     INIT,
+    VALIKKO,
     ODOTTAA_SIIRTOA,
     ANIM_KAYNNISSA,
     ANIM_LOPPU,

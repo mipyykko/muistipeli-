@@ -27,6 +27,13 @@ public class Pelilauta {
     private Set<Tausta> taustasarja;
     private Random random;
     
+    /**
+     * Konstruktori. 
+     * @param leveys Pelialueen leveys
+     * @param korkeus Pelialueen korkeus
+     * @param kuvasarja Voi olla myös null, konstruktori ei oleta sisältävän mitään
+     * @param taustasarja Voi olla myös null, konstruktori ei oleta sisältävän mitään
+     */
     public Pelilauta(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
         this.leveys = leveys;
         this.korkeus = korkeus;

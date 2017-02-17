@@ -11,18 +11,17 @@ import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
- *
+ * Korttien ImageViewit sisältävä ruudukko.
+ * 
  * @author pyykkomi
  */
 public class RuudukkoPane extends GridPane {
@@ -31,6 +30,12 @@ public class RuudukkoPane extends GridPane {
     private ImageView[][] ivRuudukko;
     private Pelilauta pelilauta;
     
+    /**
+     * Konstruktori.
+     * 
+     * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
+     * @param pelilauta Pelilauta.
+     */
     public RuudukkoPane(Pane ikkuna, Pelilauta pelilauta) {
         super();
         this.ikkuna = ikkuna;
@@ -60,11 +65,18 @@ public class RuudukkoPane extends GridPane {
         ivRuudukko[p.x][p.y] = iv;
     }
     
+    /**
+     * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan.
+     * 
+     * @param iv ImageView-objekti.
+     * @param x X-koordinaatti.
+     * @param y Y-koordinaatti.
+     */
     public void sijoitaJaSkaalaaIV(ImageView iv, int x, int y) {
         /* note to self:
             for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
         */
-        // TODO: magic numbers!
+        // TODO: magic numbers, binding 
         iv.setPreserveRatio(true);
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(pelilauta.getLeveys()));
         iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(pelilauta.getKorkeus()));
@@ -72,16 +84,22 @@ public class RuudukkoPane extends GridPane {
         setRowIndex(iv, y);
     }
 
+    /**
+     * Animoi kortin kääntämisen.
+     * 
+     * @param n Node josta en ole kyllä varma käytetäänkö sitä missään. TODO
+     * @param p Kortin koordinaatit.
+     */
     public void kaannaKortti(Node n, Point p) {
-        JavaFXKortti j = (JavaFXKortti) pelilauta.getKortti(p);
+        JavaFXKortti kortti = (JavaFXKortti) pelilauta.getKortti(p);
         ImageView ivAlku = getIvRuudukko(p);
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
         stPiilota.setFromX(1);
         stPiilota.setToX(0);
 
-        j.kaanna();
+        kortti.kaanna();
 
-        ImageView ivLoppu = new ImageView((Image) j.getSisalto());
+        ImageView ivLoppu = new ImageView((Image) kortti.getSisalto());
         sijoitaJaSkaalaaIV(ivLoppu, p.x, p.y);
         ivLoppu.setScaleX(0);
         ScaleTransition stNayta = new ScaleTransition(Duration.millis(150), ivLoppu);

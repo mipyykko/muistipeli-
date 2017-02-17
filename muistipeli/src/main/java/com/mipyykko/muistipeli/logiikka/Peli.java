@@ -5,12 +5,12 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
+import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
-import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +24,17 @@ import java.util.Set;
 public class Peli {
 
     private Pelilauta pelilauta;
-    private UI ui;
     private int siirrotLkm;
     private int paritLkm;
     private List<Point> siirrot;
     private final Korttityyppi korttityyppi;
     private Pelitila tila;
     
-    public Peli(UI ui, Korttityyppi korttityyppi) {
-        this.ui = ui;
+    /**
+     * Pelin konstruktori.
+     * @param korttityyppi Käytettävä korttityyppi. 
+     */
+    public Peli(Korttityyppi korttityyppi) {
         this.siirrot = new ArrayList<>();
         this.korttityyppi = korttityyppi;
         this.tila = Pelitila.EI_KAYNNISSA;
@@ -45,7 +47,8 @@ public class Peli {
      * @param leveys Pelilaudan leveys.
      * @param korkeus Pelilaudan korkeus.
      * @param kuvasarja Set Kuva-objekteja.
-     * @param taustasarja Set Kuva-objekteja. 
+     * @param taustasarja Set Kuva-objekteja.
+     * @throws Exception Virhe pelilaudan luonnissa palauttaa virheilmoituksen selityksen kera.
      */
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) throws Exception {
         // TODO: pelilaudan oikean koon tarkistus
@@ -73,6 +76,9 @@ public class Peli {
         return siirrotLkm;
     }
     
+    /**
+     * Kasvattaa parien määrää.
+     */
     public void lisaaPari() {
         paritLkm++;
     }
@@ -85,14 +91,6 @@ public class Peli {
         return siirrot;
     }
     
-    public void setUI(UI ui) {
-        this.ui = ui;
-    }
-
-    public UI getUI() {
-        return ui;
-    }
-
     public void setTila(Pelitila tila) {
         this.tila = tila;
     }
@@ -131,14 +129,8 @@ public class Peli {
     }
 
     /**
-     * Hakee käyttäjältä siirrot. Tämä on vielä vaiheessa koska JavaFX-UI:ssa
-     * ei toimi samalla tapaa.
+     * Tarkistaa onko annetuissa koordinaateissa korttipari ja asettaa pelitilan.
      * 
-     * @return Kaksi siirtoa Point-muotoisessa taulukossa.
-     */
-    
-    /**
-     * Tarkistaa onko annetuissa koordinaateissa korttipari.
      * 
      * @param siirrot Kaksi Point-objektia sisältävä taulukko.
      * @return boolean-arvo
@@ -148,11 +140,21 @@ public class Peli {
         if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null) {
             return false;
         }
-        return pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
-    }
-    
-    private void kaannaKortti(Point p) {
-        pelilauta.getKortti(p).kaanna();
+        
+        lisaaSiirto();
+        
+        boolean pari = pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
+        if (pari) {
+            lisaaPari();
+            if (peliLoppu()) {
+                setTila(Pelitila.PELI_LOPPU);
+            } else {
+                setTila(Pelitila.ODOTTAA_SIIRTOA);
+            }
+        } else {
+            setTila(Pelitila.ODOTTAA_SIIRTOA);
+        }
+        return pari;
     }
     
     /**
@@ -160,8 +162,18 @@ public class Peli {
      * 
      * @param p Point-objekti.
      */
-    public void kaannaPari(Point[] p) {
-        kaannaKortti(p[0]);
-        kaannaKortti(p[1]);
+    private void kaannaKortti(Point p) {
+        pelilauta.getKortti(p).kaanna();
+    }
+    
+    /**
+     * Kääntää annetussa taulukossa olevat kortit.
+     * 
+     * @param p Point[]-objekti. 
+     */
+    public void kaannaKortit(Point[] p) {
+        for (Point k : p) {
+            kaannaKortti(k);
+        }
     }
 }

@@ -6,20 +6,33 @@
 package com.mipyykko.muistipeli.ui.javafx;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
+import com.mipyykko.muistipeli.malli.Kuva;
+import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
+import java.util.Set;
 import javafx.animation.PauseTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.HPos;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -34,14 +47,21 @@ public class JavaFXUI implements UI {
     private int ikkunaleveys, ikkunakorkeus;
     private Stage primaryStage;
     private Group kortit;
-    private RuudukkoPane ruudukko; // GridPane
-    private BorderPane ikkuna;
+    private GridPane alkuIkkuna;
+    private StackPane paaIkkuna;
+    private RuudukkoPane ruudukko; 
+    private BorderPane peliIkkuna;
     private StatusHBox status;
     private Scene scene;
     private boolean firstrun;
     private Point[] siirto;
     private Node[] siirtoNodet;
 
+    /**
+     * JavaFXUI:n konstruktori.
+     * 
+     * @param peli Peli-objekti. Voi olla tässä vaiheessa vielä null.
+     */
     public JavaFXUI(Peli peli) {
         this.peli = peli;
         this.ikkunaleveys = 560; // magic numbers!
@@ -66,15 +86,39 @@ public class JavaFXUI implements UI {
      * Piirtää pelilaudan.
      */
     private void alusta() {
-        ikkuna = new BorderPane();
-        status = new StatusHBox();
-        ikkuna.setTop(status);
+        paaIkkuna = new StackPane();
+        paaIkkuna.setBackground(null);
+        alkuIkkuna = new GridPane();
+        alkuIkkuna.setAlignment(Pos.CENTER);
+        alkuIkkuna.setPadding(new Insets(15));
+        alkuIkkuna.setHgap(16);
+        alkuIkkuna.setVgap(8);
         
-        ruudukko = new RuudukkoPane(ikkuna, peli.getPelilauta());
+        GridPane valikko = new GridPane();
+        Text otsikko = new Text("Muistipeliö");
+        otsikko.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 48));
+        otsikko.setTextAlignment(TextAlignment.CENTER);
+        Button aloitusNappi = new Button("Aloita peli");
+        aloitusNappi.setAlignment(Pos.CENTER);
+        aloitusNappi.setOnAction((ActionEvent event) -> aloitusNappiKlikattu(event));
+        valikko.add(otsikko, 1, 0);
+        GridPane.setHalignment(otsikko, HPos.CENTER);
+        GridPane.setHalignment(aloitusNappi, HPos.CENTER);
+        valikko.add(aloitusNappi, 1, 1);
+        alkuIkkuna.add(valikko, 1, 1);
+        peliIkkuna = new BorderPane();
+        status = new StatusHBox();
+        peliIkkuna.setTop(status);
+        
+        ruudukko = new RuudukkoPane(paaIkkuna, peli.getPelilauta());
         ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
-        ikkuna.setCenter(ruudukko);
-
-        scene = new Scene(ikkuna, ikkunaleveys, ikkunakorkeus);
+        peliIkkuna.setCenter(ruudukko);
+        peliIkkuna.setVisible(false);
+        peli.setTila(Pelitila.VALIKKO); 
+        
+        paaIkkuna.getChildren().addAll(alkuIkkuna, peliIkkuna);
+        
+        scene = new Scene(paaIkkuna, ikkunaleveys, ikkunakorkeus);
         scene.setFill(Color.YELLOW);
 
         primaryStage.setTitle("Muistipeliö");
@@ -122,7 +166,8 @@ public class JavaFXUI implements UI {
             @Override
             public void handle(ActionEvent t) {
                 for (Node n : nodes) {
-                    ruudukko.kaannaKortti(n, new Point(GridPane.getColumnIndex(n), GridPane.getRowIndex(n)));
+                    ruudukko.kaannaKortti(n, 
+                            new Point(RuudukkoPane.getColumnIndex(n), RuudukkoPane.getRowIndex(n)));
                 }
                 peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
@@ -142,16 +187,7 @@ public class JavaFXUI implements UI {
             if (!peli.tarkistaPari(siirto)) {
                 // sekunnin tauko korttien kääntämisen jälkeen
                 odotaEnnenParinKaantoa(1);
-            } else {
-                // pari
-                peli.lisaaPari();
-                if (peli.peliLoppu()) {
-                    peli.setTila(Pelitila.PELI_LOPPU);
-                } else {
-                    peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
-                }
             }
-            peli.lisaaSiirto();
             paivitaScore();
             siirto = new Point[2];
             siirtoNodet = new Node[2];
@@ -183,6 +219,24 @@ public class JavaFXUI implements UI {
         hoidaSiirto(n, p);
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             System.out.println("lölz"); //TODO
+        }
+    }
+
+    private void aloitusNappiKlikattu(ActionEvent event) {
+        System.out.println("kää");
+        if (peli.getTila() == Pelitila.VALIKKO) {
+            int leveys = peli.getPelilauta().getLeveys();
+            int korkeus = peli.getPelilauta().getKorkeus();
+            Set<Kuva> kuvat = peli.getPelilauta().getKuvasarja();
+            Set<Tausta> taustat = peli.getPelilauta().getTaustasarja();
+            peli = new Peli(Korttityyppi.JAVAFX);
+            try {
+                peli.uusiPeli(leveys, korkeus, kuvat, taustat);
+                alkuIkkuna.setVisible(false);
+                peliIkkuna.setVisible(true);
+            } catch (Exception e) {
+                System.out.println("ääk!"); // debug
+            }
         }
     }
 }

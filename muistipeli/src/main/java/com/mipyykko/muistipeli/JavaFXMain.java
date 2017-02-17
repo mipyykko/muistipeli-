@@ -67,6 +67,8 @@ public class JavaFXMain extends Application {
     public void luoKuvat() {
         Iterator<String> it = kuvalista.keySet().iterator();
         
+        // TODO: nämä jonnekin + jotain 
+        
         for (int i = 0; i < (leveys * korkeus) / 2; i++) {
             String key = it.next();
             // TODO: kuvien skaalaus pois?
@@ -81,6 +83,12 @@ public class JavaFXMain extends Application {
 
         
     }
+    
+    /**
+     * Tämä (ehkä) tulevaisuudessa lataa taustat erillään.
+     * 
+     * @param bgset taustakuvasetin tiedostonimi
+     */
     public void lataaTaustat(String bgset) {
        // toistaiseksi ei mitään 
     }
@@ -103,10 +111,9 @@ public class JavaFXMain extends Application {
         lueKuvalista("elukat-scaled"); // test
         luoKuvat();
         
-        Peli peli = new Peli(null, Korttityyppi.JAVAFX);
+        Peli peli = new Peli(Korttityyppi.JAVAFX);
         peli.uusiPeli(leveys, korkeus, kuvat, taustat);
         JavaFXUI ui = new JavaFXUI(peli);
-        peli.setUI(ui);
         ui.setStage(primaryStage);
         ui.nayta();
     }

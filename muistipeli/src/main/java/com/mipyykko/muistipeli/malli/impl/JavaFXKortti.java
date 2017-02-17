@@ -23,6 +23,12 @@ public class JavaFXKortti extends ImageView implements Kortti {
     private boolean kaannetty;
     private int korttileveys, korttikorkeus;
     
+    /**
+     * JavaFX-kortin konstruktori.
+     * 
+     * @param kuva Voi olla myös null sillä konstruktori ei oleta sisältävän mitään.
+     * @param tausta Voi olla myös null sillä konstruktori ei oleta sisältävän mitään.
+     */
     public JavaFXKortti(Kuva kuva, Tausta tausta) {
         this.kuva = kuva;
         this.tausta = tausta;

@@ -8,16 +8,19 @@ package com.mipyykko.muistipeli.malli;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.impl.TekstiKortti;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
-
 /**
- * Konstruktorille annetaan tehtaan haluttu korttityyppi.
+ * Korttitehdas.
  * 
  * @author pyykkomi
  */
 public class Korttitehdas {
     
     private final Korttityyppi korttityyppi;
-    
+
+    /**
+    * Konstruktorille annetaan tehtaan haluttu korttityyppi.
+    * 
+    */
     public Korttitehdas(Korttityyppi korttityyppi) {
         this.korttityyppi = korttityyppi;
     }

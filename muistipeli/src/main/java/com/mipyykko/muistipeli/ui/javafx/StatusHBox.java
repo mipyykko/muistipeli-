@@ -12,13 +12,17 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
 /**
- *
+ * Ikkunan ylälaidan loota jossa esim. siirrot ja pisteet.
+ * 
  * @author pyykkomi
  */
 public class StatusHBox extends HBox {
     
     private Text score;
     
+    /**
+     * Konstruktori.
+     */
     public StatusHBox() {
         super();
         setPadding(new Insets(15, 15, 15, 15));

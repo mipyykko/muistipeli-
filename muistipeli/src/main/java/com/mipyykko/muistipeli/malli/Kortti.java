@@ -14,8 +14,16 @@ import java.util.Objects;
  */
 public interface Kortti {
 
+    /**
+     * Onko kortti käännetty?
+     * @return boolean-arvo
+     */
     public boolean kaannetty();
     
+    /**
+     * Kääntää kortin.
+     * @return boolean-arvo
+     */
     public boolean kaanna();
     
     public Kuva getKuva();

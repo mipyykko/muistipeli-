@@ -16,6 +16,10 @@ public class TekstiTausta implements Tausta {
 
     private String teksti;
     
+    /** Tekstitaustan konstruktori.
+     * 
+     * @param teksti Tekstitaustan "kuva"
+     */
     public TekstiTausta(String teksti) {
         this.teksti = teksti;
     }

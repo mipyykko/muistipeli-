@@ -17,25 +17,22 @@ import com.mipyykko.muistipeli.ui.UI;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.application.Application;
 
-/**
- *
+/** 
+ * Muistipeliö
+ * 
  * @author pyykkomi
  */
-public class Main /*extends Application*/ {
+public class Main {
 
     private static Thread thread;
-
+    
+    /**
+     * Pääluokka. JavaFX haarautuu tästä omaansa.
+     * @param args komentoriviparametrit, joita ei juuri nyt käytetä mihinkään
+     */
     public static void main(String[] args) {
-        /*
-         ooookei, notes to future self:
-        
-         - JavaFXMainilla tuo toimii, siis Application.launch(JavaFXMain, args)
-         mutta JavaFXUI ei pääse inittiin tai jotain vaikka ovat beisik samoja
-         */
 
         UITyyppi uiTyyppi = UITyyppi.JAVAFX;
         Korttityyppi korttityyppi = Korttityyppi.JAVAFX;
@@ -55,14 +52,13 @@ public class Main /*extends Application*/ {
                     testitaustat.add(new TekstiTausta("*"));
                 }
 
-                Peli peli = new Peli(null, korttityyppi);
+                Peli peli = new Peli(korttityyppi);
                 try {
                     peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
                 } catch (Exception ex) {
                     System.out.println("hetkinen?"); //TODO
                 }
                 UI ui = new TekstiUI(peli, new Scanner(System.in));
-                peli.setUI(ui);
                 ui.nayta();
                 break;
             case JAVAFX:

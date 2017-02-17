@@ -21,6 +21,12 @@ public class TekstiUI implements UI {
     private Scanner lukija;
     private Point[] siirto;
 
+    /**
+     * TekstiUI:n konstruktori.
+     * 
+     * @param peli Peli-objekti.
+     * @param lukija Scanner-objekti
+     */
     public TekstiUI(Peli peli, Scanner lukija) {
         this.peli = peli;
         this.lukija = lukija;
@@ -50,12 +56,24 @@ public class TekstiUI implements UI {
 
     }
 
+    /**
+     * Tulosta annettu merkkijono muotoiltuna ja kysy käyttäjältä syöte.
+     * 
+     * @param s Tulostettava merkkijono.
+     * @param params n määrä parametreja format-komennolle.
+     * @return saatu syöte
+     */
     public String kysy(String s, Object... params) {
         System.out.format(s, params);
         String syote = lukija.nextLine();
         return syote;
     }
     
+    /**
+     * Kysy käyttäjältä siirto.
+     * 
+     * @return Koordinaatit Point-muodossa.
+     */
     public Point kysySiirto() {
         peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         Point p = new Point();
@@ -87,7 +105,7 @@ public class TekstiUI implements UI {
             
             if (!peli.tarkistaPari(siirto)) {
                 naytaPelilauta();
-                peli.kaannaPari(siirto);
+                peli.kaannaKortit(siirto);
             }
             peli.lisaaSiirto();
             if (peli.peliLoppu()) {

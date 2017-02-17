@@ -19,6 +19,12 @@ public class JavaFXTausta extends ImageView implements Tausta {
     private Image imgTausta;
     private String key;
     
+    /**
+     * JavaFX-taustan konstruktori.
+     * 
+     * @param key Taustan nimi (sikäli kun tällä nyt mitään merkitystä on)
+     * @param imgTausta Image-objekti, voi olla myös null luontivaiheessa.
+     */
     public JavaFXTausta(String key, Image imgTausta) {
         this.key = key;
         this.imgTausta = imgTausta;

@@ -18,9 +18,15 @@ public class JavaFXKuva extends ImageView implements Kuva {
 
     private String key;
     private Image imgKuva;
-    
+
+    /**
+     * JavaFX-kuvan konstruktori.
+     * 
+     * @param key Kuvan nimi, jonka perusteella vertailut tehdään.
+     * @param imgKuva Image-objekti. Voi olla myös null luontivaiheessa.
+     */
     public JavaFXKuva(String key, Image imgKuva) {
-        this.key = key;
+        this.key = key; 
         this.imgKuva = imgKuva;
     }
 
