@@ -19,3 +19,13 @@ Toteutetaan yksinkertainen muistipeli, jossa pelaajan tehtävänä on löytää 
 **Luokkakaavio:**
 
 ![Luokkakaavio](luokkakaavio.png)
+
+**Sekvenssikaaviot:**
+
+Ensimmäisen kuvan tilanteessa on kutsuttu peli-luokan uusiPeli-metodia oikeilla parametreilla:
+
+![Sekvenssikaavio 1](sekvenssi1.png)
+
+Seuraavan kuvan tilanteessa on jo yksi kortti käännetty ja klikataan korttia, joka osoittautuu ensimmäisen pariksi:
+
+![Sekvenssikaavio 2](sekvenssi2.png)
