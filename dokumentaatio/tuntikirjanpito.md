@@ -16,3 +16,4 @@ Päivä | Tunnit | Kuvaus
 13.2.2017 | 2 | Siirrot näkyviin, fontin lataus, ikkunan järjestely
 15.2.2017 | 4 | Ihan liikaa testejä
 16.2.2017 | 4 | Pelialueen rakenteen pähkäilyä ja virheiden tekemistä
+17.2.2017 | 3 | Dokumentaatio, alku"valikko"
