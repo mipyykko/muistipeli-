@@ -80,7 +80,7 @@ public class JavaFXKorttiTest {
     @Test
     public void kaannettyPalauttaaOikein() {
         kortti.kaanna();
-        assertTrue("Käännetty ei palauta oikein", kortti.kaannetty());
+        assertTrue("Käännetty ei palauta oikein", kortti.getKaannetty());
     }
 
     @Test

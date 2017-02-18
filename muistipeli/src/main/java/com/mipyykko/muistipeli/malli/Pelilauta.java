@@ -100,7 +100,7 @@ public class Pelilauta {
     public boolean kaikkiKaannetty() {
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                if (!pelilauta[x][y].kaannetty()) {
+                if (!pelilauta[x][y].getKaannetty()) {
                     return false;
                 }
             }
@@ -108,15 +108,24 @@ public class Pelilauta {
         return true;
     }
     
+    /**
+     * Palauttaa pelilaudan kortit kaksiulotteisena arrayna.
+     * @return kortti-array
+     */
     public Kortti[][] getKortit() {
         return pelilauta;
         // TODO rakennetta mietittävä
     }
 
-    public void setKortit(Kortti[][] pelilauta) {
+    public void setPelilauta(Kortti[][] pelilauta) {
         this.pelilauta = pelilauta;
     }
 
+    /**
+     * Palauttaa kortin pisteessä p.
+     * @param p Koordinaatit Point-muodossa.
+     * @return kortti
+     */
     public Kortti getKortti(Point p) {
         return getKortit()[p.x][p.y];
     }

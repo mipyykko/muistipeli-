@@ -12,11 +12,30 @@ package com.mipyykko.muistipeli.malli;
  */
 public interface Kuva {
     
+    /**
+     * Kuvan leveys-getteri.
+     * @return int-arvo
+     */
     public int getLeveys();
+    /**
+     * Kuvan korkeus-getteri.
+     * @return int-arvo
+     */
     public int getKorkeus();
+    /**
+     * Kuvan sisällön getteri Object-muodossa. Tyypitys saajan vastuulla.
+     * @return objekti
+     */
     public Object getSisalto();
+    
+    /**
+     * Kuvan avaimen getteri.
+     * @return key
+     */
     public String getKey();
     
+    @Override
+    public boolean equals(Object o);
     //public int compareTo(Object o);
     
     

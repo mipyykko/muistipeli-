@@ -5,8 +5,6 @@
  */
 package com.mipyykko.muistipeli.malli;
 
-import java.util.Objects;
-
 /**
  * Kortin interface.
  * 
@@ -18,7 +16,7 @@ public interface Kortti {
      * Onko kortti käännetty?
      * @return boolean-arvo
      */
-    public boolean kaannetty();
+    public boolean getKaannetty();
     
     /**
      * Kääntää kortin.
@@ -26,18 +24,47 @@ public interface Kortti {
      */
     public boolean kaanna();
     
+    /**
+     * Kuva-getteri.
+     * 
+     * @return Kuva-objekti.
+     */
     public Kuva getKuva();
 
+    /**
+     * Kuva-setteri.
+     * @param kuva Kuva.
+     */
     public void setKuva(Kuva kuva);
 
+    /**
+     * Tausta-getteri.
+     * 
+     * @return Tausta-objekti.
+     */
     public Tausta getTausta();
 
+    /**
+     * Tausta-setteri.
+     * @param tausta Tausta.
+     */
     public void setTausta(Tausta tausta);
     
+    /**
+     * Palauttaa sisällön objektina. Oikea tyypitys on saajan vastuulla.
+     * @return Object.
+     */
     public Object getSisalto();
     
-    //public int compareTo(Object o);
+    /**
+     * Equals joka siis vertailee kuvan keyn perusteella.
+     * 
+     * @param o vertailtava objekti
+     * @return boolean
+     */
+    @Override
+    public boolean equals(Object o);
     
-    //@Override
-    //public int hashCode();
+    @Override
+    public int hashCode();
 }

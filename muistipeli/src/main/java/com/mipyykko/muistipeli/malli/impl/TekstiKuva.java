@@ -6,6 +6,7 @@
 package com.mipyykko.muistipeli.malli.impl;
 
 import com.mipyykko.muistipeli.malli.Kuva;
+import java.util.Objects;
 
 /**
  * Geneerinen, vain tekstiä sisältävä kuva.
@@ -62,16 +63,18 @@ public class TekstiKuva implements Kuva {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof TekstiKuva)) {
+        if (!(o instanceof Kuva)) {
             return false;
         }
-        return key.equals(((TekstiKuva) o).getKey());
+        return key.equals(((Kuva) o).getKey());
     }
     
-//    @Override
-//    public int compareTo(Object o) {
-//        return teksti.compareTo(o.toString());
-//    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.key);
+        return hash;
+    }
     
     
     

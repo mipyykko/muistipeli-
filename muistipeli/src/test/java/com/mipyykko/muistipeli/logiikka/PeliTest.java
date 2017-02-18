@@ -154,8 +154,8 @@ public class PeliTest {
         while (it.hasNext()) {
             Point s[] = new Point[]{it.next(), it.next()};
             peli.kaannaKortit(s);
-            assertTrue("Kortit eivät käänny #1", peli.getPelilauta().getKortti(s[0]).kaannetty());
-            assertTrue("Kortit eivät käänny #2", peli.getPelilauta().getKortti(s[1]).kaannetty());
+            assertTrue("Kortit eivät käänny #1", peli.getPelilauta().getKortti(s[0]).getKaannetty());
+            assertTrue("Kortit eivät käänny #2", peli.getPelilauta().getKortti(s[1]).getKaannetty());
             int n = peli.getSiirrotLkm();
             assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());

@@ -125,7 +125,7 @@ public class Peli {
      */
     public boolean okSiirto(Point p) {
         return (p != null && p.x < pelilauta.getLeveys() && p.y < pelilauta.getKorkeus()
-                && p.x >= 0 && p.y >= 0 && !pelilauta.getKortti(p).kaannetty());
+                && p.x >= 0 && p.y >= 0 && !pelilauta.getKortti(p).getKaannetty());
     }
 
     /**
@@ -137,12 +137,12 @@ public class Peli {
      */
     public boolean tarkistaPari(Point[] siirrot) {
         // debug
-        if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null) {
+        if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null ||
+            siirrot[0].equals(siirrot[1])) {
             return false;
         }
         
         lisaaSiirto();
-        
         boolean pari = pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
         if (pari) {
             lisaaPari();

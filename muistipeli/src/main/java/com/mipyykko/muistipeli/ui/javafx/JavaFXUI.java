@@ -5,34 +5,26 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
-import com.mipyykko.muistipeli.logiikka.Peli;
-import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Tausta;
-import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
-import com.mipyykko.muistipeli.malli.enums.Pelitila;
+import com.mipyykko.muistipeli.logiikka.*;
+import com.mipyykko.muistipeli.malli.*;
+import com.mipyykko.muistipeli.malli.enums.*;
 import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.Set;
 import javafx.animation.PauseTransition;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.HPos;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.ImageView;
+import javafx.geometry.*;
+import javafx.scene.*;
+import javafx.scene.control.*;
+import javafx.scene.image.*;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
-import javafx.scene.text.TextAlignment;
+import javafx.scene.text.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -98,19 +90,32 @@ public class JavaFXUI implements UI {
         Text otsikko = new Text("Muistipeliö");
         otsikko.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 48));
         otsikko.setTextAlignment(TextAlignment.CENTER);
+        
         Button aloitusNappi = new Button("Aloita peli");
         aloitusNappi.setAlignment(Pos.CENTER);
         aloitusNappi.setOnAction((ActionEvent event) -> aloitusNappiKlikattu(event));
+        
+        ComboBox kuvaValikko = new ComboBox();
+        //debug:
+        ObservableList<String> kuvaOptions =
+                FXCollections.observableArrayList("elukat", "elukat-scaled");
+        kuvaValikko.setItems(kuvaOptions);
+        kuvaValikko.getSelectionModel().selectFirst();
+        
         valikko.add(otsikko, 1, 0);
+        valikko.add(kuvaValikko, 1, 1);
+        valikko.add(aloitusNappi, 1, 2);
+        
         GridPane.setHalignment(otsikko, HPos.CENTER);
         GridPane.setHalignment(aloitusNappi, HPos.CENTER);
-        valikko.add(aloitusNappi, 1, 1);
+        GridPane.setHalignment(kuvaValikko, HPos.CENTER);
+        
         alkuIkkuna.add(valikko, 1, 1);
         peliIkkuna = new BorderPane();
         status = new StatusHBox();
         peliIkkuna.setTop(status);
         
-        ruudukko = new RuudukkoPane(paaIkkuna, peli.getPelilauta());
+        ruudukko = new RuudukkoPane(paaIkkuna);
         ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
         peliIkkuna.setCenter(ruudukko);
         peliIkkuna.setVisible(false);
@@ -159,6 +164,7 @@ public class JavaFXUI implements UI {
     }
     
     private void odotaEnnenParinKaantoa(int seconds) {
+        peli.setTila(Pelitila.ANIM_KAYNNISSA);
         PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
         pause.setOnFinished(new EventHandler<ActionEvent>() {
             Node[] nodes = siirtoNodet;
@@ -180,6 +186,9 @@ public class JavaFXUI implements UI {
     }
     
     private void hoidaSiirto(Node n, Point p) {
+        if (peli.getTila() != Pelitila.ANIM_KAYNNISSA) {
+            return;
+        }
         ruudukko.kaannaKortti(n, p);
         if (siirto[0] != null) {
             siirto[1] = p;
@@ -200,6 +209,9 @@ public class JavaFXUI implements UI {
     
     private void klikattuRuutua(MouseEvent event) {
 
+        if (peli.getTila() == Pelitila.ANIM_KAYNNISSA) {
+            return;
+        }
         Node n = (Node) event.getTarget();
         if (n == null || !(n instanceof GridPane) && !(n instanceof ImageView)) {
             return;
@@ -211,7 +223,7 @@ public class JavaFXUI implements UI {
         Point p = new Point(x, y);
         
         if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA || 
-            peli.getPelilauta().getKortti(p).kaannetty()) {
+            peli.getPelilauta().getKortti(p).getKaannetty()) {
             return;
         }
 
@@ -229,9 +241,12 @@ public class JavaFXUI implements UI {
             int korkeus = peli.getPelilauta().getKorkeus();
             Set<Kuva> kuvat = peli.getPelilauta().getKuvasarja();
             Set<Tausta> taustat = peli.getPelilauta().getTaustasarja();
+            // debug pelin käynnistys?
             peli = new Peli(Korttityyppi.JAVAFX);
             try {
                 peli.uusiPeli(leveys, korkeus, kuvat, taustat);
+                ruudukko.alustaRuudukko(peli.getPelilauta());
+                //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
                 alkuIkkuna.setVisible(false);
                 peliIkkuna.setVisible(true);
             } catch (Exception e) {

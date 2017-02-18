@@ -5,23 +5,24 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
-import com.mipyykko.muistipeli.malli.Kortti;
-import com.mipyykko.muistipeli.malli.Pelilauta;
+import com.mipyykko.muistipeli.malli.*;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
+import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import static javafx.scene.layout.GridPane.setColumnIndex;
+import static javafx.scene.layout.GridPane.setRowIndex;
 import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
  * Korttien ImageViewit sisältävä ruudukko.
- * 
+ *
  * @author pyykkomi
  */
 public class RuudukkoPane extends GridPane {
@@ -29,54 +30,73 @@ public class RuudukkoPane extends GridPane {
     private Pane ikkuna;
     private ImageView[][] ivRuudukko;
     private Pelilauta pelilauta;
-    
+
     /**
      * Konstruktori.
-     * 
+     *
      * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
-     * @param pelilauta Pelilauta.
      */
-    public RuudukkoPane(Pane ikkuna, Pelilauta pelilauta) {
+    public RuudukkoPane(Pane ikkuna) {
         super();
         this.ikkuna = ikkuna;
-        this.pelilauta = pelilauta;
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);
-        
+
+        setBackground(null);
+    }
+
+    /**
+     * Alustaa ruudukon ja laittaa oikeat ImageViewit oikeisiin kohtiin.
+     *
+     * @param pelilauta Pelilauta.
+     */
+    public void alustaRuudukko(Pelilauta pelilauta) {
+        this.pelilauta = pelilauta;
         ivRuudukko = new ImageView[pelilauta.getLeveys()][pelilauta.getKorkeus()];
-        
+
         for (int y = 0; y < pelilauta.getKorkeus(); y++) {
             for (int x = 0; x < pelilauta.getLeveys(); x++) {
                 Kortti k = pelilauta.getKortti(new Point(x, y));
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
                 sijoitaJaSkaalaaIV(ivRuudukko[x][y], x, y);
-                getChildren().add(ivRuudukko[x][y]);
+                add(ivRuudukko[x][y], x, y);
             }
         }
-        setBackground(null);
     }
-    
+
+    /**
+     * Palauttaa ImageViewin pisteessä p.
+     *
+     * @param p koordinaatit Point-muodossa.
+     * @return ImageView
+     */
     public ImageView getIvRuudukko(Point p) {
         return ivRuudukko[p.x][p.y];
     }
-    
+
+    /**
+     * Asettaa ImageViewin pisteessä p.
+     *
+     * @param iv ImageView
+     * @param p koordinaatit Point-muodossa.
+     */
     public void setIvRuudukko(ImageView iv, Point p) {
         ivRuudukko[p.x][p.y] = iv;
     }
-    
+
     /**
      * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan.
-     * 
+     *
      * @param iv ImageView-objekti.
      * @param x X-koordinaatti.
      * @param y Y-koordinaatti.
      */
     public void sijoitaJaSkaalaaIV(ImageView iv, int x, int y) {
         /* note to self:
-            for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
-        */
-        // TODO: magic numbers, binding 
+         for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
+         */
+        // TODO: magic numbers, binding, centering?
         iv.setPreserveRatio(true);
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(pelilauta.getLeveys()));
         iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(pelilauta.getKorkeus()));
@@ -86,7 +106,7 @@ public class RuudukkoPane extends GridPane {
 
     /**
      * Animoi kortin kääntämisen.
-     * 
+     *
      * @param n Node josta en ole kyllä varma käytetäänkö sitä missään. TODO
      * @param p Kortin koordinaatit.
      */
@@ -120,4 +140,3 @@ public class RuudukkoPane extends GridPane {
     }
 
 }
-

@@ -18,8 +18,9 @@ public class Korttitehdas {
     private final Korttityyppi korttityyppi;
 
     /**
-    * Konstruktorille annetaan tehtaan haluttu korttityyppi.
+    * Konstruktori.
     * 
+    * @param korttityyppi Haluttu korttityyppi.
     */
     public Korttitehdas(Korttityyppi korttityyppi) {
         this.korttityyppi = korttityyppi;

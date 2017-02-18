@@ -28,14 +28,14 @@ public class TekstiKorttiTest {
     @Test
     public void kaannaKortti() {
         kortti.kaanna();
-        assertTrue("Kääntämätön kortti ei käänny", kortti.kaannetty());
+        assertTrue("Kääntämätön kortti ei käänny", kortti.getKaannetty());
     }
     
     @Test
     public void kaannaKaannettyKortti() {
         kortti.kaanna();
         kortti.kaanna();
-        assertTrue("Käännetty kortti ei käänny", !kortti.kaannetty());
+        assertTrue("Käännetty kortti ei käänny", !kortti.getKaannetty());
     }
     
     @Test

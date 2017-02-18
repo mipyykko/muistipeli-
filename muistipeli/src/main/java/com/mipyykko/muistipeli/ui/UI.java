@@ -15,6 +15,13 @@ import java.awt.Point;
  */
 public interface UI {
     
+    /**
+     * Pelin setteri.
+     * @param peli Peli-objekti.
+     */
     public void setPeli(Peli peli);
+    /**
+     * Näytä UI.
+     */
     public void nayta();
 }

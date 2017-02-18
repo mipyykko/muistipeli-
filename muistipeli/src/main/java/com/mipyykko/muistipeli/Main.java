@@ -20,7 +20,7 @@ import java.util.Set;
 import javafx.application.Application;
 
 /** 
- * Muistipeliö
+ * Muistipeliö, simppeliäkin simppelimpi javalabra-projekti.
  * 
  * @author pyykkomi
  */
@@ -46,7 +46,6 @@ public class Main {
                 int korkeus = 4;
 
                 for (int i = 0; i < (leveys * korkeus) / 2; i++) {
-                    testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
                     testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
                     testitaustat.add(new TekstiTausta("*"));
                     testitaustat.add(new TekstiTausta("*"));

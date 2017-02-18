@@ -12,7 +12,19 @@ package com.mipyykko.muistipeli.malli;
  */
 public interface Tausta {
 
+    /**
+     * Korkeus-getteri.
+     * @return int-arvo
+     */
     public int getKorkeus();
+    /**
+     * Leveys-getteri.
+     * @return int-arvo
+     */
     public int getLeveys();
+    /**
+     * Sisällön getteri. Palauttaa objektin, tyypitys saajan vastuulla.
+     * @return objekti
+     */ 
     public Object getSisalto();
 }

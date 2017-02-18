@@ -39,7 +39,7 @@ public class TekstiKortti implements Kortti {
      * @return boolean-arvo
      */
     @Override
-    public boolean kaannetty() {
+    public boolean getKaannetty() {
         return kaannetty;
     }
     

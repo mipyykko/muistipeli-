@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli.malli.impl;
 import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
+import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -72,7 +73,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
      * @return boolean-arvo
      */
     @Override
-    public boolean kaannetty() {
+    public boolean getKaannetty() {
         return kaannetty;
     }
     
@@ -132,18 +133,19 @@ public class JavaFXKortti extends ImageView implements Kortti {
     
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof JavaFXKortti)) {
+        if (!(o instanceof Kortti)) {
             return false;
         }
         // TODO vertailu?
-        return ((JavaFXKortti) o).getKuva().equals(this.kuva);
+        return ((Kortti) o).getKuva().equals(this.kuva);
     }
     
-//    @Override
-//    public int hashCode() {
-//        return super.hashCode();
-//        //return 42 * (17 + this.kuva.toString().hashCode());
-//    }
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.kuva);
+        return hash;
+    }
     
     
 }

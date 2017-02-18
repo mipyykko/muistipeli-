@@ -6,6 +6,7 @@
 package com.mipyykko.muistipeli.malli.impl;
 
 import com.mipyykko.muistipeli.malli.Kuva;
+import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -69,16 +70,16 @@ public class JavaFXKuva extends ImageView implements Kuva {
 
     @Override
     public boolean equals(Object o) {
-        if (!(o instanceof JavaFXKuva)) {
+        if (!(o instanceof Kuva)) {
             return false;
         }
-        return key.equals(((JavaFXKuva) o).getKey());
+        return key.equals(((Kuva) o).getKey());
     }
-    /*@Override
-    public int compareTo(Object o) {
-        if (!(o instanceof JavaFXKuva)) {
-            return -1;
-        }
-        return key.compareTo(((JavaFXKuva) o).getKey());
-    }*/
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.key);
+        return hash;
+    }
 }

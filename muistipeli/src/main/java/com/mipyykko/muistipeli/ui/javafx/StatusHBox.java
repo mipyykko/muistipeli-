@@ -34,6 +34,10 @@ public class StatusHBox extends HBox {
         getChildren().add(score);
     }
     
+    /**
+     * Asettaa tekstin.
+     * @param txt string
+     */
     public void setScore(String txt) { // TODO jotain
         score.setText(txt);
     }
