@@ -3,31 +3,54 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.util;
+package com.mipyykko.muistipeli.ui.javafx;
 
 import com.mipyykko.muistipeli.Main;
-import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Tausta;
-import com.mipyykko.muistipeli.malli.impl.JavaFXKuva;
-import com.mipyykko.muistipeli.malli.impl.JavaFXTausta;
+import com.mipyykko.muistipeli.malli.*;
+import com.mipyykko.muistipeli.malli.impl.*;
+import java.io.IOException;
 import java.io.InputStream;
-import java.net.URLDecoder;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
+import java.net.*;
+import java.nio.file.*;
+import java.util.*;
+import java.util.stream.Stream;
 import javafx.scene.image.Image;
 
 /**
- *
+ * JavaFX-version alkurutiineja, mm. kuvien lataus.
+ * 
  * @author pyykkomi
  */
 public class JavaFXInit {
 
     private Map<String, String> kuvalista, taustalista;
-
+    /**
+     * Etsii kuvat-hakemiston alta alihakemistoja ja palauttaa niiden nimet.
+     * 
+     * @return Hakemistojen nimet Set-muodossa.
+     * @throws URISyntaxException Väärä URI-synaksi.
+     * @throws IOException Virhe lukemisessa.
+     */
+    public Set<String> haeKuvasetit() throws URISyntaxException, IOException {
+        Set<String> kuvasetit = new TreeSet<String>();
+        URI uri = getClass().getResource("/kuvat").toURI();
+        Path kuvahakemisto;
+        if (uri.getScheme().equals("jar")) {
+            FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+            kuvahakemisto = fileSystem.getPath("/kuvat");
+        } else {
+            kuvahakemisto = Paths.get(uri);
+        }
+        Stream<Path> walk = Files.walk(kuvahakemisto, 1);
+        for (Iterator<Path> it = walk.iterator(); it.hasNext();) {
+            Path p = it.next();
+            if (Files.isDirectory(p) && !p.equals(kuvahakemisto)) {
+                String[] s = p.toString().split("/"); // TODO mitenhän tää toimii eri koneilla
+                kuvasetit.add(s[s.length - 1]);
+            }
+        }
+        return kuvasetit;
+    }
     /**
      * Luo kuvalistan jossa oikeat osoitteet resursseihin.
      *
@@ -50,6 +73,11 @@ public class JavaFXInit {
         }
     }
 
+    /**
+     * Lukee taustat jostain. Tai nykyään ei tee mitään.
+     * 
+     * @param bgset Valittu taustasetti.
+     */
     public void lueTaustalista(String bgset) {
         taustalista = new HashMap<>();
         // jotain jotain
@@ -74,7 +102,7 @@ public class JavaFXInit {
                 String tiedostonimi = URLDecoder.decode(kuvalista.get(key), "UTF-8");
                 InputStream kuvaOsoite = Main.class.getClassLoader().getResourceAsStream(tiedostonimi);
                 if (kuvaOsoite != null) {
-                    Image kuva = new Image(kuvaOsoite);//, 200, 200, false, false);
+                    Image kuva = new Image(kuvaOsoite); //, 200, 200, false, false);
                     kuvat.add(new JavaFXKuva(key, kuva));
                 }
             }
@@ -86,7 +114,7 @@ public class JavaFXInit {
     }
 
     /**
-     * Tämä (ehkä) tulevaisuudessa lataa taustat erillään.
+     * Lataa taustakuvat, luo Image-oliot ja taustat.
      *
      * @param leveys Pelilaudan leveys.
      * @param korkeus Pelilaudan korkeus.

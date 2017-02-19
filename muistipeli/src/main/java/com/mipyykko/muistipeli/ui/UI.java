@@ -22,6 +22,7 @@ public interface UI {
     public void setPeli(Peli peli);
     /**
      * Näytä UI.
+     * @throws java.lang.Exception Virhe esim. alustuksessa.
      */
-    public void nayta();
+    public void nayta() throws Exception;
 }

@@ -10,7 +10,7 @@ import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.ui.javafx.JavaFXUI;
-import com.mipyykko.muistipeli.util.JavaFXInit;
+import com.mipyykko.muistipeli.ui.javafx.JavaFXInit;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -52,15 +52,16 @@ public class JavaFXMain extends Application {
         leveys = 4;
         korkeus = 4;
 
-        JavaFXInit init = new JavaFXInit();
-        init.lueKuvalista("planetcute"); // test
-        init.lueTaustalista("debug");
-        kuvat = init.luoKuvat(leveys, korkeus);
-        taustat = init.luoTaustat(leveys, korkeus);
-        
-        Peli peli = new Peli(Korttityyppi.JAVAFX);
-        peli.uusiPeli(leveys, korkeus, kuvat, taustat);
-        JavaFXUI ui = new JavaFXUI(peli);
+//        JavaFXInit init = new JavaFXInit();
+//        init.lueKuvalista("planetcute"); // test
+//        init.lueTaustalista("debug");
+//        Set<String> kuvasetit = init.haeKuvasetit();
+//        kuvat = init.luoKuvat(leveys, korkeus);
+//        taustat = init.luoTaustat(leveys, korkeus);
+//        
+//        Peli peli = new Peli(Korttityyppi.JAVAFX);
+//        peli.uusiPeli(leveys, korkeus, kuvat, taustat);
+        JavaFXUI ui = new JavaFXUI(/*peli*/);
         ui.setStage(primaryStage);
         ui.nayta();
     }

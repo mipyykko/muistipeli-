@@ -30,6 +30,7 @@ public class StatusHBox extends HBox {
         setStyle("-fx-background-color: #800000");
         score = new Text("Siirrot: 0 Parit: 0");
         score.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 24));
+        setBackground(null);
         score.setFill(Color.YELLOW);
         getChildren().add(score);
     }

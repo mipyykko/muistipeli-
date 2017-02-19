@@ -12,6 +12,8 @@ import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.PauseTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -43,6 +45,7 @@ public class JavaFXUI implements UI {
     private StackPane paaIkkuna;
     private RuudukkoPane ruudukko; 
     private BorderPane peliIkkuna;
+    private Valikko valikko;
     private StatusHBox status;
     private Scene scene;
     private boolean firstrun;
@@ -52,10 +55,9 @@ public class JavaFXUI implements UI {
     /**
      * JavaFXUI:n konstruktori.
      * 
-     * @param peli Peli-objekti. Voi olla tässä vaiheessa vielä null.
      */
-    public JavaFXUI(Peli peli) {
-        this.peli = peli;
+    public JavaFXUI() {
+        this.peli = null;
         this.ikkunaleveys = 560; // magic numbers!
         this.ikkunakorkeus = 620;
         this.firstrun = true;
@@ -77,7 +79,7 @@ public class JavaFXUI implements UI {
     /**
      * Piirtää pelilaudan.
      */
-    private void alusta() {
+    private void alusta() throws Exception {
         paaIkkuna = new StackPane();
         paaIkkuna.setBackground(null);
         alkuIkkuna = new GridPane();
@@ -86,44 +88,35 @@ public class JavaFXUI implements UI {
         alkuIkkuna.setHgap(16);
         alkuIkkuna.setVgap(8);
         
-        GridPane valikko = new GridPane();
-        Text otsikko = new Text("Muistipeliö");
-        otsikko.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 48));
-        otsikko.setTextAlignment(TextAlignment.CENTER);
-        
-        Button aloitusNappi = new Button("Aloita peli");
-        aloitusNappi.setAlignment(Pos.CENTER);
-        aloitusNappi.setOnAction((ActionEvent event) -> aloitusNappiKlikattu(event));
-        
-        ComboBox kuvaValikko = new ComboBox();
-        //debug:
-        ObservableList<String> kuvaOptions =
-                FXCollections.observableArrayList("elukat", "elukat-scaled");
-        kuvaValikko.setItems(kuvaOptions);
-        kuvaValikko.getSelectionModel().selectFirst();
-        
-        valikko.add(otsikko, 1, 0);
-        valikko.add(kuvaValikko, 1, 1);
-        valikko.add(aloitusNappi, 1, 2);
-        
-        GridPane.setHalignment(otsikko, HPos.CENTER);
-        GridPane.setHalignment(aloitusNappi, HPos.CENTER);
-        GridPane.setHalignment(kuvaValikko, HPos.CENTER);
-        
-        alkuIkkuna.add(valikko, 1, 1);
+        valikko = new Valikko();
+        valikko.getAloitusnappi().setOnAction((ActionEvent event) -> {
+            try {
+                aloitusNappiKlikattu(event);
+            } catch (Exception ex) {
+                System.err.println("Jotain tapahtui aloitusnappia painettassa :x " + ex.getMessage()); // DEBUG
+            }
+        });
+       
+        alkuIkkuna.add(valikko.getSisalto(), 1, 1);
+        alkuIkkuna.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
         peliIkkuna = new BorderPane();
+        peliIkkuna.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
+
         status = new StatusHBox();
         peliIkkuna.setTop(status);
         
-        ruudukko = new RuudukkoPane(paaIkkuna);
+        ruudukko = new RuudukkoPane(peliIkkuna/*paaIkkuna*/);
         ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
         peliIkkuna.setCenter(ruudukko);
-        peliIkkuna.setVisible(false);
-        peli.setTila(Pelitila.VALIKKO); 
         
-        paaIkkuna.getChildren().addAll(alkuIkkuna, peliIkkuna);
+        RuudukkoPane.setHalignment(ruudukko, HPos.CENTER);
+        if (peli != null) {
+            peli.setTila(Pelitila.VALIKKO);
+        } 
         
-        scene = new Scene(paaIkkuna, ikkunaleveys, ikkunakorkeus);
+        //paaIkkuna.getChildren().addAll(alkuIkkuna, peliIkkuna);
+        
+        scene = new Scene(alkuIkkuna/*paaIkkuna*/, ikkunaleveys, ikkunakorkeus);
         scene.setFill(Color.YELLOW);
 
         primaryStage.setTitle("Muistipeliö");
@@ -138,11 +131,15 @@ public class JavaFXUI implements UI {
      * Näytä pelilauta.
      */
     @Override
-    public void nayta() {
+    public void nayta() throws Exception {
         // TODO: jotain!
         if (firstrun) {
             firstrun = false;
-            alusta();
+            try { 
+                alusta();
+            } catch (Exception e) {
+                throw new Exception("UI:n alustus ei onnistunut: " + e.getMessage());
+            }
         }
     }
 
@@ -234,23 +231,28 @@ public class JavaFXUI implements UI {
         }
     }
 
-    private void aloitusNappiKlikattu(ActionEvent event) {
+    private void aloitusNappiKlikattu(ActionEvent event) throws Exception {
         System.out.println("kää");
-        if (peli.getTila() == Pelitila.VALIKKO) {
-            int leveys = peli.getPelilauta().getLeveys();
-            int korkeus = peli.getPelilauta().getKorkeus();
-            Set<Kuva> kuvat = peli.getPelilauta().getKuvasarja();
-            Set<Tausta> taustat = peli.getPelilauta().getTaustasarja();
+        if (peli == null || peli.getTila() == Pelitila.VALIKKO) {
+            int leveys = 4;
+            int korkeus = 5;
+            JavaFXInit jfi = new JavaFXInit();
+            String setti = valikko.getKuvavalikkoValittu();
+            jfi.lueKuvalista(setti);
+            jfi.lueTaustalista("debug");
+            Set<Kuva> kuvat = jfi.luoKuvat(leveys, korkeus);
+            Set<Tausta> taustat = jfi.luoTaustat(leveys, korkeus);
             // debug pelin käynnistys?
             peli = new Peli(Korttityyppi.JAVAFX);
             try {
                 peli.uusiPeli(leveys, korkeus, kuvat, taustat);
                 ruudukko.alustaRuudukko(peli.getPelilauta());
                 //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
-                alkuIkkuna.setVisible(false);
-                peliIkkuna.setVisible(true);
+                primaryStage.setScene(new Scene(peliIkkuna, ikkunaleveys, ikkunakorkeus));
+//                alkuIkkuna.setVisible(false);
+//                peliIkkuna.setVisible(true);
             } catch (Exception e) {
-                System.out.println("ääk!"); // debug
+                System.out.println("Pelin luominen epäonnistui! " + e.getMessage()); // debug
             }
         }
     }

@@ -58,7 +58,10 @@ public class Main {
                     System.out.println("hetkinen?"); //TODO
                 }
                 UI ui = new TekstiUI(peli, new Scanner(System.in));
-                ui.nayta();
+                try {
+                    ui.nayta();
+                } catch (Exception e) {
+                }
                 break;
             case JAVAFX:
                 Application.launch(JavaFXMain.class, args);
