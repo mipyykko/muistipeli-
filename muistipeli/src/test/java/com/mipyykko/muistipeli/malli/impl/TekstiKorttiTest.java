@@ -62,6 +62,26 @@ public class TekstiKorttiTest {
         assertEquals("Kortti ei toisen kääntämisen jälkeen palauta oikeaa toStringiä", kortti.toString(), "testitausta");
     }
     
+    @Test
+    public void setteritJaGetteritOikein() {
+        assertEquals("getKuva ei palauta oikein ennen muutosta", "testikuva", kortti.getKuva().getKey());
+        kortti.setKuva(new TekstiKuva("kissa"));
+        assertEquals("getKuva ei palauta oikein muutoksen jälkeen", "kissa", kortti.getKuva().getKey());
+        assertEquals("getSisalto ei palauta oikein", "kissa", kortti.getSisalto());
+    }
+    
+    @Test
+    public void hashCodeOikein() {
+        assertEquals("hashCode ei palauta oikein kun kortit samanlaiset", kortti.hashCode(), kortti2.hashCode());
+        assertTrue("hashCode ei palauta oikein kun kortit erilaiset", kortti.hashCode() != kortti3.hashCode());
+    }
+    
+    @Test
+    public void equalsOikein() {
+        assertTrue("equals ei palauta oikein kun kortit samanlaiset", kortti.equals(kortti2));
+        assertTrue("equals ei palauta oikein kun kortit erilaiset", !kortti.equals(kortti3));
+        assertTrue("equals ei palauta oikein kun annettu tyyppi väärä", !kortti.equals(new String("kissa")));
+    }
 //    @Test
 //    public void korttiCompareTo() {
 //        assertEquals("Korttien compareTo ei palauta oikein", kortti.compareTo(kortti2), 0);

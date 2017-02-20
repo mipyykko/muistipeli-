@@ -87,5 +87,13 @@ public class JavaFXKuvaTest {
         String s = "bläh";
         assertTrue("Equals ei palauta vääränlaisen objektin kuvalla oikein", !testikuva.equals(s));
     }
+    
+    @Test
+    public void hashCodeToimii() {
+        JavaFXKuva t = new JavaFXKuva("testikuva", null);
+        assertEquals("Hashcode ei palauta oikein kun kuvat samanlaiset", t.hashCode(), testikuva.hashCode());
+        t.setKey("kissa");
+        assertTrue("Hashcode ei palauta oikein kun kuvat erilaiset", t.hashCode() != testikuva.hashCode());
+    }
 
 }

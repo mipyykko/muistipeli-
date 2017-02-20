@@ -141,6 +141,14 @@ public class JavaFXKorttiTest {
     }
     
     @Test
+    public void testaaHashCode() {
+        JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
+        assertEquals("Hashcode ei palauta oikein kun kortit samanlaiset", kortti.hashCode(), kortti2.hashCode());
+        kortti2.setKuva(isoTestikuva);
+        assertTrue("Hashcode ei palauta oikein kun kortit erilaiset", kortti.hashCode() != kortti2.hashCode());
+    }
+     
+    @Test
     public void setKuvaAsettaaImagen() {
         JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
         kortti2.setKuva(isoTestikuva);

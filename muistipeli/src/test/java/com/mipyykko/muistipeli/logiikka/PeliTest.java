@@ -160,18 +160,23 @@ public class PeliTest {
             assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());
             assertEquals("Parit eivät kasva", n + 1, peli.getParitLkm());
+            if (it.hasNext()) {
+                assertEquals("Pelitila ei päivity oikein kun peli on kesken", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
+            }
         }
         /// TODO, hm, tää testi ei varsinaisesti testaa muuta kuin että peli menee tosiaan läpi 
         // koska jos tuo siirtosarja ei menis läpi niin se jumisi pelaa-luuppiin...
         // assertiin ei siis ikinä edes päädytä jos näin käy.
         assertEquals("Kaikki kortit käännetty mutta peli ei loppu", true, peli.peliLoppu());
         assertEquals("Siirtojen määrä väärin", siirrot.size() / 2, peli.getSiirrotLkm());
+        assertEquals("Pelitila ei päivity oikein kun peli on loppu", Pelitila.PELI_LOPPU, peli.getTila());
     }
     
     @Test
     public void tarkistaPari() {
         assertTrue("Pari ei ole pari", peli.tarkistaPari(new Point[]{new Point(0, 0), new Point(1, 0)}));
         assertTrue("Ei-pari on pari", !peli.tarkistaPari(new Point[]{new Point(1, 0), new Point(2, 0)}));
+        assertEquals("Pelitila ei päivity oikein kun ei ole pari", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
         assertTrue("Virheellinen pari hyväksytty", !peli.tarkistaPari(null));
         assertTrue("Virheellinen pari hyväksytty #2", !peli.tarkistaPari(new Point[]{new Point(0,0)}));
         assertTrue("Virheellinen pari hyväksytty #3", !peli.tarkistaPari(new Point[]{

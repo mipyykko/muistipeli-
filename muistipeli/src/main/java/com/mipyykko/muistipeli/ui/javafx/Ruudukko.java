@@ -25,7 +25,7 @@ import javafx.util.Duration;
  *
  * @author pyykkomi
  */
-public class RuudukkoPane extends GridPane {
+public class Ruudukko extends GridPane {
 
     private Pane ikkuna;
     private ImageView[][] ivRuudukko;
@@ -36,7 +36,7 @@ public class RuudukkoPane extends GridPane {
      *
      * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
      */
-    public RuudukkoPane(Pane ikkuna) {
+    public Ruudukko(Pane ikkuna) {
         super();
         this.ikkuna = ikkuna;
         setPadding(new Insets(5, 0, 5, 0));
@@ -59,7 +59,7 @@ public class RuudukkoPane extends GridPane {
             for (int x = 0; x < pelilauta.getLeveys(); x++) {
                 Kortti k = pelilauta.getKortti(new Point(x, y));
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
-                sijoitaJaSkaalaaIV(ivRuudukko[x][y], x, y);
+                sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
                 add(ivRuudukko[x][y], x, y);
             }
         }
@@ -71,7 +71,7 @@ public class RuudukkoPane extends GridPane {
      * @param p koordinaatit Point-muodossa.
      * @return ImageView
      */
-    public ImageView getIvRuudukko(Point p) {
+    public ImageView getIv(Point p) {
         return ivRuudukko[p.x][p.y];
     }
 
@@ -81,7 +81,7 @@ public class RuudukkoPane extends GridPane {
      * @param iv ImageView
      * @param p koordinaatit Point-muodossa.
      */
-    public void setIvRuudukko(ImageView iv, Point p) {
+    public void setIv(ImageView iv, Point p) {
         ivRuudukko[p.x][p.y] = iv;
     }
 
@@ -92,7 +92,7 @@ public class RuudukkoPane extends GridPane {
      * @param x X-koordinaatti.
      * @param y Y-koordinaatti.
      */
-    public void sijoitaJaSkaalaaIV(ImageView iv, int x, int y) {
+    public void sijoitaJaSkaalaaIv(ImageView iv, int x, int y) {
         /* note to self:
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
@@ -107,12 +107,11 @@ public class RuudukkoPane extends GridPane {
     /**
      * Animoi kortin kääntämisen.
      *
-     * @param n Node josta en ole kyllä varma käytetäänkö sitä missään. TODO
      * @param p Kortin koordinaatit.
      */
-    public void kaannaKortti(Node n, Point p) {
+    public void kaannaKortti(Point p) {
         JavaFXKortti kortti = (JavaFXKortti) pelilauta.getKortti(p);
-        ImageView ivAlku = getIvRuudukko(p);
+        ImageView ivAlku = getIv(p);
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
         stPiilota.setFromX(1);
         stPiilota.setToX(0);
@@ -120,7 +119,7 @@ public class RuudukkoPane extends GridPane {
         kortti.kaanna();
 
         ImageView ivLoppu = new ImageView((Image) kortti.getSisalto());
-        sijoitaJaSkaalaaIV(ivLoppu, p.x, p.y);
+        sijoitaJaSkaalaaIv(ivLoppu, p.x, p.y);
         ivLoppu.setScaleX(0);
         ScaleTransition stNayta = new ScaleTransition(Duration.millis(150), ivLoppu);
         stNayta.setFromX(0);
@@ -129,7 +128,7 @@ public class RuudukkoPane extends GridPane {
         stPiilota.setOnFinished((ActionEvent t) -> {
             getChildren().remove(ivAlku);
             getChildren().add(ivLoppu);
-            setIvRuudukko(ivLoppu, p);
+            setIv(ivLoppu, p);
             stNayta.play();
         });
         //peli.setTila(Pelitila.ANIM_ALKU);

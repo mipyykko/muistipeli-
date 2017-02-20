@@ -32,4 +32,11 @@ public class TekstiTaustaTest {
         assertEquals("Korkeus väärin", 1, testitausta.getKorkeus());
         assertEquals("Tekstittömän taustan korkeus väärin", 0, testitausta2.getKorkeus());
     }
+    
+    @Test
+    public void getteritJaSetteritOikein() {
+        assertEquals("getTeksti väärin ennen muutosta", "testitausta", testitausta.getTeksti());
+        testitausta.setTeksti("kissa");
+        assertEquals("getTeksti väärin muutoksen jälkeen", "kissa", testitausta.getTeksti());
+    }
 }

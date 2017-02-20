@@ -19,3 +19,4 @@ Päivä | Tunnit | Kuvaus
 17.2.2017 | 3 | Dokumentaatio, alku"valikko"
 18.2.2017 | 1 | Latausrutiinit erilleen, "väärät kortit"-bugi korjattu
 19.2.2017 | 3 | Korttien valinta valikkoon, muuta säätöä
+20.2.2017 | 2 | Animointia, UI-luokkia pätkitty, testejä

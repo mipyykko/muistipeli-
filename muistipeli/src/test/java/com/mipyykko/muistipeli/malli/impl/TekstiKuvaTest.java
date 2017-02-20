@@ -36,6 +36,26 @@ public class TekstiKuvaTest {
         
     }
     
+    @Test
+    public void getteritJaSetteritOikein() {
+        assertEquals("getKey ei palauta oikein ennen muutosta", "testikuva", kuva.getKey());
+        kuva.setKey("kissa");
+        assertEquals("getKey ei palauta oikein muutoksen jälkeen", "kissa", kuva.getKey());
+        assertEquals("getSisalto ei palauta oikein", "kissa", kuva.getSisalto());
+    }
+    
+    @Test
+    public void hashCodeOikein() {
+        assertEquals("hashCode ei palauta oikein kun kuvat samanlaiset", kuva.hashCode(), kuva2.hashCode());
+        assertTrue("hashCode ei palauta oikein kun kuvat erilaiset", kuva.hashCode() != kuva3.hashCode());
+    }
+    
+    @Test
+    public void equalsOikein() {
+        assertTrue("equals ei palauta oikein kun kuvat samanlaiset", kuva.equals(kuva2));
+        assertTrue("equals ei palauta oikein kun kuvat erilaiset", !kuva.equals(kuva3));
+        assertTrue("equals ei palauta oikein kun annettu tyyppi väärä", !kuva.equals(new String("kissa")));
+    }
 //    @Test
 //    public void kuvaCompareTo() {
 //        assertEquals("Kuvien compareTo ei toimi oikein", kuva.compareTo(kuva2), 0);
