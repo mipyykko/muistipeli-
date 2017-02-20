@@ -3,10 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.ui;
+package com.mipyykko.muistipeli.ui.teksti;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
+import com.mipyykko.muistipeli.ui.UI;
 import java.awt.Point;
 import java.util.Scanner;
 
@@ -52,7 +53,7 @@ public class TekstiUI implements UI {
             }
             System.out.println("");
         }
-        System.out.println("");
+        System.out.format("Siirtoja %d, pareja %d\n", peli.getSiirrotLkm(), peli.getParitLkm());
 
     }
 
@@ -79,7 +80,7 @@ public class TekstiUI implements UI {
         Point p = new Point();
         do {
             naytaPelilauta();
-            String syote = kysy("Siirto %d, x y? ", peli.getSiirrotLkm());
+            String syote = kysy("Koordinaatit x y? ", peli.getSiirrotLkm());
             System.out.println("");
             String s[] = syote.split(" ");
             if (s.length != 2 || !s[0].matches("^\\d+$") || !s[1].matches("^\\d+$")) {
@@ -107,7 +108,6 @@ public class TekstiUI implements UI {
                 naytaPelilauta();
                 peli.kaannaKortit(siirto);
             }
-            peli.lisaaSiirto();
             if (peli.peliLoppu()) {
                 peli.setTila(Pelitila.PELI_LOPPU);
             }

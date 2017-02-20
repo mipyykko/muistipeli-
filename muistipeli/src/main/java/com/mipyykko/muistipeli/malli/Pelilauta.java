@@ -21,7 +21,7 @@ import java.util.Set;
  */
 public class Pelilauta {
     
-    private Kortti[][] pelilauta;
+    private Kortti[][] kortit;
     private int leveys, korkeus;
     private Set<Kuva> kuvasarja;
     private Set<Tausta> taustasarja;
@@ -37,7 +37,7 @@ public class Pelilauta {
     public Pelilauta(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) {
         this.leveys = leveys;
         this.korkeus = korkeus;
-        this.pelilauta = new Kortti[leveys][korkeus];
+        this.kortit = new Kortti[leveys][korkeus];
         this.kuvasarja = kuvasarja;
         this.taustasarja = taustasarja;
         // TODO: taustakuva josta lohkotaan taustat korteille?
@@ -86,8 +86,8 @@ public class Pelilauta {
         
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                pelilauta[x][y] = kortit.next();
-                pelilauta[x][y].setTausta(taustat.next());
+                this.kortit[x][y] = kortit.next();
+                this.kortit[x][y].setTausta(taustat.next());
             }
         }
     }
@@ -100,7 +100,7 @@ public class Pelilauta {
     public boolean kaikkiKaannetty() {
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
-                if (!pelilauta[x][y].getKaannetty()) {
+                if (!kortit[x][y].getKaannetty()) {
                     return false;
                 }
             }
@@ -113,12 +113,12 @@ public class Pelilauta {
      * @return kortti-array
      */
     public Kortti[][] getKortit() {
-        return pelilauta;
+        return kortit;
         // TODO rakennetta mietittävä
     }
 
-    public void setPelilauta(Kortti[][] pelilauta) {
-        this.pelilauta = pelilauta;
+    public void setKortit(Kortti[][] pelilauta) {
+        this.kortit = pelilauta;
     }
 
     /**

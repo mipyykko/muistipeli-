@@ -5,6 +5,7 @@
  */
 package com.mipyykko.muistipeli.ui;
 
+import com.mipyykko.muistipeli.ui.teksti.TekstiUI;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Pelilauta;

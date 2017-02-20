@@ -126,13 +126,13 @@ public class ValikkoIkkuna extends GridPane {
         Set<Kuva> kuvat = null;
         try {
             kuvat = jfi.luoKuvat(leveys, korkeus);
-        } catch (Exception ex) {
-            Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) { // debug
+             Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
         }
         Set<Tausta> taustat = null;
         try {
             taustat = jfi.luoTaustat(leveys, korkeus);
-        } catch (Exception ex) {
+        } catch (Exception ex) { // debug
             Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
         }
         // debug pelin käynnistys?

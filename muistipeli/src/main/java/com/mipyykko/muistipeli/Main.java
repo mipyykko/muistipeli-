@@ -10,11 +10,9 @@ import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.UITyyppi;
-import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
-import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
-import com.mipyykko.muistipeli.ui.TekstiUI;
+import com.mipyykko.muistipeli.ui.teksti.TekstiUI;
 import com.mipyykko.muistipeli.ui.UI;
-import java.util.HashSet;
+import com.mipyykko.muistipeli.ui.teksti.TekstiInit;
 import java.util.Scanner;
 import java.util.Set;
 import javafx.application.Application;
@@ -26,34 +24,38 @@ import javafx.application.Application;
  */
 public class Main {
 
-    private static Thread thread;
-    
     /**
      * Pääluokka. JavaFX haarautuu tästä omaansa.
-     * @param args komentoriviparametrit, joita ei juuri nyt käytetä mihinkään
+     * @param args komentoriviparametrit - ainoa toistaiseksi toimiva on
+     * "teksti" joka käynnistää pelin tekstimuoodissa.
      */
     public static void main(String[] args) {
 
         UITyyppi uiTyyppi = UITyyppi.JAVAFX;
         Korttityyppi korttityyppi = Korttityyppi.JAVAFX;
 
+        if (args.length > 0) {
+            String s = args[0].toLowerCase();
+            if (s.equals("teksti")) {
+                uiTyyppi = UITyyppi.TEKSTI;
+                korttityyppi = Korttityyppi.TEKSTI;
+            }
+        }
+
         switch (uiTyyppi) {
             case TEKSTI:
-                Set<Kuva> testikuvat = new HashSet<>();
-                Set<Tausta> testitaustat = new HashSet<>();
 
                 int leveys = 4;
                 int korkeus = 4;
 
-                for (int i = 0; i < (leveys * korkeus) / 2; i++) {
-                    testikuvat.add(new TekstiKuva(Integer.toString(i + 1)));
-                    testitaustat.add(new TekstiTausta("*"));
-                    testitaustat.add(new TekstiTausta("*"));
-                }
+                TekstiInit ti = new TekstiInit();
+                
+                Set<Kuva> kuvat = ti.luoKuvat(leveys, korkeus);
+                Set<Tausta> taustat = ti.luoTaustat(leveys, korkeus);
 
                 Peli peli = new Peli(korttityyppi);
                 try {
-                    peli.uusiPeli(leveys, korkeus, testikuvat, testitaustat);
+                    peli.uusiPeli(leveys, korkeus, kuvat, taustat);
                 } catch (Exception ex) {
                     System.out.println("hetkinen?"); //TODO
                 }

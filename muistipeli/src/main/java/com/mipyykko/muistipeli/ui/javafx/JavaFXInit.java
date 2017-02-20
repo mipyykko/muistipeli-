@@ -35,8 +35,9 @@ public class JavaFXInit {
         Set<String> kuvasetit = new TreeSet<String>();
         URI uri = getClass().getResource("/kuvat").toURI();
         Path kuvahakemisto;
+        FileSystem fileSystem = null;
         if (uri.getScheme().equals("jar")) {
-            FileSystem fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
+            fileSystem = FileSystems.newFileSystem(uri, Collections.<String, Object>emptyMap());
             kuvahakemisto = fileSystem.getPath("/kuvat");
         } else {
             kuvahakemisto = Paths.get(uri);
@@ -48,6 +49,10 @@ public class JavaFXInit {
                 String[] s = p.toString().split("/"); // TODO mitenhän tää toimii eri koneilla
                 kuvasetit.add(s[s.length - 1]);
             }
+        }
+        
+        if (fileSystem != null) {
+            fileSystem.close();
         }
         return kuvasetit;
     }

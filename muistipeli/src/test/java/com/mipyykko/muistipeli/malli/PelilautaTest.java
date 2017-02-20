@@ -177,7 +177,7 @@ public class PelilautaTest {
     @Test
     public void getteritJaSetteritToimii() {
         luoTestipelilauta();
-        pelilauta.setPelilauta(null);
+        pelilauta.setKortit(null);
         assertTrue("get/setKortit ei toimi oikein", pelilauta.getKortit() == null);
         assertEquals("getLeveys ei toimi oikein", LEVEYS, pelilauta.getLeveys());
         assertEquals("getKorkeus ei toimi oikein", KORKEUS, pelilauta.getKorkeus());
