@@ -232,12 +232,14 @@ public class JavaFXUI implements UI {
     }
 
     private void aloitusNappiKlikattu(ActionEvent event) throws Exception {
-        System.out.println("kää");
         if (peli == null || peli.getTila() == Pelitila.VALIKKO) {
             int leveys = 4;
             int korkeus = 5;
             JavaFXInit jfi = new JavaFXInit();
             String setti = valikko.getKuvavalikkoValittu();
+            if (setti == null || setti.isEmpty()) {
+                return;
+            }
             jfi.lueKuvalista(setti);
             jfi.lueTaustalista("debug");
             Set<Kuva> kuvat = jfi.luoKuvat(leveys, korkeus);

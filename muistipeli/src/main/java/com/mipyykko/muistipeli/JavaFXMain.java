@@ -27,16 +27,6 @@ import javafx.stage.Stage;
  */
 public class JavaFXMain extends Application {
 
-    private GridPane root;
-    private Group kortit;
-    private Scene scene;
-    private Set<Kuva> kuvat;
-    private Set<Tausta> taustat;
-    private int ikkunaleveys = 800;
-    private int ikkunakorkeus = 600;
-    private Map<String, String> kuvalista;
-    private int leveys, korkeus;
-    
     /**
      * Käyttöliittymän ajava pääohjelma.
      * 
@@ -46,21 +36,6 @@ public class JavaFXMain extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         
-        kuvat = new HashSet<>();
-        taustat = new HashSet<>();
-        
-        leveys = 4;
-        korkeus = 4;
-
-//        JavaFXInit init = new JavaFXInit();
-//        init.lueKuvalista("planetcute"); // test
-//        init.lueTaustalista("debug");
-//        Set<String> kuvasetit = init.haeKuvasetit();
-//        kuvat = init.luoKuvat(leveys, korkeus);
-//        taustat = init.luoTaustat(leveys, korkeus);
-//        
-//        Peli peli = new Peli(Korttityyppi.JAVAFX);
-//        peli.uusiPeli(leveys, korkeus, kuvat, taustat);
         JavaFXUI ui = new JavaFXUI(/*peli*/);
         ui.setStage(primaryStage);
         ui.nayta();
