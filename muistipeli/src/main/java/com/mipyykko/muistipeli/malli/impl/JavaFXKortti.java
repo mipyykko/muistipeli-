@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli.malli.impl;
 import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import java.util.Objects;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,6 +24,8 @@ public class JavaFXKortti extends ImageView implements Kortti {
     private Tausta tausta;
     private boolean kaannetty;
     private int korttileveys, korttikorkeus;
+    private Animaatiotila animTila;
+    private boolean osaParia;
     
     /**
      * JavaFX-kortin konstruktori.
@@ -34,6 +37,8 @@ public class JavaFXKortti extends ImageView implements Kortti {
         this.kuva = kuva;
         this.tausta = tausta;
         this.kaannetty = false;
+        this.animTila = Animaatiotila.EI_KAYNNISSA;
+        this.osaParia = false;
         //TODO: hajottaa testit, tosin öö
         //setImage((Image) kuva.getSisalto());
     }
@@ -44,20 +49,6 @@ public class JavaFXKortti extends ImageView implements Kortti {
     public void oikeaKuva() {
         setImage(kaannetty ? (Image) kuva.getSisalto() : (Image) tausta.getSisalto());
     }
-    
-    // näitä ei nyt käytetty
-    /*public void setXY(int x, int y) {
-        setX(x);
-        setY(y);
-    }
-    
-    public double getKorttiX() {
-        return getX();
-    }
-    
-    public double getKorttiY() {
-        return getY();
-    }*/
     
     public int getKorttiLeveys() {
         return Math.max(kuva.getLeveys(), tausta.getLeveys());
@@ -117,6 +108,21 @@ public class JavaFXKortti extends ImageView implements Kortti {
         oikeaKuva();
     }
     
+    public void setAnimTila(Animaatiotila tila) {
+        this.animTila = tila;
+    }
+    
+    public Animaatiotila getAnimTila() {
+        return animTila;
+    }
+    
+    public void setOsaParia(boolean op) {
+        osaParia = op;
+    }
+    
+    public boolean getOsaParia() {
+        return osaParia;
+    }
     
     @Override
     public String toString() {

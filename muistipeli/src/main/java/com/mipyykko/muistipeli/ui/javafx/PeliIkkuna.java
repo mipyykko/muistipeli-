@@ -6,7 +6,9 @@
 package com.mipyykko.muistipeli.ui.javafx;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
+import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
+import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
 import javafx.animation.*;
 import javafx.event.*;
@@ -47,7 +49,8 @@ public class PeliIkkuna extends BorderPane {
         setTop(status);
 
         ruudukko = new Ruudukko(this, peli);
-        ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
+        ruudukko.alustaRuudukko();
+
         setCenter(ruudukko);
 
         Ruudukko.setHalignment(ruudukko, HPos.CENTER);
@@ -79,11 +82,25 @@ public class PeliIkkuna extends BorderPane {
         naytaTimeline.setCycleCount(peli.getPelilauta().getLeveys());
         naytaTimeline.setCycleCount(Animation.INDEFINITE);
         naytaTimeline.play();
+        // debug: pelitilan seuranta
+//        Timeline tmpTimeline = new Timeline();
+//        tmpTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(10),
+//                new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent ae) {
+//                int[] ao = ruudukko.korttejaAnimOdotusTilassa();
+//                status.setScore(peli.getTila().toString() + " anim: " + ao[0] + " odotus: " + ao[1]);
+//            }
+//        }));
+//        tmpTimeline.setCycleCount(Animation.INDEFINITE);
+//        tmpTimeline.play();
+
     }
 
     private void kaannaPystyRivi(ActionEvent event) {
+        peli.setTila(Pelitila.ANIM_KAYNNISSA);
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
-            ruudukko.kaannaKortti(new Point(animX, y));
+            ruudukko.kaannaKortti(new Point(animX, y), true);
         }
         animX++;
         if (animX >= peli.getPelilauta().getLeveys()) {
@@ -107,8 +124,8 @@ public class PeliIkkuna extends BorderPane {
             } else {
                 naytaTimeline.stop();
                 naytaTimeline = null;
-                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
-                //naytaTimeline.stop();
+                ruudukko.setOnMouseClicked((MouseEvent e) -> klikattuRuutua(e));
+                //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
         }
     }
@@ -121,67 +138,72 @@ public class PeliIkkuna extends BorderPane {
             @Override
             public void handle(ActionEvent t) {
                 for (Point p : edellinenSiirto) {
-                    ruudukko.kaannaKortti(p);
+                    ruudukko.kaannaKortti(p, false);
                 }
-                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+                siirto = new Point[2];
             }
         });
         pause.play();
     }
 
-    private FadeTransition ft(Point p, int a, int b) {
-        FadeTransition ft = new FadeTransition(Duration.millis(100), ruudukko.getIv(p));
-        ft.setFromValue(a);
-        ft.setToValue(b);
-        return ft;
-    }
-    
+    // TODO: esim. tää toimimaan
     private void animoiPari(Point[] siirto) {
-        FadeTransition[] ft = null;
+        /* tähän vaihtui nyt hbox sisältämään iv:n eli jos sen sais tekemään jotain */
+        final Animation[] a = new Animation[siirto.length];
         for (int i = 0; i < siirto.length; i++) {
-            final Point s = siirto[i];
-            ft[i] = ft(siirto[i], 0, 1);
-            final FadeTransition ft2 = ft(s, 1, 0);
-            ft[i].setOnFinished((ActionEvent ae) -> ft2.play());
-            ft[i].play();
+            final int idx = i;
+            a[i] = new Transition() {
+
+                {
+                    setCycleDuration(Duration.millis(1000));
+                    setInterpolator(Interpolator.EASE_OUT);
+                }
+
+                @Override
+                protected void interpolate(double frac) {
+                    Color vColor = new Color(1, 0, 0, 1 - frac);
+                    ruudukko.getHB(siirto[idx]).setBackground(new Background(new BackgroundFill(vColor, null, null)));
+                }
+
+            };
+            a[i].play();
         }
     }
-    
+
     private void paivitaScore() {
         status.setScore("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
     }
 
     private void hoidaSiirto(Point p) {
-        if (peli.getTila() != Pelitila.ANIM_KAYNNISSA) {
+        if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
             return;
         }
         if (siirto[0] != null && siirto[0] != p) {
-//            Thread t = new Thread(() -> {
-//                ruudukko.kaannaKortti(p);
-//            });
-//            t.start();
-            ruudukko.kaannaKortti(p);
+            ruudukko.kaannaKortti(p, false);
             siirto[1] = p;
             if (!peli.tarkistaPari(siirto)) {
                 // sekunnin tauko korttien kääntämisen jälkeen
-                peli.setTila(Pelitila.ANIM_KAYNNISSA);
                 odotaEnnenParinKaantoa(1);
             } else {
-                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
-                //animoiPari(siirto);
+                ruudukko.merkkaaPari(siirto);
+                //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+                animoiPari(siirto);
+                siirto = new Point[2];
             }
             paivitaScore();
             edellinenSiirto = siirto;
-            siirto = new Point[2];
-        } else {
-            ruudukko.kaannaKortti(p);
+
+        } else if (siirto[0] == null && siirto[1] == null) {
+            ruudukko.kaannaKortti(p, false);
             siirto[0] = p;
-            peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+            //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         }
     }
 
     private void klikattuRuutua(MouseEvent event) {
-
+//        if (ruudukko.getAnimaatioLkm() > 2) {
+//            return;
+//        }
         if (peli == null || peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
             return;
         }
@@ -194,15 +216,16 @@ public class PeliIkkuna extends BorderPane {
             return;
         }
         Point p = new Point(x, y);
+        JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(p);
 
 //        if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
 //            return;
 //        }
-        if (peli.getPelilauta().getKortti(p).getKaannetty()) {
+        if (k.getKaannetty()
+                || k.getAnimTila() != Animaatiotila.EI_KAYNNISSA /*|| ruudukko.animaatioKaynnissa(p)*/) {
             return;
         }
 
-        peli.setTila(Pelitila.ANIM_KAYNNISSA);
         hoidaSiirto(p);
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             System.out.println("lölz"); //TODO
