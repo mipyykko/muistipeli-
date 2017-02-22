@@ -47,6 +47,8 @@ public class PeliIkkuna extends BorderPane {
         setTop(status);
 
         ruudukko = new Ruudukko(this, peli);
+        ruudukko.alustaRuudukko();
+
         ruudukko.setOnMouseClicked((MouseEvent event) -> klikattuRuutua(event));
         setCenter(ruudukko);
 
@@ -65,6 +67,26 @@ public class PeliIkkuna extends BorderPane {
         return ruudukko;
     }
 
+//    private void asetaKuuntelijat() { // DEBUG: kääk
+//        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
+//            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+//                Point p = new Point(x, y);
+//                if (!peli.getPelilauta().getKortti(p).getKaannetty()) {
+//                    ruudukko.getIv(new Point(x, y)).
+//                        setOnMouseClicked(new EventHandler<MouseEvent>() {
+//
+//                            final Point pp = p;
+//
+//                            @Override
+//                            public void handle(MouseEvent event) {
+//                                klikattuRuutua(event, pp);
+//                            }
+//                        });
+//                }
+//            }
+//        }
+//    }
+
     /**
      * Käynnistää animaation, joka näyttää kortit pystyrivi kerrallaan.
      */
@@ -79,11 +101,24 @@ public class PeliIkkuna extends BorderPane {
         naytaTimeline.setCycleCount(peli.getPelilauta().getLeveys());
         naytaTimeline.setCycleCount(Animation.INDEFINITE);
         naytaTimeline.play();
+        // debug: pelitilan seuranta
+//        Timeline tmpTimeline = new Timeline();
+//        tmpTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(10),
+//                new EventHandler<ActionEvent>() {
+//            @Override
+//            public void handle(ActionEvent ae) {
+//                status.setScore(peli.getTila().toString() + " " + ruudukko.getAnimaatioLkm());
+//            }
+//        }));
+//        tmpTimeline.setCycleCount(Animation.INDEFINITE);
+//        tmpTimeline.play();
+
     }
 
     private void kaannaPystyRivi(ActionEvent event) {
+        peli.setTila(Pelitila.ANIM_KAYNNISSA);
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
-            ruudukko.kaannaKortti(new Point(animX, y));
+            ruudukko.kaannaKortti(new Point(animX, y), true);
         }
         animX++;
         if (animX >= peli.getPelilauta().getLeveys()) {
@@ -107,8 +142,8 @@ public class PeliIkkuna extends BorderPane {
             } else {
                 naytaTimeline.stop();
                 naytaTimeline = null;
-                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
-                //naytaTimeline.stop();
+                //asetaKuuntelijat();
+                //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
         }
     }
@@ -121,9 +156,9 @@ public class PeliIkkuna extends BorderPane {
             @Override
             public void handle(ActionEvent t) {
                 for (Point p : edellinenSiirto) {
-                    ruudukko.kaannaKortti(p);
+                    ruudukko.kaannaKortti(p, false);
                 }
-                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+                siirto = new Point[2];
             }
         });
         pause.play();
@@ -136,7 +171,9 @@ public class PeliIkkuna extends BorderPane {
         return ft;
     }
     
+    // TODO: esim. tää toimimaan
     private void animoiPari(Point[] siirto) {
+        /* tähän vaihtui nyt hbox sisältämään iv:n eli jos sen sais tekemään jotain */
         FadeTransition[] ft = null;
         for (int i = 0; i < siirto.length; i++) {
             final Point s = siirto[i];
@@ -146,39 +183,46 @@ public class PeliIkkuna extends BorderPane {
             ft[i].play();
         }
     }
-    
-    
 
     private void paivitaScore() {
         status.setScore("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
     }
 
     private void hoidaSiirto(Point p) {
-        if (peli.getTila() != Pelitila.ANIM_KAYNNISSA) {
+        if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
             return;
         }
-        if (siirto[0] != null && siirto[0] != p) {
-            ruudukko.kaannaKortti(p);
+        peli.setTila(Pelitila.ANIM_KAYNNISSA);
+        /* TODO
+            tää sekoittaa pakan aika herkästi ilmeisesti
+            mutta joo, jokin tapa pitää kirjaa näistä animaatioista ja 
+            ettei siirtoja voi sotkea
+        */
+            
+        if (siirto[0] != null && siirto[0] != p && siirto[1] == null) {
+            ruudukko.kaannaKortti(p, false);
             siirto[1] = p;
             if (!peli.tarkistaPari(siirto)) {
                 // sekunnin tauko korttien kääntämisen jälkeen
-                peli.setTila(Pelitila.ANIM_KAYNNISSA);
                 odotaEnnenParinKaantoa(1);
             } else {
+                ruudukko.merkkaaPari();
                 //animoiPari(siirto);
+                siirto = new Point[2];
             }
             paivitaScore();
             edellinenSiirto = siirto;
-            siirto = new Point[2];
-        } else {
-            ruudukko.kaannaKortti(p);
+
+        } else if (siirto[0] == null && siirto[1] == null) {
+            ruudukko.kaannaKortti(p, false);
             siirto[0] = p;
-            peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         }
     }
 
     private void klikattuRuutua(MouseEvent event) {
-
+        if (ruudukko.getAnimaatioLkm() > 2) {
+            return;
+        }
         if (peli == null || peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
             return;
         }
@@ -195,11 +239,11 @@ public class PeliIkkuna extends BorderPane {
 //        if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
 //            return;
 //        }
-        if (peli.getPelilauta().getKortti(p).getKaannetty()) {
+        if (peli.getPelilauta().getKortti(p).getKaannetty()
+                || ruudukko.animaatioKaynnissa(p)) {
             return;
         }
 
-        peli.setTila(Pelitila.ANIM_KAYNNISSA);
         hoidaSiirto(p);
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             System.out.println("lölz"); //TODO

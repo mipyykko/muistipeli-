@@ -15,10 +15,14 @@ import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.GridPane;
 import static javafx.scene.layout.GridPane.setColumnIndex;
 import static javafx.scene.layout.GridPane.setRowIndex;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Paint;
 import javafx.util.Duration;
 
 /**
@@ -30,8 +34,11 @@ public class Ruudukko extends GridPane {
 
     private Pane ikkuna;
     private ImageView[][] ivRuudukko;
+    private HBox[][] hbRuudukko;
     private Peli peli;
-    
+    private boolean[][] animaatioKaynnissa;
+    private int animaatioLkm;
+
     /**
      * Konstruktori.
      *
@@ -55,16 +62,47 @@ public class Ruudukko extends GridPane {
      */
     public void alustaRuudukko() {
         ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
+        hbRuudukko = new HBox[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
+        animaatioKaynnissa = new boolean[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
+        animaatioLkm = 0;
 
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
                 Kortti k = peli.getPelilauta().getKortti(new Point(x, y));
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
+                hbRuudukko[x][y] = new HBox();
+                hbRuudukko[x][y].getChildren().add(ivRuudukko[x][y]);
                 sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
-                
-                add(ivRuudukko[x][y], x, y);
+                add(/*iv*/hbRuudukko[x][y], x, y);
             }
         }
+    }
+
+    public boolean animaatioKaynnissa(Point p) {
+        return animaatioKaynnissa[p.x][p.y];
+    }
+
+    public boolean animaatioitaKaynnissa() {
+        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
+            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+                if (animaatioKaynnissa[x][y]) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public int getAnimaatioLkm() {
+        return animaatioLkm;
+    }
+
+    /**
+     * Merkkaa kaksi animaatiota päättyneeksi koska pari on löydetty.
+     */
+    public void merkkaaPari() {
+        animaatioLkm -= 2;
+        // TODO: tää vois tehdä kyllä esim. jotain muutakin
     }
 
     /**
@@ -78,6 +116,16 @@ public class Ruudukko extends GridPane {
     }
 
     /**
+     * Palauttaa HBoxin pisteessä p.
+     * 
+     * @param p koordinaatit Point-muodossa.
+     * @return HBox
+     */
+    public HBox getHB(Point p) {
+        return hbRuudukko[p.x][p.y];
+    }
+    
+    /**
      * Asettaa ImageViewin pisteessä p.
      *
      * @param iv ImageView
@@ -87,6 +135,10 @@ public class Ruudukko extends GridPane {
         ivRuudukko[p.x][p.y] = iv;
     }
 
+    public void setHB(HBox hb, Point p) {
+        hbRuudukko[p.x][p.y] = hb;
+    }
+    
     /**
      * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan.
      *
@@ -110,8 +162,13 @@ public class Ruudukko extends GridPane {
      * Animoi kortin kääntämisen.
      *
      * @param p Kortin koordinaatit.
+     * @param kaikki Ollaanko kääntämässä kaikkia kortteja vai sallitaanko vain
+     * kaksi auki samaan aikaan?
      */
-    public void kaannaKortti(Point p) {
+    public void kaannaKortti(Point p, boolean kaikki) {
+        if (animaatioLkm > 2 && !kaikki) {
+            return;
+        }
         JavaFXKortti kortti = (JavaFXKortti) peli.getPelilauta().getKortti(p);
         ImageView ivAlku = getIv(p);
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
@@ -134,10 +191,22 @@ public class Ruudukko extends GridPane {
             stNayta.play();
         });
         //peli.setTila(Pelitila.ANIM_ALKU);
+        animaatioKaynnissa[p.x][p.y] = true;
+        if (kortti.getKaannetty()) {
+            animaatioLkm++;
+        }
         stPiilota.play();
         stNayta.setOnFinished((ActionEvent t) -> {
             // TODO: pelitila anim_loppu?
-            peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+            animaatioKaynnissa[p.x][p.y] = false;
+            if (!kortti.getKaannetty()) {
+                animaatioLkm--;
+                if (animaatioLkm == 0) {
+                    peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+                }
+            } else {
+                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
+            }
             //j.oikeaKuva();
         });
     }
