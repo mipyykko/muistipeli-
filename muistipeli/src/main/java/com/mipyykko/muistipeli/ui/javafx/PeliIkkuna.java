@@ -147,8 +147,6 @@ public class PeliIkkuna extends BorderPane {
         }
     }
     
-    
-
     private void paivitaScore() {
         status.setScore("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
     }
@@ -158,6 +156,10 @@ public class PeliIkkuna extends BorderPane {
             return;
         }
         if (siirto[0] != null && siirto[0] != p) {
+//            Thread t = new Thread(() -> {
+//                ruudukko.kaannaKortti(p);
+//            });
+//            t.start();
             ruudukko.kaannaKortti(p);
             siirto[1] = p;
             if (!peli.tarkistaPari(siirto)) {
@@ -165,6 +167,7 @@ public class PeliIkkuna extends BorderPane {
                 peli.setTila(Pelitila.ANIM_KAYNNISSA);
                 odotaEnnenParinKaantoa(1);
             } else {
+                peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
                 //animoiPari(siirto);
             }
             paivitaScore();
