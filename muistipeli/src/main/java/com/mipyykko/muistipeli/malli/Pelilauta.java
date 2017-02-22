@@ -25,7 +25,6 @@ public class Pelilauta {
     private int leveys, korkeus;
     private Set<Kuva> kuvasarja;
     private Set<Tausta> taustasarja;
-    private Random random;
     
     /**
      * Konstruktori. 
@@ -117,8 +116,8 @@ public class Pelilauta {
         // TODO rakennetta mietittävä
     }
 
-    public void setKortit(Kortti[][] pelilauta) {
-        this.kortit = pelilauta;
+    public void setKortit(Kortti[][] kortit) {
+        this.kortit = kortit;
     }
 
     /**

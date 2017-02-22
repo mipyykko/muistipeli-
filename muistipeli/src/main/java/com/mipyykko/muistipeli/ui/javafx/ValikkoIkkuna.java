@@ -140,7 +140,7 @@ public class ValikkoIkkuna extends GridPane {
         try {
             peli.uusiPeli(leveys, korkeus, kuvat, taustat);
             PeliIkkuna peliIkkuna = new PeliIkkuna(peli);
-            peliIkkuna.getRuudukko().alustaRuudukko(peli.getPelilauta());
+            peliIkkuna.getRuudukko().alustaRuudukko();
             primaryStage.setScene(new Scene(peliIkkuna, this.getScene().getWidth()/*ikkunaleveys*/,
                     this.getScene().getHeight()/*ikkunakorkeus*/));
         } catch (Exception e) {

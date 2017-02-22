@@ -5,13 +5,14 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
+import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.*;
+import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -29,16 +30,17 @@ public class Ruudukko extends GridPane {
 
     private Pane ikkuna;
     private ImageView[][] ivRuudukko;
-    private Pelilauta pelilauta;
-
+    private Peli peli;
+    
     /**
      * Konstruktori.
      *
      * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
      */
-    public Ruudukko(Pane ikkuna) {
+    public Ruudukko(Pane ikkuna, Peli peli) {
         super();
         this.ikkuna = ikkuna;
+        this.peli = peli;
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);
@@ -51,15 +53,15 @@ public class Ruudukko extends GridPane {
      *
      * @param pelilauta Pelilauta.
      */
-    public void alustaRuudukko(Pelilauta pelilauta) {
-        this.pelilauta = pelilauta;
-        ivRuudukko = new ImageView[pelilauta.getLeveys()][pelilauta.getKorkeus()];
+    public void alustaRuudukko() {
+        ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
 
-        for (int y = 0; y < pelilauta.getKorkeus(); y++) {
-            for (int x = 0; x < pelilauta.getLeveys(); x++) {
-                Kortti k = pelilauta.getKortti(new Point(x, y));
+        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
+            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+                Kortti k = peli.getPelilauta().getKortti(new Point(x, y));
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
                 sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
+                
                 add(ivRuudukko[x][y], x, y);
             }
         }
@@ -98,8 +100,8 @@ public class Ruudukko extends GridPane {
          */
         // TODO: magic numbers, binding, centering?
         iv.setPreserveRatio(true);
-        iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(pelilauta.getLeveys()));
-        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(pelilauta.getKorkeus()));
+        iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
+        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(peli.getPelilauta().getKorkeus()));
         setColumnIndex(iv, x);
         setRowIndex(iv, y);
     }
@@ -110,7 +112,7 @@ public class Ruudukko extends GridPane {
      * @param p Kortin koordinaatit.
      */
     public void kaannaKortti(Point p) {
-        JavaFXKortti kortti = (JavaFXKortti) pelilauta.getKortti(p);
+        JavaFXKortti kortti = (JavaFXKortti) peli.getPelilauta().getKortti(p);
         ImageView ivAlku = getIv(p);
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
         stPiilota.setFromX(1);
@@ -134,6 +136,8 @@ public class Ruudukko extends GridPane {
         //peli.setTila(Pelitila.ANIM_ALKU);
         stPiilota.play();
         stNayta.setOnFinished((ActionEvent t) -> {
+            // TODO: pelitila anim_loppu?
+            peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             //j.oikeaKuva();
         });
     }

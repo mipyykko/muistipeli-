@@ -53,7 +53,7 @@ public class TekstiUI implements UI {
             }
             System.out.println("");
         }
-        System.out.format("Siirtoja %d, pareja %d\n", peli.getSiirrotLkm(), peli.getParitLkm());
+        System.out.format("Siirtoja %d, pareja %d%n", peli.getSiirrotLkm(), peli.getParitLkm());
 
     }
 

@@ -8,14 +8,10 @@ package com.mipyykko.muistipeli.ui.javafx;
 import com.mipyykko.muistipeli.logiikka.*;
 import com.mipyykko.muistipeli.malli.enums.*;
 import com.mipyykko.muistipeli.ui.UI;
-import java.awt.Point;
-import javafx.animation.PauseTransition;
-import javafx.event.ActionEvent;
 import javafx.scene.*;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 
 /**
  * JavaFX-käyttöliittymä.
