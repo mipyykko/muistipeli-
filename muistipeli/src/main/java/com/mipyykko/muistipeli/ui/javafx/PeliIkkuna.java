@@ -13,6 +13,7 @@ import java.awt.Point;
 import javafx.animation.*;
 import javafx.event.*;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -48,10 +49,13 @@ public class PeliIkkuna extends BorderPane {
         status = new StatusHBox();
         setTop(status);
 
+        HBox wrapper = new HBox();
         ruudukko = new Ruudukko(this, peli);
         ruudukko.alustaRuudukko();
-
-        setCenter(ruudukko);
+        wrapper.getChildren().add(ruudukko);
+        wrapper.setAlignment(Pos.CENTER);
+        
+        setCenter(wrapper);
 
         Ruudukko.setHalignment(ruudukko, HPos.CENTER);
 
@@ -186,7 +190,6 @@ public class PeliIkkuna extends BorderPane {
                 odotaEnnenParinKaantoa(1);
             } else {
                 ruudukko.merkkaaPari(siirto);
-                //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
                 animoiPari(siirto);
                 siirto = new Point[2];
             }
@@ -196,7 +199,6 @@ public class PeliIkkuna extends BorderPane {
         } else if (siirto[0] == null && siirto[1] == null) {
             ruudukko.kaannaKortti(p, false);
             siirto[0] = p;
-            //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
         }
     }
 
@@ -218,11 +220,7 @@ public class PeliIkkuna extends BorderPane {
         Point p = new Point(x, y);
         JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(p);
 
-//        if (peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
-//            return;
-//        }
-        if (k.getKaannetty()
-                || k.getAnimTila() != Animaatiotila.EI_KAYNNISSA /*|| ruudukko.animaatioKaynnissa(p)*/) {
+        if (k.getKaannetty() || k.getAnimTila() != Animaatiotila.EI_KAYNNISSA) {
             return;
         }
 
