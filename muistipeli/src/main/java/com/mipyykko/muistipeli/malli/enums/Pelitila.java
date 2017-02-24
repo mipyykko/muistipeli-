@@ -8,6 +8,7 @@ package com.mipyykko.muistipeli.malli.enums;
 /**
  * Pelitila-enum.
  * 
+ * @see com.mipyykko.muistipeli.logiikka.Peli
  * @author pyykkomi
  */
 public enum Pelitila {

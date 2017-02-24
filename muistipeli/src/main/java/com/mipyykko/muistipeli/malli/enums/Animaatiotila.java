@@ -6,7 +6,10 @@
 package com.mipyykko.muistipeli.malli.enums;
 
 /**
- *
+ * (JavaFX)Kortin animaation tila.
+ * 
+ * @see com.mipyykko.muistipeli.malli.impl.JavaFXKortti
+ * @see com.mipyykko.muistipeli.ui.javafx.Ruudukko
  * @author pyykkomi
  */
 public enum Animaatiotila {

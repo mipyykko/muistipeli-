@@ -30,6 +30,7 @@ public class JavaFXKortti extends ImageView implements Kortti {
     /**
      * JavaFX-kortin konstruktori.
      * 
+     * @see com.mipyykko.muistipeli.malli.Kortti
      * @param kuva Voi olla myös null sillä konstruktori ei oleta sisältävän mitään.
      * @param tausta Voi olla myös null sillä konstruktori ei oleta sisältävän mitään.
      */

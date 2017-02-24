@@ -38,6 +38,7 @@ public class Ruudukko extends GridPane {
      * Konstruktori.
      *
      * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
+     * @param peli Peli-objekti.
      */
     public Ruudukko(Pane ikkuna, Peli peli) {
         super();
@@ -72,7 +73,9 @@ public class Ruudukko extends GridPane {
     }
 
     /**
-     * Merkkaa kaksi animaatiota päättyneeksi koska pari on löydetty.
+     * Merkataan pari ja animaatiot päättyneiksi.
+     * .
+     * @param siirto Point[] joka sisältää siirrot.
      */
     public void merkkaaPari(Point[] siirto) {
         for (Point p : siirto) {
