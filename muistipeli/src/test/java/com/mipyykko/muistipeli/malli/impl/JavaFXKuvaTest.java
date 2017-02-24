@@ -92,8 +92,10 @@ public class JavaFXKuvaTest {
     public void hashCodeToimii() {
         JavaFXKuva t = new JavaFXKuva("testikuva", null);
         assertEquals("Hashcode ei palauta oikein kun kuvat samanlaiset", t.hashCode(), testikuva.hashCode());
+        assertEquals("Hashcode ei palauta oikeaa arvoa ennen muutosta", -1171139169, t.hashCode());
         t.setKey("kissa");
         assertTrue("Hashcode ei palauta oikein kun kuvat erilaiset", t.hashCode() != testikuva.hashCode());
+        assertEquals("Hashcode ei palauta oikeaa arvoa muutoksen jälkeen", 102059350, t.hashCode());
     }
 
 }

@@ -100,8 +100,8 @@ public class TekstiKortti implements Kortti {
     
     @Override
     public int hashCode() {
-        int hash = 5;
-        hash = 73 * hash + Objects.hashCode(this.kuva);
+        int hash = 7;
+        hash = 19 * hash + Objects.hashCode(this.kuva);
         return hash;
     }
 

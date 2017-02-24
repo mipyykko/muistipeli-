@@ -47,7 +47,10 @@ public class TekstiKuvaTest {
     @Test
     public void hashCodeOikein() {
         assertEquals("hashCode ei palauta oikein kun kuvat samanlaiset", kuva.hashCode(), kuva2.hashCode());
+        assertEquals("hashCode ei palauta oikeaa arvoa ennen muutosta", -1171139169, kuva.hashCode());
         assertTrue("hashCode ei palauta oikein kun kuvat erilaiset", kuva.hashCode() != kuva3.hashCode());
+        kuva.setKey("kissa");
+        assertEquals("hashCode ei palauta oikeaa arvoa muutoksen jälkeen", 102059350, kuva.hashCode());
     }
     
     @Test

@@ -73,7 +73,10 @@ public class TekstiKorttiTest {
     @Test
     public void hashCodeOikein() {
         assertEquals("hashCode ei palauta oikein kun kortit samanlaiset", kortti.hashCode(), kortti2.hashCode());
+        assertEquals("hashCode ei palauta oikeaa arvoa ennen muutosta", -1171139036, kortti.hashCode());
         assertTrue("hashCode ei palauta oikein kun kortit erilaiset", kortti.hashCode() != kortti3.hashCode());
+        kortti.setKuva(new TekstiKuva("kissa"));
+        assertEquals("hashCode ei palauta oikeaa arvoa muutoksen jälkeen", 102059483, kortti.hashCode());
     }
     
     @Test

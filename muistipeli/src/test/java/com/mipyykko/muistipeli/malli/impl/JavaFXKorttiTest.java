@@ -5,8 +5,7 @@
  */
 package com.mipyykko.muistipeli.malli.impl;
 
-import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.util.TestApplication;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -144,10 +143,13 @@ public class JavaFXKorttiTest {
     public void testaaHashCode() {
         JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
         assertEquals("Hashcode ei palauta oikein kun kortit samanlaiset", kortti.hashCode(), kortti2.hashCode());
+        assertEquals("Hashcode ei palauta oikeaa arvoa ennen muutosta", -1171139036, kortti2.hashCode());
         kortti2.setKuva(isoTestikuva);
         assertTrue("Hashcode ei palauta oikein kun kortit erilaiset", kortti.hashCode() != kortti2.hashCode());
+        assertEquals("Hashcode ei palauta oikeaa arvoa muutoksen jälkeen", 672473887, kortti2.hashCode());
     }
      
+    
     @Test
     public void setKuvaAsettaaImagen() {
         JavaFXKortti kortti2 = new JavaFXKortti(testikuva, testitausta);
@@ -156,6 +158,16 @@ public class JavaFXKorttiTest {
         kortti2.kaanna();
         assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getSisalto().equals(isoTestikuva.getSisalto()));
     
+    }
+    
+    @Test
+    public void getsetAnimTilaOsaParia() {
+        assertEquals("animTila ei oikea ennen muutosta", Animaatiotila.EI_KAYNNISSA, kortti.getAnimTila());
+        kortti.setAnimTila(Animaatiotila.ODOTTAA);
+        assertEquals("animTila ei oikea muutoksen jälkeen", Animaatiotila.ODOTTAA, kortti.getAnimTila());
+        assertTrue("osaParia ei oikea ennen muutosta", !kortti.getOsaParia());
+        kortti.setOsaParia(true);
+        assertTrue("osaParia ei oikea muutoksen jälkeen", kortti.getOsaParia());
     }
     
     @AfterClass

@@ -72,7 +72,7 @@ public class TekstiKuva implements Kuva {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 23 * hash + Objects.hashCode(this.key);
+        hash = 53 * hash + Objects.hashCode(this.key);
         return hash;
     }
     
