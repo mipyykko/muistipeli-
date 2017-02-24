@@ -5,8 +5,7 @@
  */
 package com.mipyykko.muistipeli.malli.impl;
 
-import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Tausta;
+import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.util.TestApplication;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -156,6 +155,20 @@ public class JavaFXKorttiTest {
         kortti2.kaanna();
         assertTrue("setKuva ei aseta kuvaa oikein", kortti2.getSisalto().equals(isoTestikuva.getSisalto()));
     
+    }
+    
+    @Test
+    public void testaaAnimTila() {
+        assertEquals("Animaatiotila alussa väärä", Animaatiotila.EI_KAYNNISSA, kortti.getAnimTila());
+        kortti.setAnimTila(Animaatiotila.ODOTTAA);
+        assertEquals("Animaatiotila muutoksen jälkeen väärä", Animaatiotila.ODOTTAA, kortti.getAnimTila());
+    }
+    
+    @Test
+    public void testaaOsaParia() {
+        assertTrue("osaParia alussa väärin", !kortti.getOsaParia());
+        kortti.setOsaParia(true);
+        assertTrue("osaParia muutoksen jälkeen väärin", kortti.getOsaParia());
     }
     
     @AfterClass

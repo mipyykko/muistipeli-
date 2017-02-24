@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.mipyykko.muistipeli.malli.enums;
+package com.mipyykko.muistipeli.ui.javafx;
 
 /**
- * Korttityyppi-enum.
- * 
- * @see com.mipyykko.muistipeli.malli.Kortti
+ *
  * @author pyykkomi
  */
-public enum Korttityyppi {
-    JAVAFX,
-    TEKSTI;
+public class TulosIkkuna {
+    
 }

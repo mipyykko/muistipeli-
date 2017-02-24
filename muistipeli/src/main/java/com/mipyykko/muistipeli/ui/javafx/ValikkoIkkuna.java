@@ -47,7 +47,6 @@ public class ValikkoIkkuna extends GridPane {
      *
      * @param primaryStage Stage johon luodaan peliä käynnistettäessä uusi
      * scene.
-     * @throws Exception Jotain tapahtui, luultavasti kuvasettejä ei löydy.
      */
     public ValikkoIkkuna(Stage primaryStage)/* throws Exception*/ {
         super();
@@ -127,7 +126,7 @@ public class ValikkoIkkuna extends GridPane {
         try {
             kuvat = jfi.luoKuvat(leveys, korkeus);
         } catch (Exception ex) { // debug
-             Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
         }
         Set<Tausta> taustat = null;
         try {

@@ -203,9 +203,6 @@ public class PeliIkkuna extends BorderPane {
     }
 
     private void klikattuRuutua(MouseEvent event) {
-//        if (ruudukko.getAnimaatioLkm() > 2) {
-//            return;
-//        }
         if (peli == null || peli.getTila() != Pelitila.ODOTTAA_SIIRTOA) {
             return;
         }
