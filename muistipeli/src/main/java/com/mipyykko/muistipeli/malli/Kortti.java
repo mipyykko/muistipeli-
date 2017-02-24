@@ -24,6 +24,18 @@ public interface Kortti {
      */
     public boolean kaanna();
     
+    /** Onko kortti osa paria?
+     * 
+     * @return  boolean-arvo
+     */
+    public boolean getOsaParia();
+    
+    /**
+     * Asetetaan kortille osaParia-boolean.
+     * 
+     * @param arvo Haluttu boolean-arvo.
+     */
+    public void setOsaParia(boolean arvo);
     /**
      * Kuva-getteri.
      * 

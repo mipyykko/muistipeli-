@@ -20,6 +20,7 @@ public class TekstiKortti implements Kortti {
     private Kuva kuva;
     private Tausta tausta;
     private boolean kaannetty;
+    private boolean osaParia;
     
     /**
      * Tekstikortin konstruktori.
@@ -31,27 +32,29 @@ public class TekstiKortti implements Kortti {
         this.kuva = kuva;
         this.tausta = tausta;
         this.kaannetty = false;
+        this.osaParia = false;
     }
 
-    /**
-     * Onko kortti käännetty?
-     * 
-     * @return boolean-arvo
-     */
+
     @Override
     public boolean getKaannetty() {
         return kaannetty;
     }
     
-    /**
-     * Kääntää kortin.
-     * 
-     * @return boolean-arvo
-     */
     @Override
     public boolean kaanna() {
         kaannetty = !kaannetty; 
         return kaannetty;
+    }
+    
+    @Override
+    public boolean getOsaParia() {
+        return osaParia;
+    }
+    
+    @Override
+    public void setOsaParia(boolean arvo) {
+        osaParia = arvo;
     }
     
     @Override

@@ -57,10 +57,10 @@ public class JavaFXUI implements UI {
      */
     @Override
     public void nayta() /*throws Exception*/ {
-        // TODO: jotain!
         if (firstrun) {
             firstrun = false;
             //try {
+            // TODO: koko ikkuna stackpane, johon lisätään ja josta poistetaan tasoja
             valikkoIkkuna = new ValikkoIkkuna();
 
             if (peli != null) {

@@ -117,10 +117,12 @@ public class JavaFXKortti extends ImageView implements Kortti {
         return animTila;
     }
     
-    public void setOsaParia(boolean op) {
-        osaParia = op;
+    @Override
+    public void setOsaParia(boolean arvo) {
+        osaParia = arvo;
     }
     
+    @Override
     public boolean getOsaParia() {
         return osaParia;
     }

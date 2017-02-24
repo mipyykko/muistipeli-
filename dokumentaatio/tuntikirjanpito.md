@@ -21,3 +21,4 @@ Päivä | Tunnit | Kuvaus
 19.2.2017 | 3 | Korttien valinta valikkoon, muuta säätöä
 20.2.2017 | 2 | Animointia, UI-luokkia pätkitty, testejä
 22.2.2017 | 2 | Bugikorjausta, animaatioita
+24.2.2017 | 4 | Valikkohässäkkää, animaatioita

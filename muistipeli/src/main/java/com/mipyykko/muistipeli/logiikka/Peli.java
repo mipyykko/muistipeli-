@@ -70,8 +70,10 @@ public class Peli {
      * @throws Exception 
      */
     public void uusiPeli() throws Exception {
-        uusiPeli(pelilauta.getLeveys(), pelilauta.getKorkeus(),
-             pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
+        if (pelilauta != null) {
+            uusiPeli(pelilauta.getLeveys(), pelilauta.getKorkeus(),
+                 pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
+        } // TODO: else? testit?
     }
     
     /**
@@ -86,10 +88,16 @@ public class Peli {
     }
     
     /**
-     * Kasvattaa parien määrää.
+     * Kasvattaa parien määrää ja merkitsee parin.
+     
+     * @param pari Korttien koordinaatit Point-muodossa.    
      */
-    public void lisaaPari() {
+    public void lisaaPari(Point[] pari) {
         paritLkm++;
+        for (Point p : pari) {
+            pelilauta.getKortti(p).setOsaParia(true);
+        }
+        
     }
     
     public int getParitLkm() {
@@ -145,7 +153,7 @@ public class Peli {
      * @return boolean-arvo
      */
     public boolean tarkistaPari(Point[] siirrot) {
-        // debug
+        // TODO turhan isoja himmeleitä nämä ehtolauseet
         if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null ||
             siirrot[0].equals(siirrot[1])) {
             return false;
@@ -154,7 +162,7 @@ public class Peli {
         lisaaSiirto();
         boolean pari = pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
         if (pari) {
-            lisaaPari();
+            lisaaPari(siirrot);
             if (peliLoppu()) {
                 setTila(Pelitila.PELI_LOPPU);
             } else {

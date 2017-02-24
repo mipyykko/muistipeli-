@@ -46,8 +46,6 @@ public class ValikkoIkkuna extends GridPane {
     /**
      * Luo valikkoikkunan ja valikon sisältöineen.
      *
-     * @param primaryStage Stage johon luodaan peliä käynnistettäessä uusi
-     * scene.
      */
     public ValikkoIkkuna()/* throws Exception*/ {
         super();
@@ -55,8 +53,8 @@ public class ValikkoIkkuna extends GridPane {
         sisalto = new GridPane();
         setAlignment(Pos.CENTER);
         setPadding(new Insets(15));
-        setHgap(16);
-        setVgap(8);
+        sisalto.setHgap(16);
+        sisalto.setVgap(8);
         setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
 
         sisalto.setBackground(null);
@@ -114,8 +112,8 @@ public class ValikkoIkkuna extends GridPane {
 
     private void aloitusNappiKlikattu(ActionEvent event)/* throws Exception*/ {
         //if (peli == null || peli.getTila() == Pelitila.VALIKKO) {
-        int leveys = 2;
-        int korkeus = 2;
+        int leveys = 4; // DEBUG, TODO jne. jne.
+        int korkeus = 5;
         JavaFXInit jfi = new JavaFXInit();
         String setti = (String) kuvavalikko.getValue();
         if (setti == null || setti.isEmpty()) {

@@ -28,7 +28,7 @@ import javafx.util.Duration;
  * @author pyykkomi
  */
 public class Ruudukko extends GridPane {
-    
+
     private Pane ikkuna;
     private ImageView[][] ivRuudukko;
     private HBox[][] hbRuudukko;
@@ -47,7 +47,7 @@ public class Ruudukko extends GridPane {
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);
-        
+
         setBackground(null);
     }
 
@@ -58,7 +58,7 @@ public class Ruudukko extends GridPane {
     public void alustaRuudukko() {
         ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
         hbRuudukko = new HBox[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
-        
+
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
@@ -73,15 +73,14 @@ public class Ruudukko extends GridPane {
     }
 
     /**
-     * Merkataan pari ja animaatiot päättyneiksi.
-     * .
+     * Merkataan pari ja animaatiot päättyneiksi. .
+     *
      * @param siirto Point[] joka sisältää siirrot.
      */
     public void merkkaaPari(Point[] siirto) {
         for (Point p : siirto) {
             JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(p);
             k.setAnimTila(Animaatiotila.EI_KAYNNISSA);
-            k.setOsaParia(true);
         }
     }
 
@@ -114,7 +113,7 @@ public class Ruudukko extends GridPane {
     public void setIv(ImageView iv, Point p) {
         ivRuudukko[p.x][p.y] = iv;
     }
-    
+
 //    public void setHB(HBox hb, Point p) {
 //        hbRuudukko[p.x][p.y] = hb;
 //    }
@@ -130,14 +129,15 @@ public class Ruudukko extends GridPane {
         /* note to self:
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
-        // TODO: magic numbers, binding, centering?
+        // TODO: ei oikein taas tiedä miten skaalauksen tekisi toimivasti
+
         iv.setPreserveRatio(true);
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
-        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(70).divide(peli.getPelilauta().getKorkeus()));
+        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(100).divide(peli.getPelilauta().getKorkeus()));
         setColumnIndex(iv, x);
         setRowIndex(iv, y);
     }
-    
+
     private int[] korttejaAnimOdotusTilassa() {
         int[] animOdotus = new int[2];
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
@@ -172,16 +172,16 @@ public class Ruudukko extends GridPane {
         ScaleTransition stPiilota = new ScaleTransition(Duration.millis(150), ivAlku);
         stPiilota.setFromX(1);
         stPiilota.setToX(0);
-        
+
         kortti.kaanna();
-        
+
         ImageView ivLoppu = new ImageView((Image) kortti.getSisalto());
         sijoitaJaSkaalaaIv(ivLoppu, p.x, p.y);
         ivLoppu.setScaleX(0);
         ScaleTransition stNayta = new ScaleTransition(Duration.millis(150), ivLoppu);
         stNayta.setFromX(0);
         stNayta.setToX(1);
-        
+
         stPiilota.setOnFinished((ActionEvent t) -> {
             getHB(p).getChildren().remove(ivAlku);
             getHB(p).getChildren().add(ivLoppu);
@@ -195,10 +195,14 @@ public class Ruudukko extends GridPane {
         }
         stPiilota.play();
         stNayta.setOnFinished((ActionEvent t) -> {
-            if (kortti.getKaannetty() && !kortti.getOsaParia()) {
-                kortti.setAnimTila(Animaatiotila.ODOTTAA);
-            } else {
+            if (kortti.getOsaParia()) {
                 kortti.setAnimTila(Animaatiotila.EI_KAYNNISSA);
+            } else {
+                if (kortti.getKaannetty() && !kortti.getOsaParia()) {
+                    kortti.setAnimTila(Animaatiotila.ODOTTAA);
+                } else {
+                    kortti.setAnimTila(Animaatiotila.EI_KAYNNISSA);
+                }
             }
             int[] ao = korttejaAnimOdotusTilassa();
             if (ao[0] == 0 && ao[1] < 2) {
@@ -206,5 +210,5 @@ public class Ruudukko extends GridPane {
             }
         });
     }
-    
+
 }

@@ -68,6 +68,9 @@ public class TekstiKorttiTest {
         kortti.setKuva(new TekstiKuva("kissa"));
         assertEquals("getKuva ei palauta oikein muutoksen jälkeen", "kissa", kortti.getKuva().getKey());
         assertEquals("getSisalto ei palauta oikein", "kissa", kortti.getSisalto());
+        assertTrue("osaParia ei palauta oikein ennen muutosta", !kortti.getOsaParia());
+        kortti.setOsaParia(true);
+        assertTrue("osaParia ei palauta oikein muutoksen jälkeen", kortti.getOsaParia());
     }
     
     @Test

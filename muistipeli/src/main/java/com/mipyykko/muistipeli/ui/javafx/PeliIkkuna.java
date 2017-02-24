@@ -36,6 +36,7 @@ public class PeliIkkuna extends BorderPane {
     private StatusHBox status;
     private Ruudukko ruudukko;
     private StackPane sp;
+    private HBox ruudukkoWrapper;
     private Peli peli;
     private Point[] siirto, edellinenSiirto;
     private int animX = 0, animKerrat = 0;
@@ -56,7 +57,7 @@ public class PeliIkkuna extends BorderPane {
         setTop(status);
 
         sp = new StackPane();
-        HBox ruudukkoWrapper = new HBox();
+        ruudukkoWrapper = new HBox();
         ruudukko = new Ruudukko(this, peli);
         ruudukko.alustaRuudukko();
         ruudukkoWrapper.getChildren().add(ruudukko);
@@ -254,7 +255,6 @@ public class PeliIkkuna extends BorderPane {
 
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             animoiVoitto();
-            System.out.println("lölz"); //TODO
         }
     }
 

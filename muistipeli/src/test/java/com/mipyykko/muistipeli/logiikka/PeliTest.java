@@ -164,9 +164,6 @@ public class PeliTest {
                 assertEquals("Pelitila ei päivity oikein kun peli on kesken", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
             }
         }
-        /// TODO, hm, tää testi ei varsinaisesti testaa muuta kuin että peli menee tosiaan läpi 
-        // koska jos tuo siirtosarja ei menis läpi niin se jumisi pelaa-luuppiin...
-        // assertiin ei siis ikinä edes päädytä jos näin käy.
         assertEquals("Kaikki kortit käännetty mutta peli ei loppu", true, peli.peliLoppu());
         assertEquals("Siirtojen määrä väärin", siirrot.size() / 2, peli.getSiirrotLkm());
         assertEquals("Pelitila ei päivity oikein kun peli on loppu", Pelitila.PELI_LOPPU, peli.getTila());

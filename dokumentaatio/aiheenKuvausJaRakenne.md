@@ -20,6 +20,11 @@ Toteutetaan yksinkertainen muistipeli, jossa pelaajan tehtävänä on löytää 
 
 ![Luokkakaavio](luokkakaavio.png)
 
+**Rakennekuvaus:**
+
+Pelilogiikka on Peli-luokassa. Peli luo Pelilaudan, Pelilauta luo Korttitehtaan ja Korttitehdas tuottaa halutun tyyppisiä Kortti-olioita. Kortti sisältää Kuvan ja Taustan. UI:n puolelta tulevien käskyjen perusteella Peli kääntää Pelilaudalta haluttuja kortteja, tarkistaa parit ja päivittää Pelitila-enum-muotoista tilamuuttujaa.
+Graafiseen käyttöliittymään käytetyn JavaFX:n luonteen vuoksi UI ja pelilogiikka sekoittuvat väkisinkin hieman, mutta koko himmeli kuitenkin tukeutuu Peli-luokkaan.
+
 **Sekvenssikaaviot:**
 
 Ensimmäisen kuvan tilanteessa on kutsuttu peli-luokan uusiPeli-metodia oikeilla parametreilla:

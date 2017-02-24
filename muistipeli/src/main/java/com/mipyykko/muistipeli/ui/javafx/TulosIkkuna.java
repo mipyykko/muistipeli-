@@ -20,55 +20,68 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 /**
+ * Pelin tuloksen kertova ikkuna josta mahdollista myös käynnistää uusi peli.
  *
  * @author pyykkomi
  */
 public class TulosIkkuna extends GridPane {
 
     private Stage primaryStage;
-    private GridPane sisalto;
+    private GridPane valikko;
     private Peli peli;
-    
+
+    /**
+     * Tulosikkunan konstruktori.
+     *
+     * @param peli Peli-objekti josta tulos haetaan.
+     */
     public TulosIkkuna(Peli peli) {
         super();
         this.primaryStage = JavaFXMain.getStage();
         this.peli = peli;
-        
-        sisalto = new GridPane();
-        setAlignment(Pos.CENTER);
-        setPadding(new Insets(15));
-        setHgap(16);
-        setVgap(8);
-        setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
 
-        Text otsikko = new Text("Jee! Voitit!");
-        otsikko.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 64));
-        otsikko.setTextAlignment(TextAlignment.CENTER);
-        
-        Text tulos = new Text("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
-        tulos.setTextAlignment(TextAlignment.CENTER);
-        
-        Button uusipeli = new Button("Uusi peli");
-        uusipeli.setOnAction((ActionEvent ae) -> {
-        try {
-            peli.uusiPeli();
-            PeliIkkuna peliIkkuna = new PeliIkkuna(peli);
-            primaryStage.setScene(new Scene(peliIkkuna, this.getScene().getWidth(),
+        setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
+        valikko = new GridPane();
+        valikko.setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
+        setAlignment(Pos.CENTER);
+        valikko.setPadding(new Insets(15));
+        valikko.setHgap(16);
+        valikko.setVgap(8);
+
+        Text onnitteluText = new Text("Jee! Voitit!");
+        onnitteluText.setFont(Font.loadFont(getClass().getClassLoader().getResourceAsStream("fontit/GoodDog.otf"), 64));
+        onnitteluText.setTextAlignment(TextAlignment.CENTER);
+
+        Text tulosText = new Text("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
+        tulosText.setTextAlignment(TextAlignment.CENTER);
+
+        Button valikkoButton = new Button("Alkuvalikkoon");
+        valikkoButton.setOnAction((ActionEvent ae) -> {
+            ValikkoIkkuna valikkoIkkuna = new ValikkoIkkuna();
+            primaryStage.setScene(new Scene(valikkoIkkuna, this.getScene().getWidth(),
                     this.getScene().getHeight()));
-        } catch (Exception e) {
-            System.out.println("Pelin luominen epäonnistui! " + e.getMessage()); // debug
-        }            
         });
-        
-        sisalto.add(otsikko, 1, 0);
-        sisalto.add(new HBox(), 1, 1);
-        sisalto.add(tulos, 1, 2);
-        sisalto.add(uusipeli, 1, 3);
-        
-        setHalignment(otsikko, HPos.CENTER);
-        setHalignment(tulos, HPos.CENTER);
-        setHalignment(uusipeli, HPos.CENTER);
-        
-        add(sisalto, 1, 1);
+        Button uusipeliButton = new Button("Uusi peli");
+        uusipeliButton.setOnAction((ActionEvent ae) -> {
+            try {
+                // TODO: tähän se liukuma toiseen suuntaan kunhan saadaan koko roska stackpaneen
+                peli.uusiPeli();
+                PeliIkkuna peliIkkuna = new PeliIkkuna(peli);
+                primaryStage.setScene(new Scene(peliIkkuna, this.getScene().getWidth(),
+                        this.getScene().getHeight()));
+            } catch (Exception e) {
+                System.out.println("Pelin luominen epäonnistui! " + e.getMessage()); // debug
+            }
+        });
+
+        valikko.addColumn(1, onnitteluText, new HBox(), tulosText, valikkoButton, uusipeliButton);
+
+        setHalignment(valikko, HPos.CENTER);
+        setHalignment(onnitteluText, HPos.CENTER);
+        setHalignment(tulosText, HPos.CENTER);
+        setHalignment(valikkoButton, HPos.CENTER);
+        setHalignment(uusipeliButton, HPos.CENTER);
+
+        add(valikko, 1, 1);
     }
 }
