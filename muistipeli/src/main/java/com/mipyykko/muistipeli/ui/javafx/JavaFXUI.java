@@ -61,7 +61,7 @@ public class JavaFXUI implements UI {
         if (firstrun) {
             firstrun = false;
             //try {
-            valikkoIkkuna = new ValikkoIkkuna(primaryStage);
+            valikkoIkkuna = new ValikkoIkkuna();
 
             if (peli != null) {
                 peli.setTila(Pelitila.VALIKKO);

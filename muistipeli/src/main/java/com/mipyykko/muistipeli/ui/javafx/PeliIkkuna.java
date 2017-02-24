@@ -5,16 +5,21 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
+import com.mipyykko.muistipeli.JavaFXMain;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
+import java.util.HashSet;
+import java.util.Set;
 import javafx.animation.*;
 import javafx.event.*;
 import javafx.geometry.HPos;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -30,6 +35,7 @@ public class PeliIkkuna extends BorderPane {
 
     private StatusHBox status;
     private Ruudukko ruudukko;
+    private StackPane sp;
     private Peli peli;
     private Point[] siirto, edellinenSiirto;
     private int animX = 0, animKerrat = 0;
@@ -49,13 +55,15 @@ public class PeliIkkuna extends BorderPane {
         status = new StatusHBox();
         setTop(status);
 
-        HBox wrapper = new HBox();
+        sp = new StackPane();
+        HBox ruudukkoWrapper = new HBox();
         ruudukko = new Ruudukko(this, peli);
         ruudukko.alustaRuudukko();
-        wrapper.getChildren().add(ruudukko);
-        wrapper.setAlignment(Pos.CENTER);
-        
-        setCenter(wrapper);
+        ruudukkoWrapper.getChildren().add(ruudukko);
+        ruudukkoWrapper.setAlignment(Pos.CENTER);
+        sp.getChildren().add(ruudukkoWrapper);
+
+        setCenter(sp/*ruudukkoWrapper*/);
 
         Ruudukko.setHalignment(ruudukko, HPos.CENTER);
 
@@ -153,25 +161,46 @@ public class PeliIkkuna extends BorderPane {
     // TODO: esim. tää toimimaan
     private void animoiPari(Point[] siirto) {
         /* tähän vaihtui nyt hbox sisältämään iv:n eli jos sen sais tekemään jotain */
-        final Animation[] a = new Animation[siirto.length];
+        final Timeline[] a = new Timeline[siirto.length];
+
         for (int i = 0; i < siirto.length; i++) {
             final int idx = i;
-            a[i] = new Transition() {
-
-                {
-                    setCycleDuration(Duration.millis(1000));
-                    setInterpolator(Interpolator.EASE_OUT);
-                }
-
-                @Override
-                protected void interpolate(double frac) {
-                    Color vColor = new Color(1, 0, 0, 1 - frac);
-                    ruudukko.getHB(siirto[idx]).setBackground(new Background(new BackgroundFill(vColor, null, null)));
-                }
-
-            };
+            Glow g = new Glow();
+            DropShadow ds = new DropShadow();
+            ds.setColor(Color.RED);
+            ds.setSpread(0.75);
+            a[i] = new Timeline(
+                    new KeyFrame(Duration.ZERO, new KeyValue(ds.radiusProperty(), 0d)),
+                    new KeyFrame(Duration.seconds(0.45), new KeyValue(ds.radiusProperty(), 20d)));
+            a[i].setAutoReverse(true);
+            a[i].setCycleCount(2);
+            ruudukko.getHB(siirto[idx]).setEffect(ds);
+            a[i].setOnFinished(e -> ruudukko.getHB(siirto[idx]).setEffect(null));
             a[i].play();
         }
+    }
+
+    private void animoiVoitto() {
+        DropShadow ds = new DropShadow();
+        ds.setColor(Color.RED);
+        ds.setSpread(0.75);
+        Animation a = new Timeline(
+                        new KeyFrame(Duration.ZERO, new KeyValue(ds.radiusProperty(), 0d)),
+                        new KeyFrame(Duration.seconds(0.3), new KeyValue(ds.radiusProperty(), 20d)));
+        a.setAutoReverse(true);
+        a.setCycleCount(10);
+        ruudukko.setEffect(ds);
+        a.setOnFinished(e -> ruudukko.setEffect(null));
+        
+        TulosIkkuna t = new TulosIkkuna(peli);
+        sp.getChildren().add(t);
+        t.setTranslateX(-sp.getWidth());
+
+        PauseTransition pt = new PauseTransition(Duration.seconds(2));
+        TranslateTransition tt = new TranslateTransition(new Duration(350), t);
+        tt.setToX(0);
+        a.setOnFinished(e -> tt.play());
+        a.play();
     }
 
     private void paivitaScore() {
@@ -222,7 +251,9 @@ public class PeliIkkuna extends BorderPane {
         }
 
         hoidaSiirto(p);
+
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
+            animoiVoitto();
             System.out.println("lölz"); //TODO
         }
     }

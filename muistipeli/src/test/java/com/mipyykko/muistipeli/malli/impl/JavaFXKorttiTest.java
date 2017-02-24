@@ -161,15 +161,6 @@ public class JavaFXKorttiTest {
     }
     
     @Test
-<<<<<<< HEAD
-    public void getsetAnimTilaOsaParia() {
-        assertEquals("animTila ei oikea ennen muutosta", Animaatiotila.EI_KAYNNISSA, kortti.getAnimTila());
-        kortti.setAnimTila(Animaatiotila.ODOTTAA);
-        assertEquals("animTila ei oikea muutoksen jälkeen", Animaatiotila.ODOTTAA, kortti.getAnimTila());
-        assertTrue("osaParia ei oikea ennen muutosta", !kortti.getOsaParia());
-        kortti.setOsaParia(true);
-        assertTrue("osaParia ei oikea muutoksen jälkeen", kortti.getOsaParia());
-=======
     public void testaaAnimTila() {
         assertEquals("Animaatiotila alussa väärä", Animaatiotila.EI_KAYNNISSA, kortti.getAnimTila());
         kortti.setAnimTila(Animaatiotila.ODOTTAA);
@@ -181,7 +172,6 @@ public class JavaFXKorttiTest {
         assertTrue("osaParia alussa väärin", !kortti.getOsaParia());
         kortti.setOsaParia(true);
         assertTrue("osaParia muutoksen jälkeen väärin", kortti.getOsaParia());
->>>>>>> 578ba9c0355f6f2f8f07da533a670791264aeb05
     }
     
     @AfterClass

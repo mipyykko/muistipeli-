@@ -5,6 +5,7 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
+import com.mipyykko.muistipeli.JavaFXMain;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.Kuva;
 import com.mipyykko.muistipeli.malli.Tausta;
@@ -48,9 +49,9 @@ public class ValikkoIkkuna extends GridPane {
      * @param primaryStage Stage johon luodaan peliä käynnistettäessä uusi
      * scene.
      */
-    public ValikkoIkkuna(Stage primaryStage)/* throws Exception*/ {
+    public ValikkoIkkuna()/* throws Exception*/ {
         super();
-        this.primaryStage = primaryStage;
+        this.primaryStage = JavaFXMain.getStage();
         sisalto = new GridPane();
         setAlignment(Pos.CENTER);
         setPadding(new Insets(15));
@@ -113,8 +114,8 @@ public class ValikkoIkkuna extends GridPane {
 
     private void aloitusNappiKlikattu(ActionEvent event)/* throws Exception*/ {
         //if (peli == null || peli.getTila() == Pelitila.VALIKKO) {
-        int leveys = 4;
-        int korkeus = 5;
+        int leveys = 2;
+        int korkeus = 2;
         JavaFXInit jfi = new JavaFXInit();
         String setti = (String) kuvavalikko.getValue();
         if (setti == null || setti.isEmpty()) {

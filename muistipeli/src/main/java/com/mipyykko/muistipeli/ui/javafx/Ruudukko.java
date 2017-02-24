@@ -83,7 +83,6 @@ public class Ruudukko extends GridPane {
             k.setAnimTila(Animaatiotila.EI_KAYNNISSA);
             k.setOsaParia(true);
         }
-        // TODO: tää vois tehdä kyllä esim. jotain muutakin
     }
 
     /**
@@ -184,8 +183,8 @@ public class Ruudukko extends GridPane {
         stNayta.setToX(1);
         
         stPiilota.setOnFinished((ActionEvent t) -> {
-            getChildren().remove(ivAlku);
-            getChildren().add(ivLoppu);
+            getHB(p).getChildren().remove(ivAlku);
+            getHB(p).getChildren().add(ivLoppu);
             setIv(ivLoppu, p);
             stNayta.play();
         });

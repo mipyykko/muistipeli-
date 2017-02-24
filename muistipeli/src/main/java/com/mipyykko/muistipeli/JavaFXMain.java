@@ -16,6 +16,8 @@ import javafx.stage.Stage;
  */
 public class JavaFXMain extends Application {
 
+    private static Stage primaryStage;
+    
     /**
      * Käyttöliittymän ajava pääohjelma.
      *
@@ -26,8 +28,12 @@ public class JavaFXMain extends Application {
     public void start(Stage primaryStage) throws Exception {
 
         JavaFXUI ui = new JavaFXUI(/*peli*/);
+        this.primaryStage = primaryStage;
         ui.setStage(primaryStage);
         ui.nayta();
     }
 
+    public static Stage getStage() {
+        return primaryStage;
+    }
 }

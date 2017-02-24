@@ -65,6 +65,16 @@ public class Peli {
     }
     
     /**
+     * Luo uuden pelin nykyisillä parametreilla.
+     * 
+     * @throws Exception 
+     */
+    public void uusiPeli() throws Exception {
+        uusiPeli(pelilauta.getLeveys(), pelilauta.getKorkeus(),
+             pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
+    }
+    
+    /**
      * Kasvattaa siirtojen määrää.
      */
     public void lisaaSiirto() {
