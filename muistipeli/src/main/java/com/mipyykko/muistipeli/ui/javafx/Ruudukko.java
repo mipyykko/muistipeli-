@@ -13,6 +13,7 @@ import java.awt.Point;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -44,6 +45,7 @@ public class Ruudukko extends GridPane {
         super();
         this.ikkuna = ikkuna;
         this.peli = peli;
+        setPrefSize(ikkuna.getWidth(), ikkuna.getHeight());
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);
@@ -51,11 +53,16 @@ public class Ruudukko extends GridPane {
         setBackground(null);
     }
 
+    public Ruudukko() {
+        super();
+    }
+    
     /**
      * Alustaa ruudukon ja laittaa oikeat ImageViewit oikeisiin kohtiin.
      *
      */
     public void alustaRuudukko() {
+
         ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
         hbRuudukko = new HBox[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
 
@@ -65,6 +72,8 @@ public class Ruudukko extends GridPane {
                 k.setOsaParia(false);
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
                 hbRuudukko[x][y] = new HBox();
+//                hbRuudukko[x][y].minWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
+//                hbRuudukko[x][y].minHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()));
                 hbRuudukko[x][y].getChildren().add(ivRuudukko[x][y]);
                 sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
                 add(/*iv*/hbRuudukko[x][y], x, y);
@@ -130,7 +139,7 @@ public class Ruudukko extends GridPane {
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
         // TODO: ei oikein taas tiedä miten skaalauksen tekisi toimivasti
-
+        System.out.println(ikkuna.widthProperty());
         iv.setPreserveRatio(true);
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
         iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(100).divide(peli.getPelilauta().getKorkeus()));

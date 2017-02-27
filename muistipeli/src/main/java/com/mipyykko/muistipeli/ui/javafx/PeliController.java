@@ -5,83 +5,79 @@
  */
 package com.mipyykko.muistipeli.ui.javafx;
 
-import com.mipyykko.muistipeli.JavaFXMain;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
-import java.util.HashSet;
-import java.util.Set;
-import javafx.animation.*;
-import javafx.event.*;
-import javafx.geometry.HPos;
-import javafx.geometry.Pos;
+import java.net.URL;
+import java.util.ResourceBundle;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.util.Duration;
 
 /**
- * Peli-ikkuna joka sisältää ruudukon ja yläreunan statusbarin.
  *
  * @author pyykkomi
  */
-public class PeliIkkuna extends BorderPane {
+public class PeliController implements Initializable, ControlledRuutu {
 
-    private StatusHBox status;
+    private IkkunaController ikkunaController;
+    @FXML private Text score;
     private Ruudukko ruudukko;
-    private StackPane sp;
-    private HBox ruudukkoWrapper;
-    private Peli peli;
+    @FXML private StackPane pelialueStackPane;
+    @FXML private HBox ruudukkoWrapper;
+    @FXML private BorderPane peliIkkuna;
+    @FXML private HBox status;
+    
     private Point[] siirto, edellinenSiirto;
+
     private int animX = 0, animKerrat = 0;
     private Timeline naytaTimeline;
     private Timeline korttiAnimTimeline;
 
-    /**
-     * Konstruktori.
-     *
-     * @param peli Saa parametrina peli-objektin.
-     */
-    public PeliIkkuna(Peli peli) {
-        super();
-        this.peli = peli;
-        setBackground(new Background(new BackgroundFill(Color.YELLOW, null, null)));
+    private Peli peli;
+    
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        score.setFont(Font.loadFont(getClass().getResourceAsStream("/fontit/GoodDog.otf"), 24));
 
-        status = new StatusHBox();
-        setTop(status);
-
-        alustaRuudukko();
-        this.siirto = new Point[2];
-        this.edellinenSiirto = new Point[2];
-        naytaKaikki();
-    }
-
-    public void alustaRuudukko() {
-        sp = new StackPane();
-        ruudukkoWrapper = new HBox();
-        ruudukko = new Ruudukko(this, peli);
-        ruudukko.alustaRuudukko();
-        ruudukkoWrapper.getChildren().add(ruudukko);
-        ruudukkoWrapper.setAlignment(Pos.CENTER);
-        sp.getChildren().add(ruudukkoWrapper);
-
-        setCenter(sp/*ruudukkoWrapper*/);
-
-        Ruudukko.setHalignment(ruudukko, HPos.CENTER);
     }
     
-    public void setPeli(Peli peli) {
-        this.peli = peli;
-    }
+    public void alustaRuudukko() {
+        peli = ikkunaController.getPeli();
 
-    public Ruudukko getRuudukko() {
-        return ruudukko;
+        ruudukkoWrapper.minWidthProperty().bind(peliIkkuna.widthProperty());
+        ruudukkoWrapper.minHeightProperty().bind(peliIkkuna.heightProperty().subtract(status.heightProperty()));
+        ruudukko = new Ruudukko(ruudukkoWrapper, peli);
+        ruudukko.alustaRuudukko();
+        ruudukkoWrapper.getChildren().add(ruudukko);
+        //pelialueStackPane.getChildren().add(ruudukkoWrapper);
+        //peliIkkuna.setCenter(pelialueStackPane);
+        naytaKaikki();
+        
+        siirto = new Point[2];
+        edellinenSiirto = new Point[2]; // onko tää käytössä?
     }
 
     /**
@@ -197,8 +193,9 @@ public class PeliIkkuna extends BorderPane {
         a.setOnFinished(e -> ruudukko.setEffect(null));
         
         TulosIkkuna t = new TulosIkkuna(peli);
-        sp.getChildren().add(t);
-        t.setTranslateX(-sp.getWidth());
+        // tää jotenkin
+//        sp.getChildren().add(t);
+//        t.setTranslateX(-sp.getWidth());
 
         PauseTransition pt = new PauseTransition(Duration.seconds(2));
         TranslateTransition tt = new TranslateTransition(new Duration(350), t);
@@ -208,7 +205,7 @@ public class PeliIkkuna extends BorderPane {
     }
 
     private void paivitaScore() {
-        status.setScore("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
+        score.setText("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
     }
 
     private void hoidaSiirto(Point p) {
@@ -244,7 +241,8 @@ public class PeliIkkuna extends BorderPane {
             return;
         }
         Integer x = Ruudukko.getColumnIndex(n), y = Ruudukko.getRowIndex(n);
-        if (x == null || y == null) {
+        if (x == null || y == null || 
+            x > peli.getPelilauta().getLeveys() || y > peli.getPelilauta().getKorkeus()) {
             return;
         }
         Point p = new Point(x, y);
@@ -260,5 +258,9 @@ public class PeliIkkuna extends BorderPane {
             animoiVoitto();
         }
     }
-
+    
+    @Override
+    public void asetaParent(IkkunaController ikkuna) {
+        ikkunaController = ikkuna;
+    }
 }

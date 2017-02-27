@@ -23,7 +23,7 @@ public class JavaFXUI implements UI {
     private Peli peli;
     private int ikkunaleveys, ikkunakorkeus;
     private Stage primaryStage;
-    private Group kortit;
+    private Group root;
     private StackPane paaIkkuna;
     private PeliIkkuna peliIkkuna;
     private ValikkoIkkuna valikkoIkkuna;
@@ -61,13 +61,24 @@ public class JavaFXUI implements UI {
             firstrun = false;
             //try {
             // TODO: koko ikkuna stackpane, johon lisätään ja josta poistetaan tasoja
-            valikkoIkkuna = new ValikkoIkkuna();
-
+            IkkunaController ic = new IkkunaController();
+            ic.lataaIkkuna(JavaFXIkkuna.VALIKKO);
+            ic.lataaIkkuna(JavaFXIkkuna.PELI);
+            ic.lataaIkkuna(JavaFXIkkuna.TULOS);
+            
+            ic.asetaIkkuna(JavaFXIkkuna.VALIKKO);
+           
+            root = new Group();
+            root.getChildren().add(ic);
+//            valikkoIkkuna = new ValikkoIkkuna();
+            
             if (peli != null) {
                 peli.setTila(Pelitila.VALIKKO);
             }
 
-            scene = new Scene(valikkoIkkuna, ikkunaleveys, ikkunakorkeus);
+            ic.prefWidthProperty().bind(primaryStage.widthProperty());
+            ic.prefHeightProperty().bind(primaryStage.heightProperty());
+            scene = new Scene(root/*valikkoIkkuna*/, ikkunaleveys, ikkunakorkeus);
             scene.setFill(Color.YELLOW);
 
             primaryStage.setTitle("Muistipeliö");
