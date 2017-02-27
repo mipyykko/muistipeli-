@@ -7,7 +7,6 @@ package com.mipyykko.muistipeli.ui.javafx;
 
 import com.mipyykko.muistipeli.JavaFXMain;
 import com.mipyykko.muistipeli.logiikka.Peli;
-import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import javafx.event.ActionEvent;
 import javafx.geometry.*;
 import javafx.scene.Scene;
