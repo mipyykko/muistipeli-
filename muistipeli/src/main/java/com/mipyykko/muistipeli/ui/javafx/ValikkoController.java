@@ -11,6 +11,7 @@ import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.JavaFXIkkuna;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import java.net.URL;
+import java.util.HashSet;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
@@ -51,6 +52,8 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         }
         kuvavalikko.setItems(kuvaOptions);
         kuvavalikko.getSelectionModel().selectFirst();
+        kuvavalikko.setLayoutX(0);
+        
         aloitusnappi.setOnAction((ActionEvent ae) -> aloitusNappiKlikattu(ae));
     }
 
@@ -87,6 +90,7 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         try {
             peli.uusiPeli(leveys, korkeus, kuvat, taustat);
             ikkunaController.setPeli(peli);
+            ((PeliController) ikkunaController.getController(JavaFXIkkuna.PELI)).alustaRuudukko();
             ikkunaController.asetaIkkuna(JavaFXIkkuna.PELI);
         } catch (Exception e) {
             System.out.println("Pelin luominen epäonnistui! " + e.getMessage()); // debug

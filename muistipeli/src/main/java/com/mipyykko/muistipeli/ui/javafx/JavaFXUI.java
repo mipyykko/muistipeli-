@@ -37,8 +37,8 @@ public class JavaFXUI implements UI {
      */
     public JavaFXUI() {
         this.peli = null;
-        this.ikkunaleveys = 560; // magic numbers!
-        this.ikkunakorkeus = 620;
+        this.ikkunaleveys = 600; // magic numbers!
+        this.ikkunakorkeus = 600;
         this.firstrun = true;
 
     }

@@ -126,7 +126,12 @@ public class Pelilauta {
      * @return kortti
      */
     public Kortti getKortti(Point p) {
-        return getKortit()[p.x][p.y];
+        if (p.x >= 0 && p.x < leveys &&
+            p.y >= 0 && p.y < korkeus) {
+            return getKortit()[p.x][p.y];
+        } else {
+            return null;
+        }
     }
 
     public int getLeveys() {

@@ -10,10 +10,10 @@ import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import java.awt.Point;
+import java.util.Random;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
-import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -45,12 +45,12 @@ public class Ruudukko extends GridPane {
         super();
         this.ikkuna = ikkuna;
         this.peli = peli;
-        setPrefSize(ikkuna.getWidth(), ikkuna.getHeight());
+        //setPrefSize(ikkuna.getWidth(), ikkuna.getHeight());
         setPadding(new Insets(5, 0, 5, 0));
         setVgap(4);
         setHgap(4);
 
-        setBackground(null);
+        //setBackground(null);
     }
 
     public Ruudukko() {
@@ -65,18 +65,29 @@ public class Ruudukko extends GridPane {
 
         ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
         hbRuudukko = new HBox[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
-
+//        this.maxHeightProperty().bind(ikkuna.heightProperty().subtract(120));
+        JavaFXKortti skaalaK = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(0, 0));
+        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
+            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+                hbRuudukko[x][y] = new HBox();
+                hbRuudukko[x][y].setFillHeight(true);
+                hbRuudukko[x][y].maxHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()));
+                hbRuudukko[x][y].maxWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
+                add(hbRuudukko[x][y], x, y);
+            }
+        }
+        System.out.println("r");
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
                 k.setOsaParia(false);
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
-                hbRuudukko[x][y] = new HBox();
+                //hbRuudukko[x][y] = new HBox();
 //                hbRuudukko[x][y].minWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
 //                hbRuudukko[x][y].minHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()));
                 hbRuudukko[x][y].getChildren().add(ivRuudukko[x][y]);
                 sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
-                add(/*iv*/hbRuudukko[x][y], x, y);
+                //add(/*iv*/hbRuudukko[x][y], x, y);
             }
         }
     }
@@ -139,10 +150,16 @@ public class Ruudukko extends GridPane {
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
         // TODO: ei oikein taas tiedä miten skaalauksen tekisi toimivasti
-        System.out.println(ikkuna.widthProperty());
+        System.out.println(ikkuna.widthProperty() + " " + x + " " + y);
         iv.setPreserveRatio(true);
-        iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
-        iv.fitHeightProperty().bind(ikkuna.heightProperty().subtract(100).divide(peli.getPelilauta().getKorkeus()));
+        double leveys = ikkuna.widthProperty().doubleValue();
+//        if (leveys == 0.0) {
+//            iv.fitWidthProperty().set((ikkuna.getWidth() / peli.getPelilauta().getLeveys()) - 14);
+//            iv.fitHeightProperty().set((ikkuna.getHeight() / peli.getPelilauta().getKorkeus()) - 14);
+//        } else {
+            iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()).subtract(14));
+            iv.fitHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()).subtract(14));
+//        }
         setColumnIndex(iv, x);
         setRowIndex(iv, y);
     }

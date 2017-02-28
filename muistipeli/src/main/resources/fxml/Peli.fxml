@@ -24,7 +24,7 @@
         </HBox>
     </top>
     <center>
-        <HBox fx:id="ruudukkoWrapper" alignment="CENTER" style="-fx-background-color: YELLOW;">
+        <HBox fx:id="ruudukkoWrapper" minHeight="600.0" alignment="CENTER" style="-fx-background-color: YELLOW;">
         </HBox>
     </center>
 </BorderPane>
