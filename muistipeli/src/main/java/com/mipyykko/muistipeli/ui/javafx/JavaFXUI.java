@@ -25,9 +25,6 @@ public class JavaFXUI implements UI {
     private Stage primaryStage;
     private Group root;
     private StackPane paaIkkuna;
-    private PeliIkkuna peliIkkuna;
-    private ValikkoIkkuna valikkoIkkuna;
-    private StatusHBox status;
     private Scene scene;
     private boolean firstrun;
 

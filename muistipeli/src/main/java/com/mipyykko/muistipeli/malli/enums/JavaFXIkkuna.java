@@ -6,7 +6,8 @@
 package com.mipyykko.muistipeli.malli.enums;
 
 /**
- *
+ * JavaFX-toteutuksen ikkunoiden fxml-tiedostot.
+ * 
  * @author pyykkomi
  */
 public enum JavaFXIkkuna {

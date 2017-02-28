@@ -10,7 +10,7 @@ import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +73,9 @@ public class Peli {
         if (pelilauta != null) {
             uusiPeli(pelilauta.getLeveys(), pelilauta.getKorkeus(),
                  pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
-        } // TODO: else? testit?
+        } else {
+            throw new Exception("Uusi peli vanhoilla parametreilla ei onnistu");
+        }
     }
     
     /**

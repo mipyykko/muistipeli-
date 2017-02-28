@@ -10,7 +10,7 @@ import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.JavaFXIkkuna;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
@@ -34,7 +34,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
@@ -209,26 +208,16 @@ public class PeliController implements Initializable, ControlledRuutu {
         GaussianBlur gb = new GaussianBlur();
         Animation b = new Timeline(
                         new KeyFrame(Duration.ZERO, new KeyValue(gb.radiusProperty(), 0d)),
-                        new KeyFrame(Duration.seconds(1), new KeyValue(gb.radiusProperty(), 10d)));
-        b.setCycleCount(1);
+                        new KeyFrame(Duration.seconds(2.0), new KeyValue(gb.radiusProperty(), 10d)));
+        b.setCycleCount(0);
         a.setAutoReverse(true);
         a.setCycleCount(10);
-        ruudukko.setEffect(ds);
+        gb.setInput(ds);
+        ruudukko.setEffect(gb);
         
-        TulosIkkuna t = new TulosIkkuna(peli);
-        // tää jotenkin
-//        sp.getChildren().add(t);
-//        t.setTranslateX(-sp.getWidth());
-
-        PauseTransition pt = new PauseTransition(Duration.seconds(2));
-        TranslateTransition tt = new TranslateTransition(new Duration(350), t);
-        tt.setToX(0);
-        a.setOnFinished((ActionEvent ae) -> {
-            ruudukko.setEffect(gb);
-            b.play();
-        });
-        b.setOnFinished(e -> ikkunaController.asetaIkkuna(JavaFXIkkuna.TULOS));
+        a.setOnFinished(e -> ikkunaController.asetaIkkuna(JavaFXIkkuna.TULOS));
         a.play();
+        b.play();
     }
 
     private void paivitaScore() {
@@ -280,7 +269,6 @@ public class PeliController implements Initializable, ControlledRuutu {
         }
 
         hoidaSiirto(p);
-        animoiVoitto();
 
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             animoiVoitto();

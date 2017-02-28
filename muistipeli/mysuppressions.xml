@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+
+<suppressions>
+    <suppress files="ControlledRuutu.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="IkkunaController.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="PeliController.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="ValikkoController.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="TulosController.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="Ruudukko.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="JavaFXUI.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="JavaFXInit.java" checks="[a-zA-Z0-9]*"/>
+    <suppress files="JavaFXIkkuna.java" checks="[a-zA-Z0-9]*"/>
+</suppressions>

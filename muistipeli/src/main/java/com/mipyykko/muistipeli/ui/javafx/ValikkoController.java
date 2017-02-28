@@ -77,15 +77,14 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         try {
             kuvat = jfi.luoKuvat(leveys, korkeus);
         } catch (Exception ex) { // debug
-            Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(""); 
         }
         Set<Tausta> taustat = null;
         try {
             taustat = jfi.luoTaustat(leveys, korkeus);
         } catch (Exception ex) { // debug
-            Logger.getLogger(ValikkoIkkuna.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("");
         }
-        // debug pelin käynnistys?
         Peli peli = new Peli(Korttityyppi.JAVAFX);
         try {
             peli.uusiPeli(leveys, korkeus, kuvat, taustat);

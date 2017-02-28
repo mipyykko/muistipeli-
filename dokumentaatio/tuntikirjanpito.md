@@ -23,3 +23,4 @@ Päivä | Tunnit | Kuvaus
 22.2.2017 | 2 | Bugikorjausta, animaatioita
 24.2.2017 | 4 | Valikkohässäkkää, animaatioita
 27.2.2017 | 4 | FXML-konversiota
+28.2.2017 | 4 | Sitä samaa ja animointia

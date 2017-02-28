@@ -6,7 +6,7 @@
 package com.mipyykko.muistipeli.ui;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 
 /**
  * UI:n interface.

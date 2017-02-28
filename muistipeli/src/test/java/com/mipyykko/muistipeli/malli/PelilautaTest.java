@@ -8,7 +8,7 @@ package com.mipyykko.muistipeli.malli;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
 import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -177,6 +177,8 @@ public class PelilautaTest {
     @Test
     public void getteritJaSetteritToimii() {
         luoTestipelilauta();
+        assertEquals("getKortti rajojen ulkopuolella", null, pelilauta.getKortti(new Point(-1, 0)));
+        assertEquals("getKortti rajojen ulkopuolella #2", null, pelilauta.getKortti(new Point(LEVEYS, KORKEUS)));
         pelilauta.setKortit(null);
         assertTrue("get/setKortit ei toimi oikein", pelilauta.getKortit() == null);
         assertEquals("getLeveys ei toimi oikein", LEVEYS, pelilauta.getLeveys());

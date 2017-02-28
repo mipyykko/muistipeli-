@@ -9,7 +9,7 @@ import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.Random;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;

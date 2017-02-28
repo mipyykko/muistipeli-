@@ -14,7 +14,7 @@ import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.ui.TestUI;
 import com.mipyykko.muistipeli.ui.UI;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -103,7 +103,7 @@ public class PeliTest {
             o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getTausta().getSisalto();
             fail("Pelin luominen onnistui ilman korttityyppiä #3");
         } catch (Exception e) {
-            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+            // kaikki hyvin
         }
         tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
@@ -118,7 +118,7 @@ public class PeliTest {
             Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getKuva().getSisalto();
             fail("Pelin luominen onnistui ilman kuvia #2");
         } catch (Exception e) {
-            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+            // kaikki hyvin
         }
         tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
@@ -134,7 +134,28 @@ public class PeliTest {
             Object o = tPeli.getPelilauta().getKortti(new Point(0, 0)).getTausta().getSisalto();
             fail("Pelin luominen onnistui ilman taustoja #2");
         } catch (Exception e) {
-            System.err.println("Jotain hämmentävää tapahtui pelitestissä");
+            // kaikki hyvin
+        }
+        tPeli = new Peli(Korttityyppi.TEKSTI);
+        try {
+            Pelilauta vertailu = peli.getPelilauta();
+            peli.uusiPeli();
+            boolean eroja = false;
+            for (int y = 0; y < vertailu.getKorkeus(); y++) {
+                for (int x = 0; y < vertailu.getLeveys(); x++) {
+                    Point p = new Point(x, y);
+                    if (!peli.getPelilauta().getKortti(p).equals(vertailu.getKortti(p))) {
+                        eroja = true;
+                        break;
+                    }
+                }
+            }
+            assertTrue("Uuden pelilaudan luominen ilman parametreja ei luo uutta pelilautaa", eroja);
+            peli.setPelilauta(null);
+            peli.uusiPeli();
+            fail("Uuden pelin luominen ilman parametreja onnistui ilman pelilautaa");
+        } catch (Exception e) {
+            assertEquals("Uuden pelin luominen ilman parametreja", "Uusi peli vanhoilla parametreilla ei onnistu", e.getMessage());
         }
     }
     
@@ -150,6 +171,7 @@ public class PeliTest {
         UI ui = new TestUI(siirrot);
         ui.setPeli(peli);
         assertEquals("Kortteja ei käännetty mutta peli on loppu", false, peli.peliLoppu());
+        assertTrue("osaParia vaikka ei ole", !peli.getPelilauta().getKortti(new Point(0, 0)).getOsaParia());
         Iterator<Point> it = siirrot.iterator();
         while (it.hasNext()) {
             Point s[] = new Point[]{it.next(), it.next()};
@@ -160,6 +182,7 @@ public class PeliTest {
             assertTrue("Parin tarkistus väärin", peli.tarkistaPari(s));
             assertEquals("Siirrot eivät kasva", n + 1, peli.getSiirrotLkm());
             assertEquals("Parit eivät kasva", n + 1, peli.getParitLkm());
+            assertTrue("osaParia ei muutu", peli.getPelilauta().getKortti(s[0]).getOsaParia());
             if (it.hasNext()) {
                 assertEquals("Pelitila ei päivity oikein kun peli on kesken", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
             }
@@ -172,6 +195,7 @@ public class PeliTest {
     @Test
     public void tarkistaPari() {
         assertTrue("Pari ei ole pari", peli.tarkistaPari(new Point[]{new Point(0, 0), new Point(1, 0)}));
+        assertEquals("Pelitila ei päivity oikein kun on pari", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
         assertTrue("Ei-pari on pari", !peli.tarkistaPari(new Point[]{new Point(1, 0), new Point(2, 0)}));
         assertEquals("Pelitila ei päivity oikein kun ei ole pari", Pelitila.ODOTTAA_SIIRTOA, peli.getTila());
         assertTrue("Virheellinen pari hyväksytty", !peli.tarkistaPari(null));

@@ -38,6 +38,7 @@
                         <excludedClass>com.mipyykko.muistipeli.Main</excludedClass>
                         <excludedClass>com.mipyykko.muistipeli.JavaFXMain</excludedClass>
                         <excludedClass>com.mipyykko.muistipeli.ui.*</excludedClass>
+                        <excludedClass>com.mipyykko.muistipeli.malli.enums.*</excludedClass>
                     </excludedClasses>
                 </configuration>
             </plugin>

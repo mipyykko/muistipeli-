@@ -13,7 +13,7 @@ import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
 import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.HashSet;
 import java.util.Scanner;
 import java.util.Set;

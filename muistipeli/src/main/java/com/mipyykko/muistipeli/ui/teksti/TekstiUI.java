@@ -8,7 +8,7 @@ package com.mipyykko.muistipeli.ui.teksti;
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.ui.UI;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.Scanner;
 
 /**

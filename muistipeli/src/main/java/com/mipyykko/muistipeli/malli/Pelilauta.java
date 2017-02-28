@@ -6,7 +6,7 @@
 package com.mipyykko.muistipeli.malli;
 
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
-import java.awt.Point;
+import com.mipyykko.muistipeli.util.Point;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
