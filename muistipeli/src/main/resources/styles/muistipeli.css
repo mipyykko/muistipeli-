@@ -1,0 +1,124 @@
+/*
+ * Empty Stylesheet file.
+ */
+
+
+.gridpane {
+    -fx-background-color: #FFFF00;    
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
+}
+
+.peliIkkuna {
+    -fx-background-color: #FFFF00;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
+}
+
+.tulosIkkuna {
+    -fx-background-color: #FFFF00; 
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
+}
+
+.otsikko {
+    -fx-font-family: GoodDog;
+    -fx-font-size: 48;
+    -fx-padding: 10, 10, 10, 10;
+}
+
+.status {
+    -fx-background-color: #800000;
+}
+
+.combo-box .list-cell 
+{
+    -fx-background: white;
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-text-base-color;
+    -fx-padding: 3 0 2 7;
+    -fx-cell-size: 1.66667em; 
+}
+
+.combo-box-popup .list-view 
+{
+    -fx-background-color: white, white;
+    -fx-background-insets: 0, 1;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 8, 0.0 , 0 , 0 );
+}    
+
+.combo-box-popup .list-view .list-cell 
+{
+    -fx-padding: 4 0 4 5;
+
+    /* No alternate highlighting */
+    -fx-background-color: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:selected, 
+.combo-box-popup .list-view .list-cell:filled:selected:hover 
+{
+    -fx-background: -fx-accent;
+    -fx-background-color: #800000;
+    -fx-text-fill: white;
+}
+
+.combo-box-popup .list-view .list-cell:filled:hover 
+{
+    -fx-background-color: #FFFF00;
+    -fx-text-fill: black;
+}
+
+.combo-box-base  
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, yellow;
+    -fx-background-radius: 5, 5, 4, 3;
+    -fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-padding: 0;
+}
+
+.combo-box-base:hover
+{
+    -fx-color: -fx-hover-base;
+}
+
+.combo-box-base:showing 
+{
+    -fx-color: -fx-pressed-base;
+}
+
+.combo-box-base:focused {
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, #FFFF00;
+    -fx-background-radius: 6.4, 4, 5, 3;
+    -fx-background-insets: -1.4, 0, 1, 2;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+}
+
+#button{
+    -fx-effect: dropshadow(two-pass-box, black, 10, 0.0, 4, 5);
+    -fx-background-color: rgba(205, 0, 0, 0.7);
+    -fx-text-fill: white;
+    -fx-background-radius: 15 15 15 15;
+    -fx-background-insets: 2 2 2 2 ;
+}
+
+#button:pressed{
+    -fx-background-color: rgba(180, 0, 0, 0.7);
+}
+
+#button:hover{
+    -fx-background-color: rgba(235, 0, 0, 0.7);
+}
+
+#button:focused{
+    -fx-background-color: rgba(205, 0, 0, 0.7);
+
+}
+
+.siirrot {
+    -fx-fill: yellow;
+    -fx-font-family: GoodDog;
+    -fx-font-size: 24;
+}
+

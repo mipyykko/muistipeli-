@@ -18,21 +18,16 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.effect.GaussianBlur;
-import javafx.scene.effect.Glow;
+import javafx.scene.control.Button;
+import javafx.scene.effect.*;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
@@ -51,6 +46,7 @@ public class PeliController implements Initializable, ControlledRuutu {
     @FXML private HBox ruudukkoWrapper;
     @FXML private BorderPane peliIkkuna;
     @FXML private HBox status;
+    @FXML private Button valikkoButton;
     
     private Point[] siirto, edellinenSiirto;
 
@@ -62,8 +58,7 @@ public class PeliController implements Initializable, ControlledRuutu {
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        score.setFont(Font.loadFont(getClass().getResourceAsStream("/fontit/GoodDog.otf"), 24));
-        peliIkkuna.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);");
+        peliIkkuna.setStyle("");
         ruudukkoWrapper.minWidthProperty().bind(peliIkkuna.widthProperty());
         ruudukkoWrapper.minHeightProperty().bind(peliIkkuna.heightProperty().subtract(status.heightProperty()));
     }
@@ -75,10 +70,14 @@ public class PeliController implements Initializable, ControlledRuutu {
 
         peliIkkuna.prefWidthProperty().bind(ikkunaController.widthProperty());
         peliIkkuna.prefHeightProperty().bind(ikkunaController.heightProperty().subtract(status.heightProperty()));
-        System.out.println(peliIkkuna.widthProperty() + " x ");
         ruudukko = new Ruudukko(ruudukkoWrapper, peli);
         ruudukko.alustaRuudukko();
         ruudukkoWrapper.getChildren().add(ruudukko);
+        ruudukkoWrapper.setFillHeight(true);
+        ruudukkoWrapper.prefHeightProperty().bind(ruudukko.heightProperty());
+        ruudukkoWrapper.prefWidthProperty().bind(ruudukko.widthProperty());
+//        BorderPane.setAlignment(ruudukkoWrapper, Pos.CENTER);
+        ruudukko.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
         //pelialueStackPane.getChildren().add(ruudukkoWrapper);
         //peliIkkuna.setCenter(pelialueStackPane);
         animX = 0;
@@ -92,6 +91,10 @@ public class PeliController implements Initializable, ControlledRuutu {
             naytaKaikki();
         }
         
+        valikkoButton.setOnAction(e -> {
+            ruudukko.setOnMouseClicked(null);
+            ikkunaController.asetaIkkuna(JavaFXIkkuna.VALIKKO);
+        });
         siirto = new Point[2];
         edellinenSiirto = new Point[2]; // onko tää käytössä?
     }
@@ -110,19 +113,6 @@ public class PeliController implements Initializable, ControlledRuutu {
         naytaTimeline.setCycleCount(peli.getPelilauta().getLeveys());
         naytaTimeline.setCycleCount(Animation.INDEFINITE);
         naytaTimeline.play();
-        // debug: pelitilan seuranta
-//        Timeline tmpTimeline = new Timeline();
-//        tmpTimeline.getKeyFrames().add(new KeyFrame(Duration.millis(10),
-//                new EventHandler<ActionEvent>() {
-//            @Override
-//            public void handle(ActionEvent ae) {
-//                int[] ao = ruudukko.korttejaAnimOdotusTilassa();
-//                status.setScore(peli.getTila().toString() + " anim: " + ao[0] + " odotus: " + ao[1]);
-//            }
-//        }));
-//        tmpTimeline.setCycleCount(Animation.INDEFINITE);
-//        tmpTimeline.play();
-
     }
 
     private void kaannaPystyRivi(ActionEvent event) {
@@ -205,19 +195,13 @@ public class PeliController implements Initializable, ControlledRuutu {
         Animation a = new Timeline(
                         new KeyFrame(Duration.ZERO, new KeyValue(ds.radiusProperty(), 0d)),
                         new KeyFrame(Duration.seconds(0.3), new KeyValue(ds.radiusProperty(), 20d)));
-        GaussianBlur gb = new GaussianBlur();
-        Animation b = new Timeline(
-                        new KeyFrame(Duration.ZERO, new KeyValue(gb.radiusProperty(), 0d)),
-                        new KeyFrame(Duration.seconds(2.0), new KeyValue(gb.radiusProperty(), 10d)));
-        b.setCycleCount(0);
         a.setAutoReverse(true);
         a.setCycleCount(10);
-        gb.setInput(ds);
-        ruudukko.setEffect(gb);
+        //gb.setInput(ds);
+        ruudukko.setEffect(ds);
         
         a.setOnFinished(e -> ikkunaController.asetaIkkuna(JavaFXIkkuna.TULOS));
         a.play();
-        b.play();
     }
 
     private void paivitaScore() {
@@ -269,7 +253,7 @@ public class PeliController implements Initializable, ControlledRuutu {
         }
 
         hoidaSiirto(p);
-
+        
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
             animoiVoitto();
         }

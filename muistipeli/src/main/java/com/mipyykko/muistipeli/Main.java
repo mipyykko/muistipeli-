@@ -5,71 +5,39 @@
  */
 package com.mipyykko.muistipeli;
 
-import com.mipyykko.muistipeli.logiikka.Peli;
-import com.mipyykko.muistipeli.malli.Kuva;
-import com.mipyykko.muistipeli.malli.Tausta;
-import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
-import com.mipyykko.muistipeli.malli.enums.UITyyppi;
-import com.mipyykko.muistipeli.ui.teksti.TekstiUI;
-import com.mipyykko.muistipeli.ui.UI;
-import com.mipyykko.muistipeli.ui.teksti.TekstiInit;
-import java.util.Scanner;
-import java.util.Set;
+import com.mipyykko.muistipeli.ui.javafx.JavaFXUI;
 import javafx.application.Application;
+import javafx.stage.Stage;
 
-/** 
- * Muistipeliö, simppeliäkin simppelimpi javalabra-projekti.
- * 
+/**
+ * JavaFX-käyttöliittymän käynnistävä pääohjelma.
+ *
  * @author pyykkomi
  */
-public class Main {
+public class Main extends Application {
 
-    /**
-     * Pääluokka. JavaFX haarautuu tästä omaansa.
-     * @param args komentoriviparametrit - ainoa toistaiseksi toimiva on
-     * "teksti" joka käynnistää pelin tekstimuoodissa.
-     */
+    private static Stage primaryStage;
+    
     public static void main(String[] args) {
+        launch(args);
+    }
+    
+    /**
+     * Käyttöliittymän ajava pääohjelma.
+     *
+     * @param primaryStage JavaFX:n luoma Stage.
+     * @throws Exception Exception.
+     */
+    @Override
+    public void start(Stage primaryStage) throws Exception {
 
-        UITyyppi uiTyyppi = UITyyppi.JAVAFX;
-        Korttityyppi korttityyppi = Korttityyppi.JAVAFX;
+        JavaFXUI ui = new JavaFXUI(/*peli*/);
+        this.primaryStage = primaryStage;
+        ui.setStage(primaryStage);
+        ui.nayta();
+    }
 
-        if (args.length > 0) {
-            String s = args[0].toLowerCase();
-            if (s.equals("teksti")) {
-                uiTyyppi = UITyyppi.TEKSTI;
-                korttityyppi = Korttityyppi.TEKSTI;
-            }
-        }
-
-        switch (uiTyyppi) {
-            case TEKSTI:
-
-                int leveys = 4;
-                int korkeus = 4;
-
-                TekstiInit ti = new TekstiInit();
-                
-                Set<Kuva> kuvat = ti.luoKuvat(leveys, korkeus);
-                Set<Tausta> taustat = ti.luoTaustat(leveys, korkeus);
-
-                Peli peli = new Peli(korttityyppi);
-                try {
-                    peli.uusiPeli(leveys, korkeus, kuvat, taustat);
-                } catch (Exception ex) {
-                    System.out.println("hetkinen?"); //TODO
-                }
-                UI ui = new TekstiUI(peli, new Scanner(System.in));
-                try {
-                    ui.nayta();
-                } catch (Exception e) {
-                }
-                break;
-            case JAVAFX:
-                Application.launch(JavaFXMain.class, args);
-                break;
-            default:
-                throw new AssertionError();
-        }
+    public static Stage getStage() {
+        return primaryStage;
     }
 }

@@ -7,14 +7,18 @@ package com.mipyykko.muistipeli.ui.javafx;
 
 import com.mipyykko.muistipeli.logiikka.Peli;
 import com.mipyykko.muistipeli.malli.enums.JavaFXIkkuna;
+import com.mipyykko.muistipeli.ui.UI;
 import java.util.HashMap;
 import java.util.Map;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.layout.Pane;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 
@@ -28,12 +32,16 @@ public class IkkunaController extends StackPane {
     private Map<JavaFXIkkuna, ControlledRuutu> controllers;
     private Peli peli;
     private TranslateTransition curTransition;
+    private JavaFXIkkuna curId;
+    private UI ui;
     
-    public IkkunaController() {
+    public IkkunaController(UI ui) {
         ikkunat = new HashMap<>();
         controllers = new HashMap<>();
+        this.ui = ui;
         this.peli = null;
         this.curTransition = null;
+        this.curId = null;
     }
 
     public void setPeli(Peli peli) {
@@ -51,15 +59,19 @@ public class IkkunaController extends StackPane {
     public ControlledRuutu getController(JavaFXIkkuna id) {
         return controllers.get(id);
     }
-    
+
     public TranslateTransition getCurTransition() {
         return curTransition;
     }
-    
+
     public void setCurTransition(TranslateTransition t) {
         curTransition = t;
     }
     
+    public UI getUI() {
+        return ui;
+    }
+
     public boolean lataaIkkuna(JavaFXIkkuna id) {
         try {
             System.out.println(id.toString());
@@ -81,28 +93,52 @@ public class IkkunaController extends StackPane {
     public boolean asetaIkkuna(JavaFXIkkuna id) {
         if (ikkunat.get(id) != null) {
             if (!getChildren().isEmpty()) {
-                ikkunat.get(id).setTranslateX(-this.getScene().getWidth());
-                TranslateTransition curTransition = new TranslateTransition(new Duration(350), ikkunat.get(id));
-                curTransition.setToX(0);
-                
-                //getChildren().remove(0);
+                if (curId == JavaFXIkkuna.TULOS && id == JavaFXIkkuna.PELI) {
+                    TranslateTransition curTransition = new TranslateTransition(new Duration(350), ikkunat.get(curId));
+                    curTransition.setToX(this.getScene().getWidth());
+                    curTransition.setOnFinished(e -> ikkunat.get(id).toFront());
+                    GaussianBlur gb = new GaussianBlur();
+                    Animation b = new Timeline(
+                            new KeyFrame(Duration.ZERO, new KeyValue(gb.radiusProperty(), 10d)),
+                            new KeyFrame(Duration.seconds(0.5), new KeyValue(gb.radiusProperty(), 0d)));
+                    b.setCycleCount(1);
+                    ikkunat.get(id).setEffect(gb);
+                    b.play();
+                    curTransition.play();
+                } else {
+                    ikkunat.get(id).setTranslateX(-this.getScene().getWidth());
+                    TranslateTransition curTransition = new TranslateTransition(new Duration(350), ikkunat.get(id));
+                    curTransition.setToX(0);
 
-                getChildren().add(/*0, */ikkunat.get(id));
-               
-                if (id == JavaFXIkkuna.PELI) {
-                    PeliController p = (PeliController) controllers.get(id);
-                    System.out.println("ic");
-                    //p.alustaRuudukko();
-                } else if (id == JavaFXIkkuna.TULOS) {
-                    TulosController t = (TulosController) controllers.get(id);
-                    t.asetaPeli(peli);
+                    if (!getChildren().contains(ikkunat.get(id))) {
+                        getChildren().add(0, ikkunat.get(id));
+                    }
+
+                    ikkunat.get(id).toFront();
+                    ikkunat.get(id).setEffect(null);
+
+                    if (id == JavaFXIkkuna.PELI) {
+                        // TODO: hm?
+                        PeliController p = (PeliController) controllers.get(id);
+                    } else if (id == JavaFXIkkuna.TULOS) {
+                        GaussianBlur gb = new GaussianBlur();
+                        Animation b = new Timeline(
+                                new KeyFrame(Duration.ZERO, new KeyValue(gb.radiusProperty(), 0d)),
+                                new KeyFrame(Duration.seconds(0.5), new KeyValue(gb.radiusProperty(), 10d)));
+                        b.setCycleCount(1);
+                        ikkunat.get(curId).setEffect(gb);
+                        b.play();
+                        TulosController t = (TulosController) controllers.get(id);
+                        t.asetaPeli(peli);
+                    }
+                    //curTransition.setOnFinished(e -> getChildren().remove(0));
+                    curTransition.play();
+                    // vaihda kahden ikkunan välillä
                 }
-                curTransition.setOnFinished(e -> getChildren().remove(0));
-                curTransition.play();
-                // vaihda kahden ikkunan välillä
             } else {
                 getChildren().add(ikkunat.get(id));
             }
+            curId = id;
             return true;
         } else {
             // virhe

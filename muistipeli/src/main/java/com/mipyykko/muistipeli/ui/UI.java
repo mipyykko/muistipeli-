@@ -20,9 +20,16 @@ public interface UI {
      * @param peli Peli-objekti.
      */
     public void setPeli(Peli peli);
+    
     /**
      * Näytä UI.
      * @throws java.lang.Exception Virhe esim. alustuksessa.
      */
     public void nayta() throws Exception;
+    
+    /**
+     * Sulje UI ja lopeta peli.
+     */
+    public void sulje();
+            
 }

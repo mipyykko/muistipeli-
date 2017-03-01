@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
-<GridPane style="-fx-background-color: #FFFF00;" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mipyykko.muistipeli.ui.javafx.ValikkoController">
+<GridPane styleClass="gridpane" fx:id="valikkoIkkuna" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mipyykko.muistipeli.ui.javafx.ValikkoController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -35,12 +35,14 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Text fx:id="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.halignment="CENTER" />
-            <Slider fx:id="leveys" GridPane.rowIndex="1" />
-            <Slider fx:id="korkeus" GridPane.rowIndex="2" />
-            <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-            <Button fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="4" />
+            <Text fx:id="otsikko" styleClass="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.halignment="CENTER" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+            <Slider fx:id="leveys" GridPane.rowIndex="2" />
+            <Slider fx:id="korkeus" GridPane.rowIndex="3" />
+            <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5" />
+            <Button id="button" fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
+            <Button id="button" fx:id="lopetusnappi" text="Lopeta" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
          </children>
          <padding>
             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

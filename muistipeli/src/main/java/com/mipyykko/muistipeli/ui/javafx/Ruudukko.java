@@ -10,10 +10,10 @@ import com.mipyykko.muistipeli.malli.enums.Animaatiotila;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
 import com.mipyykko.muistipeli.malli.impl.JavaFXKortti;
 import com.mipyykko.muistipeli.util.Point;
-import java.util.Random;
 import javafx.animation.ScaleTransition;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
@@ -46,7 +46,7 @@ public class Ruudukko extends GridPane {
         this.ikkuna = ikkuna;
         this.peli = peli;
         //setPrefSize(ikkuna.getWidth(), ikkuna.getHeight());
-        setPadding(new Insets(5, 0, 5, 0));
+        setPadding(new Insets(5, 5, 5, 5));
         setVgap(4);
         setHgap(4);
 
@@ -56,19 +56,21 @@ public class Ruudukko extends GridPane {
     public Ruudukko() {
         super();
     }
-    
+
     /**
      * Alustaa ruudukon ja laittaa oikeat ImageViewit oikeisiin kohtiin.
      *
      */
     public void alustaRuudukko() {
 
-        ivRuudukko = new ImageView[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
-        hbRuudukko = new HBox[peli.getPelilauta().getLeveys()][peli.getPelilauta().getKorkeus()];
+        int korkeus = peli.getPelilauta().getKorkeus();
+        int leveys = peli.getPelilauta().getLeveys();
+        ivRuudukko = new ImageView[leveys][korkeus];
+        hbRuudukko = new HBox[leveys][korkeus];
 //        this.maxHeightProperty().bind(ikkuna.heightProperty().subtract(120));
         JavaFXKortti skaalaK = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(0, 0));
-        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
-            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+        for (int y = 0; y < korkeus; y++) {
+            for (int x = 0; x < leveys; x++) {
                 hbRuudukko[x][y] = new HBox();
                 hbRuudukko[x][y].setFillHeight(true);
                 hbRuudukko[x][y].maxHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()));
@@ -77,8 +79,8 @@ public class Ruudukko extends GridPane {
             }
         }
         System.out.println("r");
-        for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
-            for (int x = 0; x < peli.getPelilauta().getLeveys(); x++) {
+        for (int y = 0; y < korkeus; y++) {
+            for (int x = 0; x < leveys; x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
                 k.setOsaParia(false);
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
@@ -90,6 +92,9 @@ public class Ruudukko extends GridPane {
                 //add(/*iv*/hbRuudukko[x][y], x, y);
             }
         }
+        setAlignment(Pos.CENTER);
+//        this.minWidthProperty().bind(ikkuna.widthProperty());
+//        this.minHeightProperty().bind(ikkuna.heightProperty());
     }
 
     /**
@@ -134,10 +139,6 @@ public class Ruudukko extends GridPane {
         ivRuudukko[p.x][p.y] = iv;
     }
 
-//    public void setHB(HBox hb, Point p) {
-//        hbRuudukko[p.x][p.y] = hb;
-//    }
-//
     /**
      * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan.
      *
@@ -150,16 +151,10 @@ public class Ruudukko extends GridPane {
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
         // TODO: ei oikein taas tiedä miten skaalauksen tekisi toimivasti
-        System.out.println(ikkuna.widthProperty() + " " + x + " " + y);
         iv.setPreserveRatio(true);
         double leveys = ikkuna.widthProperty().doubleValue();
-//        if (leveys == 0.0) {
-//            iv.fitWidthProperty().set((ikkuna.getWidth() / peli.getPelilauta().getLeveys()) - 14);
-//            iv.fitHeightProperty().set((ikkuna.getHeight() / peli.getPelilauta().getKorkeus()) - 14);
-//        } else {
-            iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()).subtract(14));
-            iv.fitHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()).subtract(14));
-//        }
+        iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()).subtract(25));
+        iv.fitHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()).subtract(25));
         setColumnIndex(iv, x);
         setRowIndex(iv, y);
     }
@@ -223,12 +218,10 @@ public class Ruudukko extends GridPane {
         stNayta.setOnFinished((ActionEvent t) -> {
             if (kortti.getOsaParia()) {
                 kortti.setAnimTila(Animaatiotila.EI_KAYNNISSA);
+            } else if (kortti.getKaannetty() && !kortti.getOsaParia()) {
+                kortti.setAnimTila(Animaatiotila.ODOTTAA);
             } else {
-                if (kortti.getKaannetty() && !kortti.getOsaParia()) {
-                    kortti.setAnimTila(Animaatiotila.ODOTTAA);
-                } else {
-                    kortti.setAnimTila(Animaatiotila.EI_KAYNNISSA);
-                }
+                kortti.setAnimTila(Animaatiotila.EI_KAYNNISSA);
             }
             int[] ao = korttejaAnimOdotusTilassa();
             if (ao[0] == 0 && ao[1] < 2) {

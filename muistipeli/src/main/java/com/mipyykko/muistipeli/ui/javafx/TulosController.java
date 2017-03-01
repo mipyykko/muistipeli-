@@ -38,7 +38,6 @@ public class TulosController implements Initializable, ControlledRuutu {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        otsikko.setFont(Font.loadFont(getClass().getResourceAsStream("/fontit/GoodDog.otf"), 48));
         valikkoWrapper.setStyle("-fx-background-color: #FFFF00; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);");
         if (peli != null) {
             tulosteksti.setText("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
