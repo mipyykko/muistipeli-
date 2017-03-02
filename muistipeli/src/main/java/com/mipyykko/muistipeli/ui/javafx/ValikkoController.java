@@ -116,7 +116,7 @@ public class ValikkoController implements Initializable, ControlledRuutu {
     }
 
     private void alustaSliderit() {
-        lueKuvalista();
+        lueKuvalista(); // TODO: bugaa kun vaihdetaan kuvasarjaa
         sliderAlustusKaynnissa = true;
         int settikoko = jfi.getKuvaLista().size() * 2;
         for (Slider s : new Slider[]{korkeusSlider, leveysSlider}) {
