@@ -21,7 +21,7 @@
       <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
    </rowConstraints>
    <children>
-        <HBox fx:id="valikkoWrapper" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <HBox id="tulosValikkoWrapper" fx:id="tulosValikkoWrapper" alignment="CENTER" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>

@@ -67,7 +67,7 @@ public class PeliTest {
         try {
             pelilauta.luoPelilauta(Korttityyppi.TEKSTI, false); // ainoa ero pelilautatestiin: ei sekoiteta
         } catch (Exception ex) {
-            System.err.println("Pelilaudan luominen epäonnistui, " + ex.getMessage());
+            // ei mitn
         }
     }
     
@@ -136,6 +136,14 @@ public class PeliTest {
         } catch (Exception e) {
             // kaikki hyvin
         }
+        tPeli = new Peli(Korttityyppi.TEKSTI);
+        try {
+            tPeli.uusiPeli(3, 3, testikuvat, testitaustat);
+        } catch (Exception e) {
+            assertEquals("Ei virheilmoitusta parittomalla laudan koolla luodessa",
+                    "Pariton määrä kortteja laudalla!", e.getMessage());
+        }
+        assertTrue("Pelin luominen onnistui parittomalla laudalla", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
         tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
             Pelilauta vertailu = peli.getPelilauta();

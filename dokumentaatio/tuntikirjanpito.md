@@ -24,3 +24,5 @@ Päivä | Tunnit | Kuvaus
 24.2.2017 | 4 | Valikkohässäkkää, animaatioita
 27.2.2017 | 4 | FXML-konversiota
 28.2.2017 | 4 | Sitä samaa ja animointia
+1.3.2017 | 4 | FXML-konversio, valikkoja, CSS
+2.3.2017 | 3 | Hiontaa

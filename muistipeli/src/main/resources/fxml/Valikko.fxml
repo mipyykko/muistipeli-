@@ -1,52 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Slider?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Text?>
 
 <GridPane styleClass="gridpane" fx:id="valikkoIkkuna" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mipyykko.muistipeli.ui.javafx.ValikkoController">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
-   <children>
-      <GridPane fx:id="valikko" alignment="CENTER" hgap="16.0" vgap="16.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
-         <children>
-            <Text fx:id="otsikko" styleClass="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.halignment="CENTER" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
-            <Slider fx:id="leveys" GridPane.rowIndex="2" />
-            <Slider fx:id="korkeus" GridPane.rowIndex="3" />
-            <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-            <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="5" />
-            <Button id="button" fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
-            <Button id="button" fx:id="lopetusnappi" text="Lopeta" GridPane.halignment="CENTER" GridPane.rowIndex="7" />
-         </children>
-         <padding>
-            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
-         </padding>
-      </GridPane>
-   </children>
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+    </rowConstraints>
+    <children>
+        <StackPane fx:id="valikkoWrapper" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="CENTER">
+            <GridPane id="options" fx:id="optionsPane">
+                <columnConstraints>
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
+                </columnConstraints>                
+                <rowConstraints>
+                    <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                </rowConstraints>                
+                <Text styleClass="valikkoText" fx:id="leveysText" GridPane.rowIndex="0" GridPane.columnIndex="1">Leveys:</Text>
+                <Slider id="leveysSlider" fx:id="leveysSlider" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                <Text styleClass="valikkoText" fx:id="korkeusText" GridPane.rowIndex="2" GridPane.columnIndex="1">Korkeus:</Text>
+                <Slider id="korkeusSlider" fx:id="korkeusSlider" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                <Text styleClass="valikkoText" fx:id="kuvavalikkoText" GridPane.rowIndex="4" GridPane.columnIndex="1">Kuvasarja:</Text>
+                <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+            </GridPane>
+            <VBox id="valikkoBox">
+                <GridPane fx:id="valikko" alignment="CENTER" hgap="16.0" vgap="16.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                    <children>
+                        <Text fx:id="otsikko" styleClass="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.halignment="CENTER" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
+                        <Text styleClass="virheText" fx:id="virheText" textAlignment="CENTER" GridPane.rowIndex="4">virheilmoitustekstivirheilmoitus</Text>
+                        <Button id="button" fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
+                        <Button id="button" fx:id="lopetusnappi" text="Lopeta" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                        <Button id="button" fx:id="optionsnappi" text="Peliasetukset" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                    </children>
+                    <padding>
+                        <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                    </padding>
+                </GridPane>
+            </VBox>
+        </StackPane>
+    </children>
 </GridPane>

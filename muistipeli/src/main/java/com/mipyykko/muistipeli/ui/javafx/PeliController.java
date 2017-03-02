@@ -76,10 +76,7 @@ public class PeliController implements Initializable, ControlledRuutu {
         ruudukkoWrapper.setFillHeight(true);
         ruudukkoWrapper.prefHeightProperty().bind(ruudukko.heightProperty());
         ruudukkoWrapper.prefWidthProperty().bind(ruudukko.widthProperty());
-//        BorderPane.setAlignment(ruudukkoWrapper, Pos.CENTER);
         ruudukko.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
-        //pelialueStackPane.getChildren().add(ruudukkoWrapper);
-        //peliIkkuna.setCenter(pelialueStackPane);
         animX = 0;
         animKerrat = 0;
         if (ikkunaController.getCurTransition() != null) {
@@ -107,15 +104,18 @@ public class PeliController implements Initializable, ControlledRuutu {
             return;
         }
         peli.setTila(Pelitila.ANIM_KAYNNISSA);
+        int koko = peli.getPelilauta().getKorkeus() * peli.getPelilauta().getLeveys();
+        // TODO vieläkin magic numbers mutta nyt ainakin riippuu pelilaudan koosta
+        double viive = 1500 * ((double) koko / 24);
         naytaTimeline = new Timeline();
         naytaTimeline.getKeyFrames().add(new KeyFrame(
-                Duration.millis(100), (ActionEvent event) -> kaannaPystyRivi(event)));
+                Duration.millis(100), (ActionEvent event) -> kaannaPystyRivi(event, viive)));
         naytaTimeline.setCycleCount(peli.getPelilauta().getLeveys());
         naytaTimeline.setCycleCount(Animation.INDEFINITE);
         naytaTimeline.play();
     }
 
-    private void kaannaPystyRivi(ActionEvent event) {
+    private void kaannaPystyRivi(ActionEvent event, double viive) {
         peli.setTila(Pelitila.ANIM_KAYNNISSA);
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
             ruudukko.kaannaKortti(new Point(animX, y), true);
@@ -130,7 +130,7 @@ public class PeliController implements Initializable, ControlledRuutu {
                  pelitila
                  */
                 // TODO: magic numbers
-                PauseTransition p = new PauseTransition(Duration.seconds(1));
+                PauseTransition p = new PauseTransition(Duration.millis(viive));
                 p.setOnFinished(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent t) {
@@ -164,9 +164,7 @@ public class PeliController implements Initializable, ControlledRuutu {
         pause.play();
     }
 
-    // TODO: esim. tää toimimaan
     private void animoiPari(Point[] siirto) {
-        /* tähän vaihtui nyt hbox sisältämään iv:n eli jos sen sais tekemään jotain */
         final Timeline[] a = new Timeline[siirto.length];
 
         for (int i = 0; i < siirto.length; i++) {

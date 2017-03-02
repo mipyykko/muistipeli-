@@ -18,12 +18,17 @@ public class Main extends Application {
 
     private static Stage primaryStage;
     
+    /**
+     * Pääohjelma. Käynnistää JavaFX-sovelluksen.
+     * 
+     * @param args Komentoriviparametrit.
+     */
     public static void main(String[] args) {
         launch(args);
     }
     
     /**
-     * Käyttöliittymän ajava pääohjelma.
+     * JavaFX:n ajama käynnistysmetodi joka luo uuden käyttöliittymän ja näyttää sen.
      *
      * @param primaryStage JavaFX:n luoma Stage.
      * @throws Exception Exception.
@@ -31,7 +36,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        JavaFXUI ui = new JavaFXUI(/*peli*/);
+        JavaFXUI ui = new JavaFXUI();
         this.primaryStage = primaryStage;
         ui.setStage(primaryStage);
         ui.nayta();

@@ -32,6 +32,9 @@ public class JavaFXInit {
      * @throws IOException Virhe lukemisessa.
      */
     public Set<String> haeKuvasetit() throws URISyntaxException, IOException {
+        /* TODO! TODO! Tähän pitää keksiä joku muu systeemi sillä ei tää toimi
+           samalla tavalla joka laitteilla.
+        */
         Set<String> kuvasetit = new TreeSet<String>();
         URI uri = getClass().getResource("/kuvat").toURI();
         Path kuvahakemisto;
@@ -78,6 +81,10 @@ public class JavaFXInit {
         }
     }
 
+    public Map<String, String> getKuvaLista() {
+        return kuvalista;
+    }
+    
     /**
      * Lukee taustat jostain. Tai nykyään ei tee mitään.
      * 

@@ -40,8 +40,6 @@ public class JavaFXKortti extends ImageView implements Kortti {
         this.kaannetty = false;
         this.animTila = Animaatiotila.EI_KAYNNISSA;
         this.osaParia = false;
-        //TODO: hajottaa testit, tosin öö
-        //setImage((Image) kuva.getSisalto());
     }
 
     /**
@@ -78,7 +76,6 @@ public class JavaFXKortti extends ImageView implements Kortti {
     @Override
     public boolean kaanna() {
         kaannetty = !kaannetty;
-        //oikeaKuva(); // TODO onko tää oikein?
         return kaannetty;
     }
     
@@ -132,20 +129,11 @@ public class JavaFXKortti extends ImageView implements Kortti {
         return kaannetty ? getKuva().toString() : getTausta().toString();
     }
     
-    /*@Override
-    public int compareTo(Object o) {
-        if (!(o instanceof Kortti)) {
-            return -1;
-        }
-        return this.kuva.compareTo(((Kortti) o).getKuva());
-    }*/
-    
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Kortti)) {
             return false;
         }
-        // TODO vertailu?
         return ((Kortti) o).getKuva().equals(this.kuva);
     }
     

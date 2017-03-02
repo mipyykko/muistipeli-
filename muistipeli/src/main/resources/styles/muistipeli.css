@@ -18,6 +18,29 @@
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
 }
 
+.valikkoIkkuna {
+    -fx-background-color: #FFFF00; 
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
+}
+
+.tulosValikkoWrapper {
+    -fx-background-color: #FFFF00; 
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);
+}
+
+#valikkoBox {
+    -fx-background-color: #FF0000;
+}
+
+#valikko {
+    -fx-background-color: #FFFF00;
+}
+
+#optionsBox {
+    -fx-background-color: #FF0000;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 5, 0, 0, 0);
+    
+}
 .otsikko {
     -fx-font-family: GoodDog;
     -fx-font-size: 48;
@@ -26,6 +49,17 @@
 
 .status {
     -fx-background-color: #800000;
+}
+
+.valikkoText {
+    -fx-font-family: Verdana;
+    -fx-font-size: 10;
+}
+.virheText {
+    -fx-font-family: Verdana;
+    -fx-font-size: 12;
+    -fx-text-fill: red;
+    -fx-opacity: 0;
 }
 
 .combo-box .list-cell 
@@ -68,7 +102,7 @@
 
 .combo-box-base  
 {
-    -fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";
+    /*-fx-skin: "com.sun.javafx.scene.control.skin.ComboBoxBaseSkin";*/
     -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, yellow;
     -fx-background-radius: 5, 5, 4, 3;
     -fx-background-insets: 0 0 -1 0, 0, 1, 2;

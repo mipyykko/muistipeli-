@@ -39,7 +39,6 @@ public class Pelilauta {
         this.kortit = new Kortti[leveys][korkeus];
         this.kuvasarja = kuvasarja;
         this.taustasarja = taustasarja;
-        // TODO: taustakuva josta lohkotaan taustat korteille?
     }
     
     /**
@@ -113,7 +112,6 @@ public class Pelilauta {
      */
     public Kortti[][] getKortit() {
         return kortit;
-        // TODO rakennetta mietittävä
     }
 
     public void setKortit(Kortti[][] kortit) {

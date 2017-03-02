@@ -84,8 +84,7 @@ public class JavaFXUI implements UI {
             primaryStage.setTitle("Muistipeliö");
             primaryStage.setScene(scene);
             primaryStage.sizeToScene();
-            primaryStage.setResizable(false);
-            primaryStage.initStyle(StageStyle.UNDECORATED);
+            primaryStage.initStyle(StageStyle.UTILITY);
             primaryStage.show();
             //} catch (Exception e) {
             //    throw new Exception("UI:n alustus ei onnistunut: " + e.getMessage());

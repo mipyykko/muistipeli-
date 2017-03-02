@@ -50,11 +50,13 @@ public class Peli {
      * @throws Exception Virhe pelilaudan luonnissa palauttaa virheilmoituksen selityksen kera.
      */
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) throws Exception {
-        // TODO: pelilaudan oikean koon tarkistus
         tila = Pelitila.INIT;
         this.pelilauta = new Pelilauta(leveys, korkeus, kuvasarja, taustasarja);
+        if ((leveys * korkeus) % 2 != 0) {
+            throw new Exception("Pariton määrä kortteja laudalla!");
+        }
         try {
-            pelilauta.luoPelilauta(korttityyppi, true); // TODO: tälle jotain
+            pelilauta.luoPelilauta(korttityyppi, true);
         } catch (Exception ex) {
             throw new Exception("Pelilaudan luominen epäonnistui, " + ex.getMessage());
         }
@@ -67,7 +69,7 @@ public class Peli {
     /**
      * Luo uuden pelin nykyisillä parametreilla.
      * 
-     * @throws Exception 
+     * @throws Exception Palauttaa virheen jos pelilautaa ei ole luotu.
      */
     public void uusiPeli() throws Exception {
         if (pelilauta != null) {
@@ -155,7 +157,6 @@ public class Peli {
      * @return boolean-arvo
      */
     public boolean tarkistaPari(Point[] siirrot) {
-        // TODO turhan isoja himmeleitä nämä ehtolauseet
         if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null ||
             siirrot[0].equals(siirrot[1])) {
             return false;

@@ -38,19 +38,16 @@ public class Ruudukko extends GridPane {
     /**
      * Konstruktori.
      *
-     * @param ikkuna Peli-ikkuna. TODO: tämän saanee parentilla myös?
+     * @param ikkuna Ikkuna jonka kokoon kortit suhteutetaan.
      * @param peli Peli-objekti.
      */
     public Ruudukko(Pane ikkuna, Peli peli) {
         super();
         this.ikkuna = ikkuna;
         this.peli = peli;
-        //setPrefSize(ikkuna.getWidth(), ikkuna.getHeight());
         setPadding(new Insets(5, 5, 5, 5));
         setVgap(4);
         setHgap(4);
-
-        //setBackground(null);
     }
 
     public Ruudukko() {
@@ -67,7 +64,6 @@ public class Ruudukko extends GridPane {
         int leveys = peli.getPelilauta().getLeveys();
         ivRuudukko = new ImageView[leveys][korkeus];
         hbRuudukko = new HBox[leveys][korkeus];
-//        this.maxHeightProperty().bind(ikkuna.heightProperty().subtract(120));
         JavaFXKortti skaalaK = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(0, 0));
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
@@ -78,23 +74,16 @@ public class Ruudukko extends GridPane {
                 add(hbRuudukko[x][y], x, y);
             }
         }
-        System.out.println("r");
         for (int y = 0; y < korkeus; y++) {
             for (int x = 0; x < leveys; x++) {
                 JavaFXKortti k = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(x, y));
                 k.setOsaParia(false);
                 ivRuudukko[x][y] = new ImageView((Image) k.getSisalto());
-                //hbRuudukko[x][y] = new HBox();
-//                hbRuudukko[x][y].minWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()));
-//                hbRuudukko[x][y].minHeightProperty().bind(ikkuna.heightProperty().divide(peli.getPelilauta().getKorkeus()));
                 hbRuudukko[x][y].getChildren().add(ivRuudukko[x][y]);
                 sijoitaJaSkaalaaIv(ivRuudukko[x][y], x, y);
-                //add(/*iv*/hbRuudukko[x][y], x, y);
             }
         }
         setAlignment(Pos.CENTER);
-//        this.minWidthProperty().bind(ikkuna.widthProperty());
-//        this.minHeightProperty().bind(ikkuna.heightProperty());
     }
 
     /**
@@ -180,9 +169,6 @@ public class Ruudukko extends GridPane {
      * kaksi auki samaan aikaan?
      */
     public void kaannaKortti(Point p, boolean kaikki) {
-//        if (animaatioLkm > 2 && !kaikki) {
-//            return;
-//        }
         JavaFXKortti kortti = (JavaFXKortti) peli.getPelilauta().getKortti(p);
         if (kortti.getAnimTila() != Animaatiotila.EI_KAYNNISSA
                 && kortti.getAnimTila() != Animaatiotila.ODOTTAA) {

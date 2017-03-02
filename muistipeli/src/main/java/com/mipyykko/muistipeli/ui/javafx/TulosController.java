@@ -26,7 +26,7 @@ public class TulosController implements Initializable, ControlledRuutu {
 
     private IkkunaController ikkunaController;
     @FXML private GridPane valikko;
-    @FXML private HBox valikkoWrapper;
+    @FXML private HBox tulosValikkoWrapper;
     @FXML private Text otsikko;
     @FXML private Text tulosteksti;
     @FXML private Button valikkoButton;
@@ -38,10 +38,6 @@ public class TulosController implements Initializable, ControlledRuutu {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        valikkoWrapper.setStyle("-fx-background-color: #FFFF00; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 50, 0, 0, 0);");
-        if (peli != null) {
-            tulosteksti.setText("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
-        }
         valikkoButton.setOnAction(ae -> ikkunaController.asetaIkkuna(JavaFXIkkuna.VALIKKO));
         uusipeliButton.setOnAction(ae -> {
             try {
@@ -50,13 +46,16 @@ public class TulosController implements Initializable, ControlledRuutu {
                 ((PeliController) ikkunaController.getController(JavaFXIkkuna.PELI)).alustaRuudukko();
                 ikkunaController.asetaIkkuna(JavaFXIkkuna.PELI);
             } catch (Exception e) {
-                System.out.println("Pelin luominen epäonnistui! " + e.getMessage()); // debug
+                System.err.println("Hups, pelin luominen epäonnistui");
             }            
         });
     }    
 
     public void asetaPeli(Peli peli) {
         this.peli = peli;
+        if (peli != null) {
+            tulosteksti.setText("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
+        }
     }
     
     @Override

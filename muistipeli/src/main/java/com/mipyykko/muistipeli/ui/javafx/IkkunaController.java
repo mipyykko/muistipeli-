@@ -74,9 +74,7 @@ public class IkkunaController extends StackPane {
 
     public boolean lataaIkkuna(JavaFXIkkuna id) {
         try {
-            System.out.println(id.toString());
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/" + id.tiedosto()));
-            System.out.println(getClass().getResource("/fxml/" + id.tiedosto()));
             Parent ikkuna = (Parent) loader.load();
             ControlledRuutu controller = (ControlledRuutu) loader.getController();
             controller.asetaParent(this);
@@ -84,8 +82,6 @@ public class IkkunaController extends StackPane {
             controllers.put(id, controller);
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("daa:" + e.getCause() + " " + e.getMessage());
             return false;
         }
     }
@@ -117,10 +113,7 @@ public class IkkunaController extends StackPane {
                     ikkunat.get(id).toFront();
                     ikkunat.get(id).setEffect(null);
 
-                    if (id == JavaFXIkkuna.PELI) {
-                        // TODO: hm?
-                        PeliController p = (PeliController) controllers.get(id);
-                    } else if (id == JavaFXIkkuna.TULOS) {
+                    if (id == JavaFXIkkuna.TULOS) {
                         GaussianBlur gb = new GaussianBlur();
                         Animation b = new Timeline(
                                 new KeyFrame(Duration.ZERO, new KeyValue(gb.radiusProperty(), 0d)),

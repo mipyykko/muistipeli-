@@ -25,7 +25,6 @@ public class JavaFXTaustaTest {
     private JavaFXTausta testitausta, isoTestitausta;
     private Image testitaustaImage, isoTestitaustaImage;
     
-    // TODO: nää pitää ehkä 
     @BeforeClass
     public static void appSetup() {
         thread = new Thread() {
