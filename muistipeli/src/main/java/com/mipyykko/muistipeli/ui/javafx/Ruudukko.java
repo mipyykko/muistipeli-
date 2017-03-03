@@ -87,7 +87,7 @@ public class Ruudukko extends GridPane {
     }
 
     /**
-     * Merkataan pari ja animaatiot päättyneiksi. .
+     * Merkataan animaatiot päättyneiksi. .
      *
      * @param siirto Point[] joka sisältää siirrot.
      */
@@ -147,7 +147,12 @@ public class Ruudukko extends GridPane {
         setColumnIndex(iv, x);
         setRowIndex(iv, y);
     }
-
+    
+    /**
+     * Onko kortteja vielä animoitavana tai odottamassa kääntymistä?
+     * 
+     * @return Int-taulukko jossa [0] on kääntyvien korttien määrä, [1] odottavien.
+     */
     private int[] korttejaAnimOdotusTilassa() {
         int[] animOdotus = new int[2];
         for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {

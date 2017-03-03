@@ -225,10 +225,20 @@ public class PeliTest {
     }
     
     @Test
-    public void TilaPalautuuJaMuuttuu() {
+    public void tilaPalautuuJaMuuttuu() {
         assertEquals("Tila ei alkutilanteessa palaudu oikein", Pelitila.EI_KAYNNISSA, peli.getTila());
         peli.setTila(Pelitila.PELI_LOPPU);
         assertEquals("Tila ei palaudu muutoksen jälkeen", Pelitila.PELI_LOPPU, peli.getTila());
+    }
+    
+    @Test
+    public void aikaTestit() {
+        assertEquals("Aika pelin alussa väärin", 0, peli.getAika());
+        peli.setAika(3);
+        assertEquals("Aika asettamisen jälkeen väärin", 3, peli.getAika());
+        assertEquals("AikaAsString väärin", "00:03", peli.getAikaAsString());
+        peli.setAika(61);
+        assertEquals("AikaAsString väärin kun aikaa yli minuutti", "01:01", peli.getAikaAsString());
     }
     
 }

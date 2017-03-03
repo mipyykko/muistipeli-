@@ -65,10 +65,11 @@ public class JavaFXUI implements UI {
             
             ic.asetaIkkuna(JavaFXIkkuna.VALIKKO);
            
-            ic.getStylesheets().add("styles/muistipeli.css");
+            // todo: tähän tarkistus jos levyllä tosiaan on toinen css jolloin käytetään sitä
+            String css = getClass().getResource("/styles/muistipeli.css").toExternalForm();
+            ic.getStylesheets().add(css);
             root = new Group();
             root.getChildren().add(ic);
-//            valikkoIkkuna = new ValikkoIkkuna();
             
             if (peli != null) {
                 peli.setTila(Pelitila.VALIKKO);
@@ -86,9 +87,6 @@ public class JavaFXUI implements UI {
             primaryStage.sizeToScene();
             primaryStage.initStyle(StageStyle.UTILITY);
             primaryStage.show();
-            //} catch (Exception e) {
-            //    throw new Exception("UI:n alustus ei onnistunut: " + e.getMessage());
-            //}
         }
     }
 

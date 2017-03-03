@@ -29,28 +29,26 @@
         <StackPane fx:id="valikkoWrapper" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.halignment="CENTER">
             <GridPane id="options" fx:id="optionsPane">
                 <columnConstraints>
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="10.0" />
                 </columnConstraints>                
                 <rowConstraints>
                     <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
-                    <RowConstraints minHeight="10.0" prefHeight="10.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="5.0" prefHeight="5.0" vgrow="SOMETIMES" />
                 </rowConstraints>                
-                <Text styleClass="valikkoText" fx:id="leveysText" GridPane.rowIndex="0" GridPane.columnIndex="1">Leveys:</Text>
-                <Slider id="leveysSlider" fx:id="leveysSlider" GridPane.rowIndex="1" GridPane.columnIndex="1" />
-                <Text styleClass="valikkoText" fx:id="korkeusText" GridPane.rowIndex="2" GridPane.columnIndex="1">Korkeus:</Text>
-                <Slider id="korkeusSlider" fx:id="korkeusSlider" GridPane.rowIndex="3" GridPane.columnIndex="1" />
-                <Text styleClass="valikkoText" fx:id="kuvavalikkoText" GridPane.rowIndex="4" GridPane.columnIndex="1">Kuvasarja:</Text>
-                <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.columnIndex="1" />
+                <children>
+                    <Text styleClass="valikkoText" fx:id="kokoText" GridPane.halignment="CENTER" GridPane.rowIndex="0">Ruudukon koko:</Text>
+                    <ComboBox fx:id="kokovalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
+                    <Text styleClass="valikkoText" fx:id="kuvavalikkoText" GridPane.halignment="CENTER" GridPane.rowIndex="2">Kuvasarja:</Text>
+                    <ComboBox fx:id="kuvavalikko" prefWidth="150.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                </children>
             </GridPane>
-            <VBox id="valikkoBox">
+            <VBox id="valikkoBox" prefWidth="400.0">
                 <GridPane fx:id="valikko" alignment="CENTER" hgap="16.0" vgap="16.0">
                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="200.0" prefWidth="200.0" />
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="100.0" prefWidth="100.0" />
                     </columnConstraints>
                     <rowConstraints>
@@ -62,12 +60,12 @@
                         <RowConstraints minHeight="20.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <Text fx:id="otsikko" styleClass="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.halignment="CENTER" />
-                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" />
-                        <Text styleClass="virheText" fx:id="virheText" textAlignment="CENTER" GridPane.rowIndex="4">virheilmoitustekstivirheilmoitus</Text>
-                        <Button id="button" fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="2" />
-                        <Button id="button" fx:id="lopetusnappi" text="Lopeta" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                        <Button id="button" fx:id="optionsnappi" text="Peliasetukset" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                        <Text fx:id="otsikko" styleClass="otsikko" strokeType="OUTSIDE" strokeWidth="0.0" text="Muistipeliö" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" GridPane.rowIndex="1" GridPane.columnIndex="1" />
+                        <Text styleClass="virheText" fx:id="virheText" textAlignment="CENTER" GridPane.rowIndex="4" GridPane.columnIndex="1" >virheilmoitustekstivirheilmoitus</Text>
+                        <Button id="button" fx:id="aloitusnappi" mnemonicParsing="false" text="Aloita peli" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.columnIndex="1" />
+                        <Button id="button" fx:id="lopetusnappi" text="Lopeta" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.columnIndex="1" />
+                        <Button id="button" fx:id="optionsnappi" text="Näytä asetukset" GridPane.halignment="CENTER" GridPane.rowIndex="5" GridPane.columnIndex="1" />
                     </children>
                     <padding>
                         <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

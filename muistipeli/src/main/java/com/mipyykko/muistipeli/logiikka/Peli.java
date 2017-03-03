@@ -17,7 +17,7 @@ import java.util.Set;
 
 /**
  * Pelin päälogiikka.
- * 
+ *
  * @author pyykkomi
  */
 public class Peli {
@@ -28,10 +28,12 @@ public class Peli {
     private List<Point> siirrot;
     private final Korttityyppi korttityyppi;
     private Pelitila tila;
-    
+    private int aika;
+
     /**
      * Pelin konstruktori.
-     * @param korttityyppi Käytettävä korttityyppi. 
+     *
+     * @param korttityyppi Käytettävä korttityyppi.
      */
     public Peli(Korttityyppi korttityyppi) {
         this.siirrot = new ArrayList<>();
@@ -40,14 +42,15 @@ public class Peli {
     }
 
     /**
-     * 
+     *
      * Luo uuden pelin annetuilla parametreilla.
-     * 
+     *
      * @param leveys Pelilaudan leveys.
      * @param korkeus Pelilaudan korkeus.
      * @param kuvasarja Set Kuva-objekteja.
      * @param taustasarja Set Kuva-objekteja.
-     * @throws Exception Virhe pelilaudan luonnissa palauttaa virheilmoituksen selityksen kera.
+     * @throws Exception Virhe pelilaudan luonnissa palauttaa virheilmoituksen
+     * selityksen kera.
      */
     public void uusiPeli(int leveys, int korkeus, Set<Kuva> kuvasarja, Set<Tausta> taustasarja) throws Exception {
         tila = Pelitila.INIT;
@@ -63,63 +66,64 @@ public class Peli {
         this.siirrot = new ArrayList<>(); // TODO: tämä esim. käyttöön
         this.siirrotLkm = 0;
         this.paritLkm = 0;
+        this.aika = 0;
         tila = Pelitila.ODOTTAA_SIIRTOA;
     }
-    
+
     /**
      * Luo uuden pelin nykyisillä parametreilla.
-     * 
+     *
      * @throws Exception Palauttaa virheen jos pelilautaa ei ole luotu.
      */
     public void uusiPeli() throws Exception {
         if (pelilauta != null) {
             uusiPeli(pelilauta.getLeveys(), pelilauta.getKorkeus(),
-                 pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
+                    pelilauta.getKuvasarja(), pelilauta.getTaustasarja());
         } else {
             throw new Exception("Uusi peli vanhoilla parametreilla ei onnistu");
         }
     }
-    
+
     /**
      * Kasvattaa siirtojen määrää.
      */
     public void lisaaSiirto() {
         siirrotLkm++;
     }
-    
+
     public int getSiirrotLkm() {
         return siirrotLkm;
     }
-    
+
     /**
      * Kasvattaa parien määrää ja merkitsee parin.
-     
-     * @param pari Korttien koordinaatit Point-muodossa.    
+     *
+     * @param pari Korttien koordinaatit Point-muodossa.
      */
     public void lisaaPari(Point[] pari) {
         paritLkm++;
         for (Point p : pari) {
             pelilauta.getKortti(p).setOsaParia(true);
         }
-        
+
     }
-    
+
     public int getParitLkm() {
         return paritLkm;
     }
-    
+
     public List<Point> getSiirrot() {
         return siirrot;
     }
-    
+
     public void setTila(Pelitila tila) {
         this.tila = tila;
     }
-    
+
     public Pelitila getTila() {
         return tila;
     }
-    
+
     public Pelilauta getPelilauta() {
         return pelilauta;
     }
@@ -130,17 +134,16 @@ public class Peli {
 
     /**
      * Onko kaikki kortit käännetty eli onko peli loppu?
-     * 
+     *
      * @return boolean-arvo
      */
-    
     public boolean peliLoppu() {
         return pelilauta.kaikkiKaannetty();
     }
 
     /**
      * Onko siirto laillinen?
-     * 
+     *
      * @param p siirto Point-muodossa
      * @return boolean-arvo
      */
@@ -150,18 +153,19 @@ public class Peli {
     }
 
     /**
-     * Tarkistaa onko annetuissa koordinaateissa korttipari ja asettaa pelitilan.
-     * 
-     * 
+     * Tarkistaa onko annetuissa koordinaateissa korttipari ja asettaa
+     * pelitilan.
+     *
+     *
      * @param siirrot Kaksi Point-objektia sisältävä taulukko.
      * @return boolean-arvo
      */
     public boolean tarkistaPari(Point[] siirrot) {
-        if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null ||
-            siirrot[0].equals(siirrot[1])) {
+        if (siirrot == null || siirrot.length != 2 || siirrot[0] == null || siirrot[1] == null
+                || siirrot[0].equals(siirrot[1])) {
             return false;
         }
-        
+
         lisaaSiirto();
         boolean pari = pelilauta.getKortti(siirrot[0]).equals(pelilauta.getKortti(siirrot[1]));
         if (pari) {
@@ -176,24 +180,43 @@ public class Peli {
         }
         return pari;
     }
-    
+
     /**
      * Kääntää annetuissa koordinaateissa olevan kortin.
-     * 
+     *
      * @param p Point-objekti.
      */
     private void kaannaKortti(Point p) {
         pelilauta.getKortti(p).kaanna();
     }
-    
+
     /**
      * Kääntää annetussa taulukossa olevat kortit.
-     * 
-     * @param p Point[]-objekti. 
+     *
+     * @param p Point[]-objekti.
      */
     public void kaannaKortit(Point[] p) {
         for (Point k : p) {
             kaannaKortti(k);
         }
+    }
+
+    public int getAika() {
+        return aika;
+    }
+
+    /**
+     * Palauttaa peliajan muotoiltuna.
+     *
+     * @return Aika merkkijonona formaatissa mm:ss.
+     */
+    public String getAikaAsString() {
+        int min = aika / 60;
+        int sec = aika % 60;
+        return String.format("%02d:%02d", min, sec);
+    }
+
+    public void setAika(int aika) {
+        this.aika = aika;
     }
 }

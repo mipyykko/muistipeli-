@@ -14,10 +14,15 @@ import com.mipyykko.muistipeli.util.Point;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.Animation;
+import javafx.animation.AnimationTimer;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.PauseTransition;
 import javafx.animation.Timeline;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,7 +34,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
@@ -53,7 +57,10 @@ public class PeliController implements Initializable, ControlledRuutu {
     private int animX, animKerrat;
     private Timeline naytaTimeline;
     private Timeline korttiAnimTimeline;
-
+    private AnimationTimer aikaTimer;
+    private DoubleProperty aikaProperty;
+    private BooleanProperty aikaKaynnissaProperty;
+    
     private Peli peli;
     
     @Override
@@ -92,6 +99,11 @@ public class PeliController implements Initializable, ControlledRuutu {
             ruudukko.setOnMouseClicked(null);
             ikkunaController.asetaIkkuna(JavaFXIkkuna.VALIKKO);
         });
+        
+        aikaProperty = new SimpleDoubleProperty(0.0);
+        aikaKaynnissaProperty = new SimpleBooleanProperty(Boolean.FALSE);
+        paivitaScore();
+        
         siirto = new Point[2];
         edellinenSiirto = new Point[2]; // onko tää käytössä?
     }
@@ -143,11 +155,39 @@ public class PeliController implements Initializable, ControlledRuutu {
                 naytaTimeline.stop();
                 naytaTimeline = null;
                 ruudukko.setOnMouseClicked((MouseEvent e) -> klikattuRuutua(e));
+                alustaTimer();
+                aikaTimer.start();
                 //peli.setTila(Pelitila.ODOTTAA_SIIRTOA);
             }
         }
     }
 
+    private void alustaTimer() {
+        aikaTimer = new AnimationTimer() {
+            private long alku;
+            
+            @Override
+            public void start() {
+                alku = System.currentTimeMillis();
+                aikaKaynnissaProperty.set(true);
+                super.start();
+            }
+            
+            @Override
+            public void stop() {
+                aikaKaynnissaProperty.set(false);
+                super.stop();
+            }
+            
+            @Override
+            public void handle(long now) {
+                long nyt = System.currentTimeMillis();
+                aikaProperty.set((nyt - alku) / 1000.0);
+                paivitaScore();
+                peli.setAika(aikaProperty.intValue());
+            }
+        };
+    }
     private void odotaEnnenParinKaantoa(int seconds) {
         peli.setTila(Pelitila.ANIM_KAYNNISSA);
         PauseTransition pause = new PauseTransition(Duration.seconds(seconds));
@@ -195,7 +235,6 @@ public class PeliController implements Initializable, ControlledRuutu {
                         new KeyFrame(Duration.seconds(0.3), new KeyValue(ds.radiusProperty(), 20d)));
         a.setAutoReverse(true);
         a.setCycleCount(10);
-        //gb.setInput(ds);
         ruudukko.setEffect(ds);
         
         a.setOnFinished(e -> ikkunaController.asetaIkkuna(JavaFXIkkuna.TULOS));
@@ -203,7 +242,7 @@ public class PeliController implements Initializable, ControlledRuutu {
     }
 
     private void paivitaScore() {
-        score.setText("Siirrot: " + peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm());
+        score.setText("Siirrot: "+ peli.getSiirrotLkm() + " Parit: " + peli.getParitLkm() + " Aika: " + peli.getAikaAsString());
     }
 
     private void hoidaSiirto(Point p) {
@@ -253,6 +292,7 @@ public class PeliController implements Initializable, ControlledRuutu {
         hoidaSiirto(p);
         
         if (peli.getTila() == Pelitila.PELI_LOPPU) {
+            aikaTimer.stop();
             animoiVoitto();
         }
     }

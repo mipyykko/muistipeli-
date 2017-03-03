@@ -1,0 +1,8 @@
+com.mipyykko.muistipeli
+com.mipyykko.muistipeli.logiikka
+com.mipyykko.muistipeli.malli
+com.mipyykko.muistipeli.malli.enums
+com.mipyykko.muistipeli.malli.impl
+com.mipyykko.muistipeli.ui
+com.mipyykko.muistipeli.ui.javafx
+com.mipyykko.muistipeli.util

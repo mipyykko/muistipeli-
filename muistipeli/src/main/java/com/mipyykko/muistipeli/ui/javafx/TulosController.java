@@ -28,14 +28,12 @@ public class TulosController implements Initializable, ControlledRuutu {
     @FXML private GridPane valikko;
     @FXML private HBox tulosValikkoWrapper;
     @FXML private Text otsikko;
-    @FXML private Text tulosteksti;
+    @FXML private Text tulosText;
+    @FXML private Text aikaText;
     @FXML private Button valikkoButton;
     @FXML private Button uusipeliButton;
     private Peli peli;
     
-    /**
-     * Initializes the controller class.
-     */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         valikkoButton.setOnAction(ae -> ikkunaController.asetaIkkuna(JavaFXIkkuna.VALIKKO));
@@ -54,7 +52,8 @@ public class TulosController implements Initializable, ControlledRuutu {
     public void asetaPeli(Peli peli) {
         this.peli = peli;
         if (peli != null) {
-            tulosteksti.setText("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
+            tulosText.setText("Käytit " + peli.getSiirrotLkm() + " siirtoa.");
+            aikaText.setText("Aikaa kului " + peli.getAikaAsString() + ".");
         }
     }
     

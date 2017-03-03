@@ -39,10 +39,27 @@ import javafx.util.Duration;
  */
 public class ValikkoController implements Initializable, ControlledRuutu {
 
+    class Pelimoodi {
+        int leveys;
+        int korkeus;
+        
+        public Pelimoodi(int leveys, int korkeus) {
+            this.leveys = leveys;
+            this.korkeus = korkeus;
+        }
+        
+        @Override
+        public String toString() {
+            return leveys + "x" + korkeus;
+        }
+    }
+    
     private IkkunaController ikkunaController;
 
     @FXML
     private Text otsikko;
+    @FXML
+    private ComboBox kokovalikko;
     @FXML
     private ComboBox kuvavalikko;
     @FXML
@@ -54,52 +71,33 @@ public class ValikkoController implements Initializable, ControlledRuutu {
     @FXML
     private Button optionsnappi;
     @FXML
-    private Slider leveysSlider;
-    @FXML
-    private Slider korkeusSlider;
-    @FXML
     private GridPane optionsPane;
     @FXML
     private GridPane valikko;
     @FXML
     private Text virheText;
-    
+
     private JavaFXInit jfi;
 
     private boolean optionsEsilla;
     private boolean sliderAlustusKaynnissa;
-    
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        ObservableList<String> kuvaOptions = FXCollections.observableArrayList();
-        try {
-            for (String s : new JavaFXInit().haeKuvasetit()) {
-                String[] hakemisto = s.split("/"); //TODO: ei toimi joka vehkeellä
-                kuvaOptions.add(hakemisto[hakemisto.length - 1]);
-            }
-        } catch (Exception e) {
-            try {
-                throw new Exception("Ei kuvasettejä odotetussa hakemistossa!");
-            } catch (Exception ex) {
-                Logger.getLogger(ValikkoController.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        kuvavalikko.setItems(kuvaOptions);
-        kuvavalikko.getSelectionModel().selectFirst();
+        alustaKuvavalikko();
         lueKuvalista();
-        alustaSliderit();
-        kuvavalikko.setOnAction(e -> {
-            alustaSliderit();
-        });
+        alustaKokovalikko();
         aloitusnappi.setOnAction(e -> aloitusNappiKlikattu());
         lopetusnappi.setOnAction(e -> ikkunaController.getUI().sulje());
         optionsEsilla = false;
         optionsnappi.setOnAction(e -> {
             TranslateTransition tt = new TranslateTransition(Duration.millis(200), optionsPane);
             if (optionsEsilla) {
+                optionsnappi.setText("Näytä asetukset");
                 tt.setFromY(valikko.getHeight());
                 tt.setToY(0);
             } else {
+                optionsnappi.setText("Piilota asetukset");
                 tt.setFromY(0);
                 tt.setToY(valikko.getHeight());
             }
@@ -115,41 +113,44 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         ikkunaController = parent;
     }
 
-    private void alustaSliderit() {
-        lueKuvalista(); // TODO: bugaa kun vaihdetaan kuvasarjaa
-        sliderAlustusKaynnissa = true;
-        int settikoko = jfi.getKuvaLista().size() * 2;
-        for (Slider s : new Slider[]{korkeusSlider, leveysSlider}) {
-            s.setMin(3);
-            s.setSnapToTicks(true);
-            s.setMax(Math.floor(settikoko / 3));
-            s.setShowTickLabels(true);
-            s.setShowTickMarks(true);
-            s.setMajorTickUnit(1);
-            s.setMinorTickCount(0);
-            s.setBlockIncrement(1);
-            s.valueProperty().addListener(new ChangeListener<Number>() {
-                @Override
-                public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                    if (!sliderAlustusKaynnissa) {
-                    if (s.getId().equals("leveysSlider")) {
-                        korkeusSlider.setMax(Math.floor(settikoko / leveysSlider.getValue()));
-                    } else {
-                        leveysSlider.setMax(Math.floor(settikoko / korkeusSlider.getValue()));
-                    }
-                    if ((korkeusSlider.getValue() * leveysSlider.getValue()) % 2 != 0) {
-                        if (korkeusSlider.getValue() > korkeusSlider.getMin()) {
-                            korkeusSlider.decrement();
-                        } else {
-                            leveysSlider.decrement();
-                        }
-                    }
-                    }
-                }
-            });
-            s.setValue(Math.floor(settikoko / 4));
+    private void alustaKuvavalikko() {
+        ObservableList<String> kuvaOptions = FXCollections.observableArrayList();
+        try {
+            for (String s : new JavaFXInit().haeKuvasetit()) {
+                String[] hakemisto = s.split("/"); //TODO: ei toimi joka vehkeellä
+                kuvaOptions.add(hakemisto[hakemisto.length - 1]);
+            }
+        } catch (Exception e) {
+            try {
+                throw new Exception("Ei kuvasettejä odotetussa hakemistossa!");
+            } catch (Exception ex) {
+                Logger.getLogger(ValikkoController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
-        sliderAlustusKaynnissa = false;
+        kuvavalikko.setItems(kuvaOptions);
+        kuvavalikko.getSelectionModel().selectFirst();        
+    }
+    
+    private void alustaKokovalikko() {
+        lueKuvalista();
+        int settikoko = jfi.getKuvaLista().size() * 2;
+        ObservableList<Pelimoodi> kokoOptions = FXCollections.observableArrayList();
+        int x = 3;
+        int y = 3;
+        while (x * y <= settikoko) {
+            if ((x * y) % 2 == 0) {
+                kokoOptions.add(new Pelimoodi(x, y));
+            }
+            y++;
+            if (x * y > settikoko) {
+                y = 3;
+                x++;
+            }
+        } 
+        kokovalikko.setItems(kokoOptions);
+        kokovalikko.getSelectionModel().select(kokoOptions.size() / 2);
+        kokovalikko.setTranslateX(0.0);
+        kokovalikko.setLayoutX(0);
     }
     
     private void lueKuvalista() {
@@ -164,8 +165,8 @@ public class ValikkoController implements Initializable, ControlledRuutu {
     }
 
     private void aloitusNappiKlikattu()/* throws Exception*/ {
-        int leveys = (int) leveysSlider.getValue();
-        int korkeus = (int) korkeusSlider.getValue();
+        int leveys = ((Pelimoodi) kokovalikko.getValue()).leveys;
+        int korkeus = ((Pelimoodi) kokovalikko.getValue()).korkeus;
         Set<Kuva> kuvat = null;
         try {
             kuvat = jfi.luoKuvat(leveys, korkeus);
@@ -188,7 +189,7 @@ public class ValikkoController implements Initializable, ControlledRuutu {
             virheText.opacityProperty().setValue(1);
             virheText.setText(e.getMessage());
             Animation a = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(virheText.opacityProperty(), 1d)),
-                                       new KeyFrame(Duration.seconds(2), new KeyValue(virheText.opacityProperty(), 0d)));
+                    new KeyFrame(Duration.seconds(2), new KeyValue(virheText.opacityProperty(), 0d)));
             a.play();
         }
     }

@@ -20,7 +20,7 @@
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
             <children>
-                <Text fx:id="score" styleClass="siirrot" text="Siirrot: 0 Parit 0" />
+                <Text fx:id="score" styleClass="siirrot" />
                 <Pane HBox.hgrow="ALWAYS" />
                 <Button id="button" fx:id="valikkoButton" text="Valikkoon" />
             </children>

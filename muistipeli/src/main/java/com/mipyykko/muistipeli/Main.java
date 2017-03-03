@@ -35,14 +35,9 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage primaryStage) throws Exception {
-
         JavaFXUI ui = new JavaFXUI();
         this.primaryStage = primaryStage;
         ui.setStage(primaryStage);
         ui.nayta();
-    }
-
-    public static Stage getStage() {
-        return primaryStage;
     }
 }

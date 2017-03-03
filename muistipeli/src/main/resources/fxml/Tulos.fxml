@@ -25,7 +25,7 @@
             <padding>
                 <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
             </padding>
-            <GridPane fx:id="valikko" alignment="CENTER" hgap="16.0" vgap="16.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+            <GridPane fx:id="tulosValikko" alignment="CENTER" hgap="16.0" vgap="16.0" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
                 <columnConstraints>
                     <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                <ColumnConstraints />
@@ -38,14 +38,16 @@
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                 </rowConstraints>
                 <children>
                     <Text fx:id="otsikko" styleClass="otsikko" text="Jee, voitit!" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" />
                     <HBox prefHeight="100.0" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                    <Text fx:id="tulosteksti" styleClass="tulos" strokeType="OUTSIDE" strokeWidth="0.0" text="Käytit 0 siirtoa." textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
-                    <Button id="button" fx:id="valikkoButton" mnemonicParsing="false" text="Alkuvalikkoon" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
-                    <Button id="button" fx:id="uusipeliButton" mnemonicParsing="false" text="Uusi peli" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                    <Text fx:id="tulosText" styleClass="tulosText" strokeType="OUTSIDE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="3" />
+                    <Text fx:id="aikaText" styleClass="aikaText" strokeType="OUTSIDE" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="4" />
+                    <Button id="button" fx:id="valikkoButton" mnemonicParsing="false" text="Alkuvalikkoon" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="5" />
+                    <Button id="button" fx:id="uusipeliButton" mnemonicParsing="false" text="Uusi peli" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="6" />
                 </children>
                 <padding>
                     <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />

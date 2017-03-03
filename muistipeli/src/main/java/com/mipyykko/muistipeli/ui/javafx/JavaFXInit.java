@@ -69,7 +69,7 @@ public class JavaFXInit {
         // debug: tää vois ihan hyvin vaan lukea hakemiston kaikki .png-tiedostot
         kuvalista = new HashMap<>();
 
-        InputStream is = Main.class.getClassLoader().getResourceAsStream("kuvat/" + tileset + "/tileset.txt");
+        InputStream is = getClass().getClassLoader().getResourceAsStream("kuvat/" + tileset + "/tileset.txt");
         try (Scanner s = new Scanner(is)) {
             while (s.hasNextLine()) {
                 String[] t = s.nextLine().split(",");
