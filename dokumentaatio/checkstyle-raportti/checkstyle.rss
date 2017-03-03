@@ -102,7 +102,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.impl.JavaFXKortti.java">com/mipyykko/muistipeli/malli/impl/JavaFXKortti.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.impl.TekstiTausta.java">com/mipyykko/muistipeli/malli/impl/TekstiTausta.java</a>
                 </td>
                 <td>
                   0
@@ -116,7 +116,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.impl.TekstiTausta.java">com/mipyykko/muistipeli/malli/impl/TekstiTausta.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.impl.JavaFXKortti.java">com/mipyykko/muistipeli/malli/impl/JavaFXKortti.java</a>
                 </td>
                 <td>
                   0
@@ -214,7 +214,21 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Kortti.java">com/mipyykko/muistipeli/malli/Kortti.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.UI.java">com/mipyykko/muistipeli/ui/UI.java</a>
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+                <td>
+                  0
+                </td>
+              </tr>
+                          <tr>
+                <td>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.javafx.Ruudukko.java">com/mipyykko/muistipeli/ui/javafx/Ruudukko.java</a>
                 </td>
                 <td>
                   0
@@ -242,21 +256,7 @@ under the License.
               </tr>
                           <tr>
                 <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.UI.java">com/mipyykko/muistipeli/ui/UI.java</a>
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-                <td>
-                  0
-                </td>
-              </tr>
-                          <tr>
-                <td>
-                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.ui.javafx.Ruudukko.java">com/mipyykko/muistipeli/ui/javafx/Ruudukko.java</a>
+                  <a href="${project.url}/checkstyle.html#com.mipyykko.muistipeli.malli.Kortti.java">com/mipyykko/muistipeli/malli/Kortti.java</a>
                 </td>
                 <td>
                   0

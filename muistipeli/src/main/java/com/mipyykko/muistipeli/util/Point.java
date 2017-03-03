@@ -6,12 +6,13 @@
 package com.mipyykko.muistipeli.util;
 
 /**
- * Piste. Määritelty uudestaan koska aiemmin käytetty com.mipyykko.muistipeli.util on 
- * vain Swingissä eikä siten toimi Androidin kanssa.
+ * Piste. Määritelty uudestaan koska aiemmin käytetty java.awt.Point on 
+ * vain Swingissä eikä siten toimi esim. Androidin kanssa.
  * 
  * @author pyykkomi
  */
 public class Point {
+    
     public int x;
     public int y;
     

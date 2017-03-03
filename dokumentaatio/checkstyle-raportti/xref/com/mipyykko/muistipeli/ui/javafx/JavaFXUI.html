@@ -60,7 +60,7 @@
 <a class="jxr_linenumber" name="L52" href="#L52">52</a>      }
 <a class="jxr_linenumber" name="L53" href="#L53">53</a>  
 <a class="jxr_linenumber" name="L54" href="#L54">54</a>      <em class="jxr_javadoccomment">/**</em>
-<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * Näytä pelilauta.</em>
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  <em class="jxr_javadoccomment">     * Luo peli-ikkunan ja näyttää sen.</em>
 <a class="jxr_linenumber" name="L56" href="#L56">56</a>  <em class="jxr_javadoccomment">     */</em>
 <a class="jxr_linenumber" name="L57" href="#L57">57</a>      @Override
 <a class="jxr_linenumber" name="L58" href="#L58">58</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> nayta() <em class="jxr_comment">/*throws Exception*/</em> {
@@ -73,39 +73,37 @@
 <a class="jxr_linenumber" name="L65" href="#L65">65</a>              
 <a class="jxr_linenumber" name="L66" href="#L66">66</a>              ic.asetaIkkuna(JavaFXIkkuna.VALIKKO);
 <a class="jxr_linenumber" name="L67" href="#L67">67</a>             
-<a class="jxr_linenumber" name="L68" href="#L68">68</a>              ic.getStylesheets().add(<span class="jxr_string">"styles/muistipeli.css"</span>);
-<a class="jxr_linenumber" name="L69" href="#L69">69</a>              root = <strong class="jxr_keyword">new</strong> Group();
-<a class="jxr_linenumber" name="L70" href="#L70">70</a>              root.getChildren().add(ic);
-<a class="jxr_linenumber" name="L71" href="#L71">71</a>  <em class="jxr_comment">//            valikkoIkkuna = new ValikkoIkkuna();</em>
-<a class="jxr_linenumber" name="L72" href="#L72">72</a>              
-<a class="jxr_linenumber" name="L73" href="#L73">73</a>              <strong class="jxr_keyword">if</strong> (peli != <strong class="jxr_keyword">null</strong>) {
-<a class="jxr_linenumber" name="L74" href="#L74">74</a>                  peli.setTila(Pelitila.VALIKKO);
-<a class="jxr_linenumber" name="L75" href="#L75">75</a>              }
-<a class="jxr_linenumber" name="L76" href="#L76">76</a>  
-<a class="jxr_linenumber" name="L77" href="#L77">77</a>              ic.prefWidthProperty().bind(primaryStage.widthProperty());
-<a class="jxr_linenumber" name="L78" href="#L78">78</a>              ic.prefHeightProperty().bind(primaryStage.heightProperty());
-<a class="jxr_linenumber" name="L79" href="#L79">79</a>              Font.loadFont(getClass().getResourceAsStream(<span class="jxr_string">"/fontit/GoodDog.otf"</span>), 24);
-<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
-<a class="jxr_linenumber" name="L81" href="#L81">81</a>              scene = <strong class="jxr_keyword">new</strong> Scene(root, ikkunaleveys, ikkunakorkeus);
-<a class="jxr_linenumber" name="L82" href="#L82">82</a>              scene.setFill(Color.YELLOW);
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>              <em class="jxr_comment">// todo: tähän tarkistus jos levyllä tosiaan on toinen css jolloin käytetään sitä</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>              String css = getClass().getResource(<span class="jxr_string">"/styles/muistipeli.css"</span>).toExternalForm();
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>              ic.getStylesheets().add(css);
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>              root = <strong class="jxr_keyword">new</strong> Group();
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>              root.getChildren().add(ic);
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>              
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>              <strong class="jxr_keyword">if</strong> (peli != <strong class="jxr_keyword">null</strong>) {
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>                  peli.setTila(Pelitila.VALIKKO);
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>              }
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>              ic.prefWidthProperty().bind(primaryStage.widthProperty());
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>              ic.prefHeightProperty().bind(primaryStage.heightProperty());
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>              Font.loadFont(getClass().getResourceAsStream(<span class="jxr_string">"/fontit/GoodDog.otf"</span>), 24);
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>              scene = <strong class="jxr_keyword">new</strong> Scene(root, ikkunaleveys, ikkunakorkeus);
 <a class="jxr_linenumber" name="L83" href="#L83">83</a>  
 <a class="jxr_linenumber" name="L84" href="#L84">84</a>              primaryStage.setTitle(<span class="jxr_string">"Muistipeliö"</span>);
 <a class="jxr_linenumber" name="L85" href="#L85">85</a>              primaryStage.setScene(scene);
 <a class="jxr_linenumber" name="L86" href="#L86">86</a>              primaryStage.sizeToScene();
 <a class="jxr_linenumber" name="L87" href="#L87">87</a>              primaryStage.initStyle(StageStyle.UTILITY);
 <a class="jxr_linenumber" name="L88" href="#L88">88</a>              primaryStage.show();
-<a class="jxr_linenumber" name="L89" href="#L89">89</a>              <em class="jxr_comment">//} catch (Exception e) {</em>
-<a class="jxr_linenumber" name="L90" href="#L90">90</a>              <em class="jxr_comment">//    throw new Exception("UI:n alustus ei onnistunut: " + e.getMessage());</em>
-<a class="jxr_linenumber" name="L91" href="#L91">91</a>              <em class="jxr_comment">//}</em>
-<a class="jxr_linenumber" name="L92" href="#L92">92</a>          }
-<a class="jxr_linenumber" name="L93" href="#L93">93</a>      }
-<a class="jxr_linenumber" name="L94" href="#L94">94</a>  
-<a class="jxr_linenumber" name="L95" href="#L95">95</a>      @Override
-<a class="jxr_linenumber" name="L96" href="#L96">96</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> sulje() {
-<a class="jxr_linenumber" name="L97" href="#L97">97</a>          primaryStage.close();
-<a class="jxr_linenumber" name="L98" href="#L98">98</a>      }
-<a class="jxr_linenumber" name="L99" href="#L99">99</a>  
-<a class="jxr_linenumber" name="L100" href="#L100">100</a> }
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>              primaryStage.toFront();
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>          }
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>      }
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>      @Override
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>      <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">void</strong> sulje() {
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>          primaryStage.close();
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>      }
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  }
 </pre>
 <hr/>
 <div id="footer">Copyright &#169; 2017. All rights reserved.</div>

@@ -253,7 +253,6 @@ public class PeliController implements Initializable, ControlledRuutu {
             ruudukko.kaannaKortti(p, false);
             siirto[1] = p;
             if (!peli.tarkistaPari(siirto)) {
-                // sekunnin tauko korttien kääntämisen jälkeen
                 odotaEnnenParinKaantoa(1);
             } else {
                 ruudukko.merkkaaPari(siirto);

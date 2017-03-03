@@ -26,3 +26,4 @@ Päivä | Tunnit | Kuvaus
 28.2.2017 | 4 | Sitä samaa ja animointia
 1.3.2017 | 4 | FXML-konversio, valikkoja, CSS
 2.3.2017 | 3 | Hiontaa
+3.3.2017 | 3 | Epävarmasti toimineet sliderit -> tippuvalikko :(

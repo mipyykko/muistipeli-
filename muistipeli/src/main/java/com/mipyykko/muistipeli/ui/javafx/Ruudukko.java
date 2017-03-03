@@ -24,7 +24,7 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 /**
- * Korttien ImageViewit sisältävä ruudukko.
+ * Kortit sisältävä ruudukko.
  *
  * @author pyykkomi
  */
@@ -50,6 +50,9 @@ public class Ruudukko extends GridPane {
         setHgap(4);
     }
 
+    /** 
+     * Parametriton konstruktori jonka FXML-käyttö vaatii.
+     */
     public Ruudukko() {
         super();
     }
@@ -59,9 +62,9 @@ public class Ruudukko extends GridPane {
      *
      */
     public void alustaRuudukko() {
-
         int korkeus = peli.getPelilauta().getKorkeus();
         int leveys = peli.getPelilauta().getLeveys();
+        
         ivRuudukko = new ImageView[leveys][korkeus];
         hbRuudukko = new HBox[leveys][korkeus];
         JavaFXKortti skaalaK = (JavaFXKortti) peli.getPelilauta().getKortti(new Point(0, 0));
@@ -129,8 +132,8 @@ public class Ruudukko extends GridPane {
     }
 
     /**
-     * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan.
-     *
+     * Sijoittaa annetun ImageView-objektin ruudukkoon oikeaan kohtaan ja skaalaa sen..
+     * 
      * @param iv ImageView-objekti.
      * @param x X-koordinaatti.
      * @param y Y-koordinaatti.
@@ -139,7 +142,6 @@ public class Ruudukko extends GridPane {
         /* note to self:
          for file in *.png; do convert -resize 256x256 $file -background none -gravity center -extent 256x256 $file; done
          */
-        // TODO: ei oikein taas tiedä miten skaalauksen tekisi toimivasti
         iv.setPreserveRatio(true);
         double leveys = ikkuna.widthProperty().doubleValue();
         iv.fitWidthProperty().bind(ikkuna.widthProperty().divide(peli.getPelilauta().getLeveys()).subtract(25));

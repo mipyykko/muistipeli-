@@ -104,7 +104,6 @@ public class ValikkoController implements Initializable, ControlledRuutu {
             tt.setRate(1);
             optionsEsilla = !optionsEsilla;
             tt.play();
-            kuvavalikko.setLayoutX(0);
         });
     }
 
@@ -129,6 +128,7 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         }
         kuvavalikko.setItems(kuvaOptions);
         kuvavalikko.getSelectionModel().selectFirst();        
+        kuvavalikko.setLayoutX(0);
     }
     
     private void alustaKokovalikko() {
@@ -188,8 +188,10 @@ public class ValikkoController implements Initializable, ControlledRuutu {
         } catch (Exception e) {
             virheText.opacityProperty().setValue(1);
             virheText.setText(e.getMessage());
-            Animation a = new Timeline(new KeyFrame(Duration.ZERO, new KeyValue(virheText.opacityProperty(), 1d)),
-                    new KeyFrame(Duration.seconds(2), new KeyValue(virheText.opacityProperty(), 0d)));
+            Animation a = new Timeline(new KeyFrame(Duration.ZERO,
+                                            new KeyValue(virheText.opacityProperty(), 1d)),
+                                       new KeyFrame(Duration.seconds(2), 
+                                            new KeyValue(virheText.opacityProperty(), 0d)));
             a.play();
         }
     }

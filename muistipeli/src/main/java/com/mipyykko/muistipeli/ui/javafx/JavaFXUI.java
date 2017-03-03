@@ -52,7 +52,7 @@ public class JavaFXUI implements UI {
     }
 
     /**
-     * Näytä pelilauta.
+     * Luo peli-ikkunan ja näyttää sen.
      */
     @Override
     public void nayta() /*throws Exception*/ {
@@ -80,13 +80,13 @@ public class JavaFXUI implements UI {
             Font.loadFont(getClass().getResourceAsStream("/fontit/GoodDog.otf"), 24);
 
             scene = new Scene(root, ikkunaleveys, ikkunakorkeus);
-            scene.setFill(Color.YELLOW);
 
             primaryStage.setTitle("Muistipeliö");
             primaryStage.setScene(scene);
             primaryStage.sizeToScene();
             primaryStage.initStyle(StageStyle.UTILITY);
             primaryStage.show();
+            primaryStage.toFront();
         }
     }
 

@@ -5,6 +5,7 @@
  */
 package com.mipyykko.muistipeli.logiikka;
 
+import com.mipyykko.muistipeli.malli.Kortti;
 import com.mipyykko.muistipeli.malli.impl.TekstiKuva;
 import com.mipyykko.muistipeli.malli.impl.TekstiTausta;
 import com.mipyykko.muistipeli.malli.Kuva;
@@ -12,6 +13,7 @@ import com.mipyykko.muistipeli.malli.Pelilauta;
 import com.mipyykko.muistipeli.malli.Tausta;
 import com.mipyykko.muistipeli.malli.enums.Korttityyppi;
 import com.mipyykko.muistipeli.malli.enums.Pelitila;
+import com.mipyykko.muistipeli.malli.impl.TekstiKortti;
 import com.mipyykko.muistipeli.ui.TestUI;
 import com.mipyykko.muistipeli.ui.UI;
 import com.mipyykko.muistipeli.util.Point;
@@ -20,14 +22,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -146,19 +144,36 @@ public class PeliTest {
         assertTrue("Pelin luominen onnistui parittomalla laudalla", tPeli.getPelilauta().getKortti(new Point(0, 0)) == null);
         tPeli = new Peli(Korttityyppi.TEKSTI);
         try {
-            Pelilauta vertailu = peli.getPelilauta();
-            peli.uusiPeli();
+            Pelilauta vertailu = new Pelilauta(tPeli.getPelilauta().getKorkeus(), 
+                                               tPeli.getPelilauta().getLeveys(), null, null);
+            
+            Kortti[][] kortit = new Kortti[tPeli.getPelilauta().getKorkeus()][tPeli.getPelilauta().getLeveys()];
+            
+            for (int y = 0; y < peli.getPelilauta().getKorkeus(); y++) {
+                for (int x = 0; x < peli.getPelilauta().getKorkeus(); y++) {
+                    TekstiKortti k = (TekstiKortti) vertailu.getKortti(new Point(x, y));
+                    kortit[x][y] = new TekstiKortti(k.getKuva(), k.getTausta());
+                }
+            }
+
+            vertailu.setKortit(kortit);
+            
+            tPeli.uusiPeli();
             boolean eroja = false;
             for (int y = 0; y < vertailu.getKorkeus(); y++) {
                 for (int x = 0; y < vertailu.getLeveys(); x++) {
                     Point p = new Point(x, y);
-                    if (!peli.getPelilauta().getKortti(p).equals(vertailu.getKortti(p))) {
+                    if (!tPeli.getPelilauta().getKortti(p).equals(vertailu.getKortti(p))) {
                         eroja = true;
                         break;
                     }
                 }
             }
             assertTrue("Uuden pelilaudan luominen ilman parametreja ei luo uutta pelilautaa", eroja);
+        } catch (Exception e) {
+            // kaikki hyvin
+        }
+        try {
             peli.setPelilauta(null);
             peli.uusiPeli();
             fail("Uuden pelin luominen ilman parametreja onnistui ilman pelilautaa");
