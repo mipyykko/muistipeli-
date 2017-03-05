@@ -12,6 +12,7 @@ Peli käynnistyy aloitusvalikkoon, jossa voidaan valita pelilaudan koko sekä ko
 
 [Tuntikirjanpito](dokumentaatio/tuntikirjanpito.md)
 
+[Javadoc](https://htmlpreview.github.io/?https://github.com/mipyykko/muistipeli-/blob/master/javadoc/index.html)
 [PIT-raportti](https://htmlpreview.github.io/?https://github.com/mipyykko/muistipeli-/blob/master/dokumentaatio/pit-raportti/index.html)
 
 [Checkstyle-raportti](https://htmlpreview.github.io/?https://github.com/mipyykko/muistipeli-/blob/master/dokumentaatio/checkstyle-raportti/checkstyle.html)
